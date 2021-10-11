@@ -1,0 +1,935 @@
+
+
+#brand-title {
+  font-size: 30px;
+  color: white;
+  text-shadow: 3px 2px 3px rgba(163,188,224,0.9);
+  font-family: 'Abril Fatface', cursive;
+}
+
+#profileDropdown {
+  position: absolute;
+  left: 23rem;
+  font-size: 17px;
+  bottom: 24%;
+  right: -136%;
+}
+
+#main-section {
+  display: flex;
+  justify-content: center;
+  height: 100vh;
+  margin-top: 0.8rem;
+  width: 72rem;
+  box-sizing: border-box;
+}
+
+#main-row {
+  padding-top: 19px;
+  padding-bottom: 20px;
+  width: 74rem;
+}
+
+#main-card {
+  display: flex;
+  justify-content: center;
+  height: 38rem;
+  margin: 0px;
+  width: 75rem;
+}
+
+#mainCardBody {
+  width: 73rem;
+}
+
+mainDivMsg {
+  display: flex;
+  height: 46vh;
+  width: 100%;
+}
+
+#rowMsg {
+  width: 75rem;
+  height: 35rem;
+}
+
+#mainDiv-listContact {
+  height: 35rem;
+  width: 90%;
+  display: inline-block;
+  margin-left: 0.8rem;
+}
+
+#mainDiv-allMessages {
+  display: inline-block;
+  width: 109%;
+  height: 35rem;
+  margin-left: -2.8rem;
+}
+
+#listContact-info {
+  /*border-radius: 10px 0px 0px 0px;*/
+  height: 6rem;
+  width: 100%;
+  background: #4369d7;
+  color: rgb(66,104,214);
+  position: relative;
+}
+
+#listcontact-div {
+  height: 30.9rem;
+  width: 100%;
+  background: rgba(235,237,239,0.73);
+  position: relative;
+  z-index: 10;
+  top: -29px;
+  border-radius: 33px 33px 0px 0px;
+}
+
+#inside-listContact-div {
+  position: relative;
+  top: 90px;
+  height: 25.2rem;
+  z-index: 1;
+  overflow: scroll;
+  overflow-x: hidden;
+}
+
+.contact-row {
+  position: relative;
+  z-index: 100;
+  height: 95px;
+}
+
+.contact-col-image {
+  padding-right: 0px;
+  padding-left: 30px;
+  padding-bottom: 11px;
+}
+
+.contact-col-content {
+  height: 94.8px;
+  text-align: left;
+}
+
+.img-fluid.contact-img {
+  /*position: relative;*/
+  width: inherit;
+  height: inherit;
+  border-radius: 10px 10px 10px 10px;
+}
+
+.contact-head-title {
+  color: rgb(1,2,8);
+  margin-top: 15px;
+  font-weight: 700;
+  font-size: 16px;
+  display: inline-block;
+}
+
+.time-span {
+  width: 100%;
+  font-size: 12px;
+}
+
+.contact-text-para {
+  display: inline-block;
+  font-size: 13px;
+  margin-top: -0.8rem;
+}
+
+.contact-last-name {
+  color: rgb(0,0,0);
+  /*font-size: 12px;*/
+}
+
+.contact-horizontal-line {
+  margin-top: 0rem;
+  /*max-width: 14rem;*/
+  margin-right: 2rem;
+}
+
+#contact-info-row {
+  position: relative;
+  top: 1rem;
+  left: 23px;
+  width: 22rem;
+}
+
+.contact-info-spanIcons {
+  margin-right: 10px;
+  margin-left: 10px;
+}
+
+.contact-info-icons {
+  font-size: 25px;
+  color: rgb(252,252,255);
+  margin-top: -2px;
+}
+
+#contact-info-name {
+  font-size: 20px;
+  color: rgb(251,252,254);
+  font-style: oblique;
+}
+
+#inside-div-search-in-listContacts {
+  min-width: 90%;
+  background: rgb(66,104,214);
+  z-index: 100;
+  height: inherit;
+  display: grid;
+  grid-template-columns: 15% 85%;
+  border-radius: 20px;
+}
+
+#listContactInfo-profile-img {
+  height: inherit;
+  width: inherit;
+}
+
+#list-contact-img-span {
+  width: 55px;
+  height: 55px;
+  position: relative;
+  bottom: 4px;
+  left: -122px;
+  z-index: 100;
+  display: inline-block;
+}
+
+#contact-info-form {
+  position: relative;
+  bottom: -94px;
+  max-height: 2.2rem;
+}
+
+#contactList-div-search {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  height: 2rem;
+}
+
+#contactInfo-search-span-icon {
+  margin-left: 10px;
+  height: 35px;
+  /*opacity: 0.72;*/
+  color: white;
+}
+
+#contact-info-searchInput {
+  margin-top: 7px;
+  height: 18px;
+  color: rgba(0,9,26,0.73);
+}
+
+.contact-span-image {
+  width: 50px;
+  height: 50px;
+  display: inline-block;
+  position: relative;
+}
+
+#messages-user-nfo {
+  display: flex;
+  width: 83%;
+  height: 70px;
+}
+
+#messages-info-img {
+  width: 30%;
+  height: 65px;
+  justify-content: center;
+  display: flex;
+  justify-items: center;
+}
+
+#messages-info-spanImg {
+  position: relative;
+  display: inline-block;
+  height: 55px;
+  width: 55px;
+  margin-top: 4px;
+}
+
+#messages-info-personnal {
+  width: 85%;
+  height: 60px;
+  padding-top: 0.6rem;
+  padding-left: 0.8rem;
+  color: white;
+}
+
+#messages-info-div row {
+  height: 5rem;
+  background-color: #4369d7;
+}
+
+#messages-info-div {
+  height: 4rem;
+  background-color: #4369d7;
+}
+
+#messages-info-search-div {
+  height: inherit;
+  /*display: flex;*/
+  /*justify-content: center;*/
+  width: 80%;
+}
+
+#messages-info-search-inside-div {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: inherit;
+  width: 100%;
+  height: 40px;
+}
+
+#messages-form {
+  width: 90%;
+  height: inherit;
+  font-size: 7px;
+}
+
+#messages-info-divIcons {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 60px;
+  width: 65%;
+  padding-top: -2rem;
+}
+
+#messages-info-inside-divIcons {
+  width: 80%;
+  display: flex;
+  margin-top: -1rem;
+}
+
+.messages-info-icons {
+  font-size: 25px;
+  color: white;
+}
+
+.messages-content-mainDiv {
+  height: 31rem;
+  position: relative;
+}
+
+#chat-panel {
+  height: 87%;
+  overflow-y: scroll;
+  overflow-x: hidden;
+  position: relative;
+}
+
+#inputAndSend-div {
+  height: 6rem;
+  position: absolute;
+  bottom: -17px;
+  display: flex;
+  width: 100%;
+}
+
+#div-Inside-inputAndSend {
+  height: inherit;
+  width: 100%;
+  background: rgba(238,238,238,0.0);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 10px 15px;
+  margin-top: 10px;
+  position: relative;
+  z-index: 1;
+}
+
+#div-under-divInside-inputAndSend {
+  display: flex;
+  width: 35rem;
+  height: inherit;
+  justify-content: center;
+  position: relative;
+  z-index: 20;
+}
+
+#messages-input-form {
+  margin-left: 0px;
+  width: 100%;
+  display: inline-block;
+  height: inherit;
+}
+
+#messages-input-div {
+  background-color: rgba(44,83,197,0.64);
+  width: 26rem;
+  display: flex;
+  height: 3rem;
+  max-height: 9vh;
+  border-radius: 2rem;
+}
+
+#messages-input-emojiSpan {
+  margin-left: 10px;
+}
+
+#messages-input-emojIcon {
+  font-size: 27px;
+  color: white;
+}
+
+#messages-inputField {
+  padding: 6px 12px;
+  padding-right: 11px;
+  margin: 0px;
+  height: 33px;
+  max-height: 80px;
+  margin-top: 0.7rem;
+  padding-top: 0px;
+  color: white;
+  width: 21rem;
+  background: rgba(60,70,137,0.11);
+  border-radius: 25px;
+  font-size: 14px;
+}
+
+#messages-sendDiv {
+  height: 7vh;
+}
+
+#messages-send-Button {
+  width: 50px;
+  height: 50px;
+  bottom: -24%;
+  position: relative;
+}
+
+.message-outcoming-msg-div {
+  background-color: rgba(23,176,66,0.5);
+  color: rgba(255,255,0,0.89);
+  font-size: 12px;
+}
+
+.message-incoming-msg-div {
+  background-color: rgba(55,172,172,0.56);
+  color: rgb(76,236,236);
+  max-width: 120px;
+  font-size: 13px;
+  font-weight: 400;
+}
+
+.messages-outcoming-time {
+  color: #000000;
+  font-size: 12px;
+  margin-bottom: 0.5rem;
+  margin-right: 0.4rem;
+}
+
+.messages-outcoming-timeSpan {
+  display: inline-block;
+  width: 100%;
+}
+
+.messages-outcoming-textPara {
+  position: relative;
+  margin-bottom: 0.5rem;
+  width: 400px;
+  text-align: left;
+}
+
+.messages-incoming-textPara {
+  display: inline-block;
+}
+
+.messages-incoming-timeSpan {
+  display: inline-block;
+  width: 100%;
+}
+
+.messages-incoming-time {
+  font-size: 12px;
+  margin-bottom: 0.5rem;
+  color: #000000;
+}
+
+.navColor {
+  color: white !important;
+}
+
+#page-bottom {
+  position: absolute;
+  top: 2rem;
+  width: 35px;
+  height: 35px;
+  right: 1%;
+}
+
+#messages-content-mainDivWithContact {
+  background: url("../../assets/img/food.jpg") center / cover no-repeat;
+}
+
+#messages-content-mainDivWithNoselect {
+  background-color: rgb(240,242,243);
+}
+
+#video-modal-body {
+  background: rgba(0,117,255,0.06);
+  width: 650px;
+}
+
+#content-div {
+  height: 370px;
+  width: 38rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: white;
+  border-radius: 30px;
+}
+
+#main-div {
+  /*
+  height: 493px;
+  width: 600px;
+  
+  z-index: 1;*/
+}
+
+#videoSpan {
+  display: inline-block;
+  height: 350px;
+  width: 36.6rem;
+  position: relative;
+  border-radius: 30px;
+}
+
+#Remote-video {
+  position: relative;
+  border-radius: 20px;
+  height: inherit;
+  width: inherit;
+}
+
+#local-video-div {
+  display: inline-block;
+  position: absolute;
+  z-index: 10;
+  height: auto;
+  width: 120px;
+  right: 8%;
+  top: 10%;
+}
+
+#Local-video {
+  border-radius: 15px;
+  width: inherit;
+  height: inherit;
+}
+
+#localVideoSpan {
+  display: inline-block;
+  height: inherit;
+  width: inherit;
+}
+
+#localVideo-mainDiv {
+  position: absolute;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 90px;
+  width: 120px;
+  background: white;
+  border-radius: 20px;
+  
+}
+
+#localVideo-muteSpan {
+  display: inline-block;  
+  bottom: -15%;
+  right: 20%;
+  background: rgb(84,150,84);
+  border-radius: 10px;
+  width: 28px;
+  height: 30px;
+  padding: 5px 2px;
+}
+
+#localVideoMuted-Icon {
+  color: white;
+}
+
+#localVideo-VolumeDiv {
+  height: 135px;
+  width: 31px;
+  align-items: flex-end;
+  position: absolute;
+  background: rgba(0,117,255,0.23);
+  border-radius: 30px;
+  bottom: 10%;
+  left: 6%;
+}
+
+#localVideo-volumeRange {
+  position: relative;
+  width: 96px;
+  height: 5px;
+  bottom: -31%;
+  left: -105%;
+  transform: rotateZ(-90deg);
+}
+
+#localVideo-volumeIconDiv {
+  height: auto;
+  position: absolute;
+  bottom: 6%;
+  left: 3%;
+}
+
+#localVideo-volumeIconDiv span {
+  margin-left: 5px;
+}
+
+#localVolumeIcon {
+  background: #f8fafd;
+  color: rgb(0,0,0);
+  opacity: 0.72;
+}
+
+#localvideoControl-main {
+  width: inherit;
+  height: inherit;
+}
+
+.control-btn {
+  margin-right: 1rem;
+  height: 50px;
+}
+
+#camera-span {
+  display: inline-block;
+  width: 20px;
+  height: 20px;
+}
+
+#camera-span i {
+  font-size: 20px;
+}
+
+.btn-control-endCall {
+  width: 61.1333px;
+  height: 53.0667px;
+  border-radius: 15px;
+}
+
+#share-span {
+  display: inline-block;
+  width: 20px;
+  height: 20px;
+  padding-top: 8px;
+}
+
+#end-call-icon {
+  font-size: 17px;
+}
+
+#mic-btn {
+  height: 50px;
+}
+
+#mic-span {
+  display: inline-block;
+  width: 35px;
+  height: 27px;
+}
+
+#mic-icon {
+  font-size: 20px;
+}
+
+#fullScreen-btn {
+  margin-left: 1rem;
+  height: 50px;
+}
+
+#fullscreen-span {
+  height: 37px;
+  width: 28px;
+  display: inline-block;
+  padding-top: 4px;
+}
+
+#video-modal-footer {
+  display: flex;
+  justify-content: center;
+}
+
+#video-modal-btn-fermer {
+  width: 400px;
+  border-radius: 10px;
+}
+
+#audio-modal-main {
+  margin-top: -38px;
+  height: 442px;
+  width: 18rem;
+  background: url("../../assets/img/2.png") center / cover no-repeat;
+  border-radius: 30px 30px 0px 0px;
+  margin-bottom: 10px;
+}
+
+#modal-audio {
+  background: rgba(0,117,255,0.1);
+}
+
+#audio-model-title {
+  margin-top: 2rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 3rem;
+}
+
+#audio-modal-span {
+  font-size: 21px;
+  color: white;
+}
+
+#audio-modal-icon-call {
+  font-size: 29px;
+}
+
+#audio-main-Icon {
+  height: 150px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 1rem;
+}
+
+#audio-main-iconSpan {
+  display: inline-block;
+  height: 10rem;
+  width: 10rem;
+  border: 4px solid;
+}
+
+#audio-main-second-iconSpan {
+  display: inline-block;
+  width: 9rem;
+  height: 9rem;
+  background: rgb(8,4,32);
+}
+
+#audio-main-icon {
+  font-size: 100px;
+}
+
+#audio-modal-spaceDiv {
+  height: 3rem;
+}
+
+#audio-control-dv {
+  border-radius: 3rem 3rem 0rem 0rem;
+  height: 7.2rem;
+  background-color: rgb(65,53,138);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+#audio-control-div-icon {
+  width: 11rem;
+}
+
+#audio-control-endCall-btn {
+  margin-right: 1rem;
+  height: 3rem;
+  width: 3rem;
+  margin-left: 1rem;
+}
+
+#audio-control-volume-btn {
+  height: 3rem;
+  width: 3rem;
+}
+
+#audio-modal-footer {
+  display: flex;
+  justify-content: center;
+}
+
+#audio-modal-footer-fermer {
+  width: 370px;
+  border-radius: 10px;
+  height: 37px;
+}
+
+#top-btn {
+  position: absolute;
+  right: 1%;
+  z-index: 100;
+  bottom: 4%;
+  width: 35px;
+  height: 35px;
+}
+
+#messageInfo {
+  padding: 4px 12px;
+  background: rgba(0,0,0,0.65);
+  display: inline-block;
+  height: 1.5rem;
+  width: 9rem;
+  text-align: center;
+  border-radius: 18px;
+}
+
+#messageInfo-para {
+  color: rgb(78,115,223);
+  font-size: 10px;
+}
+
+.jumbot {
+  padding: 3px;
+  height: 2px;
+  background-color: rgb(211,211,255);
+  width: 100%;
+}
+
+#main-section-profile {
+  display: flex;
+  justify-content: center;
+  height: 64vh;
+  margin-top: 3rem;
+}
+
+.div-timeSpan {
+  padding-top: 0.8rem;
+}
+
+.colsMessages {
+  height: inherit;
+}
+
+#mainDivMsg {
+  text-align: center;
+  height: 35rem;
+}
+
+#col-rowMsg {
+  padding: 0px;
+  padding-left: 0px;
+  padding-right: 0px;
+  height: 35rem;
+}
+
+.col-allMessages {
+  height: 35rem;
+}
+
+.row.rowInfo {
+  height: inherit;
+}
+
+#messages-info-imgProfile {
+  width: 100%;
+  height: 100%;
+}
+
+#remoteName {
+  font-size: 15px;
+  margin-bottom: 0rem !important;
+  font-style: italic;
+}
+
+#remoteStateConnection {
+  font-size: 12px;
+}
+
+.messages-info-spanIcons {
+  display: inline-block;
+  margin-right: 2rem;
+}
+
+.row.row-input {
+  justify-content: center;
+  margin: 0px;
+}
+
+#colRowInput {
+  padding: 0px;
+}
+
+#endCall-btn {
+}
+
+#sizesAudioModal {
+  max-width: 20rem;
+  max-height: 7rem;
+}
+
+#localOnlineStatus span {
+  display: inline-block;
+  background-color: greenyellow;
+  width: inherit;
+  height: inherit;
+  border: 5px solid rgb(240,242,243);
+}
+
+#localOnlineStatus {
+  position: absolute;
+  width: 20px;
+  height: 20px;
+  bottom: -10%;
+  right: -6%;
+}
+
+.remoteOnlineStatus {
+  display: inline-block;
+  position: absolute;
+  height: 20px;
+  width: 20px;
+  bottom: -13%;
+  right: -23%;
+}
+
+.remoteOnlineStatus span {
+  display: inline-block;
+  width: inherit;
+  height: inherit;
+  background-color: greenyellow;
+  border: 4px solid rgb(240,242,243);
+}
+
+.remoteOnlineStatusInfo {
+  display: inline-block;
+  position: absolute;
+  width: 20px;
+  height: 20px;
+  bottom: -5%;
+  right: -3%;
+}
+
+.remoteOnlineStatusInfo span {
+  background-color: rgb(173,255,47);
+  width: inherit;
+  height: inherit;
+  display: inline-block;
+  border: 5px solid rgb(67,105,215);
+}
+
+.navClass {
+  position: relative;
+  /*margin-left: -656;*/
+}
+
+.imgProfile {
+  width: 40px;
+  height: 40px;
+}
+
+#navbarResponsive {
+}
+

@@ -1,0 +1,188 @@
+/* body{width:100%;height:100%;} */
+
+.btn-group-fab {
+  position: fixed;
+  width: 50px;
+  height: auto;
+  right: 20px;
+  bottom: 20px;
+}
+
+.btn-group-fab div {
+  position: relative;
+  width: 100%;
+  height: auto;
+}
+
+.btn-group-fab .btn {
+  position: absolute;
+  bottom: 0;
+  border-radius: 50%;
+  display: block;
+  margin-bottom: 4px;
+  width: 40px;
+  height: 40px;
+  margin: 4px auto;
+}
+
+.btn-group-fab .btn-main {
+  width: 50px;
+  height: 50px;
+  right: 50%;
+  margin-right: -25px;
+  z-index: 9;
+}
+
+.btn-group-fab .btn-sub {
+  bottom: 0;
+  z-index: 8;
+  right: 50%;
+  margin-right: -20px;
+  -webkit-transition: all 2s;
+  transition: all 0.5s;
+}
+
+.btn-group-fab.active .btn-sub:nth-child(2) {
+  bottom: 60px;
+}
+
+.btn-group-fab.active .btn-sub:nth-child(3) {
+  bottom: 110px;
+}
+
+.btn-group-fab.active .btn-sub:nth-child(4) {
+  bottom: 160px;
+}
+
+.btn-group-fab .btn-sub:nth-child(5) {
+  bottom: 210px;
+}
+
+.form-control-user {
+  border-radius: 15px;
+  height: 50px;
+  width: 250px;
+  margin-right: 10px;
+}
+
+.form-control-user-right {
+  border-radius: 10rem;
+  height: 50px;
+  width: 220px;
+  margin-left: 10px;
+}
+
+.form-control-user-left {
+  border-radius: 10rem;
+  height: 50px;
+  width: 220px;
+  margin-right: 10px;
+}
+
+.all-col-left {
+  display: flex;
+  justify-content: end;
+  width: 30px;
+}
+
+all-col-left {
+  display: flex;
+  justify-content: end;
+}
+
+#main-form {
+  width: 560px;
+  height: auto;
+  display: grid;
+}
+
+#main-div {
+  width: 100%;
+}
+
+#input-div {
+  width: 100%;
+  display: initial;
+  height: 600px;
+}
+
+#main-card-body {
+  height: auto;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  border-radius: 5rem;
+}
+
+#body-div {
+  margin-top: 50px;
+  width: 100%;
+  height: auto;
+  display: flex;
+  justify-content: center;
+}
+
+.all-forms {
+  width: 525px;
+}
+
+.btn-close {
+  width: 100%;
+  margin: 0px 0px 10px 0px;
+  border-radius: 35px;
+  height: 80px;
+}
+
+.btn-save {
+  width: 100%;
+  margin: 0px 0px 10px 0px;
+  border-radius: 35px;
+  border: 3px;
+  height: 80px;
+}
+
+#div-after-card-body {
+  width: 100%;
+}
+
+#card-id {
+  width: 540px;
+  height: auto;
+  border-radius: 5rem;
+}
+
+#form-btn {
+  width: 100%;
+  display: flex;
+  justify-items: center;
+  height: auto;
+  margin: 0px 20px 0px 20px;
+}
+
+#div-button {
+  width: 100%;
+  display: flex;
+  justify-items: center;
+  height: 110px;
+}
+
+#horizotal-line {
+  width: 100%;
+}
+
+#modal-id .modal {
+  width: 1000px;
+  background-color: red;
+}
+
+.names {
+  width: 140px;
+  height: 50px;
+  border-radius: 10rem;
+  font-size: .8rem;
+}
+
+#container-div {
+  width: 600px;
+}
+
