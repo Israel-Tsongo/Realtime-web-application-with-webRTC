@@ -9,7 +9,10 @@ import ChatMsg from './../components/chatMessages/Message.vue'
 
 import Chat from './../views/Chat.vue'
 import AdminPage from './../views/AdminPage.vue'
-import Home from './../views/Home.vue'
+//import Home from './../views/Home.vue'
+import Conference from './../views/VideoConference.vue'
+import MeetingList from './../views/MeetingList.vue'
+import HomeApp from './../views/HomeApp.vue'
 import Profile from './../views/Profile.vue'
 import store from '../store'
 
@@ -44,14 +47,14 @@ export default new Router({
        // store.state.room && store.state.username ? next('/chat') : next()
      // }
     },
-    {
-      path: '/home',
-      name: 'home',
-      component: Home,
-      // beforeEnter: (to, from, next) => {
-       // store.state.room && store.state.username ? next('/chat') : next()
-     // }
-    },
+    // {
+    //   path: '/home',
+    //   name: 'home',
+    //   component: Home,
+    //   // beforeEnter: (to, from, next) => {
+    //    // store.state.room && store.state.username ? next('/chat') : next()
+    //  // }
+    // },
     {
       path: '/chat',
       name: 'chat',
@@ -82,7 +85,34 @@ export default new Router({
       // which is lazy-loaded when the route is visited.
       component:AdminPage,
       
-    }        
+    },
+    {
+      path: '/home',
+      name: 'home',
+      // route level code-splitting
+      // this generates a separate chunk (about.[hash].js) for this route
+      // which is lazy-loaded when the route is visited.
+      component:HomeApp,
+      
+    },
+    {
+      path: '/meetingList',
+      name: 'meetingList',
+      // route level code-splitting
+      // this generates a separate chunk (about.[hash].js) for this route
+      // which is lazy-loaded when the route is visited.
+      component:MeetingList,
+      
+    },
+    {
+      path: '/conference',
+      name: 'conference',
+      // route level code-splitting
+      // this generates a separate chunk (about.[hash].js) for this route
+      // which is lazy-loaded when the route is visited.
+      component:Conference,
+      
+    }            
     
     
   ]

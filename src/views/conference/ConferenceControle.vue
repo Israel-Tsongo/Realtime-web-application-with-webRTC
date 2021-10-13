@@ -22,23 +22,28 @@
                 <div style="height: 50px;width: 16rem;"><span style="display: inline-block;margin-right: 0.7rem;margin-top: 5px;padding-top: 5px;font-size: 22px;color: rgba(255,255,255,0.83);">Affichage :&nbsp;</span><button class="btn" type="button" style="height: 32px;padding-top: 3px;border: 1px solid #fff;padding-bottom: 3px;background: #9bb8da;"><i class="fas fa-square" style="color: white;"></i></button><button class="btn" type="button" style="margin-left: 0.8rem;height: 32px;border: 1px solid #fff;padding-top: 3px;padding-bottom: 3px;background: rgb(157,185,218);"><i class="fas fa-table" style="color: white;"></i></button></div>
             </div>
             <div class="col d-xl-flex justify-content-xl-center align-items-xl-center">
-                <div class="input-field" style="width: 144px;height: 50px;display: flex;align-items: center;border: 3px solid #fff;"><span class="d-flex justify-content-center align-items-center" style="margin-left: 10px;height: 56px;width: 35px;"><svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24" fill="none" class="rounded-circle" style="background: #79ace8;box-shadow: 0px 0px 9px 2px;opacity: 0.72;width: 55px;height: 27px;color: rgb(35,58,234);">
+                <div class="input-field" style="width: 144px;height: 50px;display: flex;align-items: center;border: 3px solid #fff;">
+                <span class="d-flex justify-content-center align-items-center" style="margin-left: 10px;height: 56px;width: 35px;"><svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24" fill="none" class="rounded-circle" style="background: #79ace8;box-shadow: 0px 0px 9px 2px;opacity: 0.72;width: 55px;height: 27px;color: rgb(35,58,234);">
                             <path fill-rule="evenodd" clip-rule="evenodd" d="M8 11C10.2091 11 12 9.20914 12 7C12 4.79086 10.2091 3 8 3C5.79086 3 4 4.79086 4 7C4 9.20914 5.79086 11 8 11ZM8 9C9.10457 9 10 8.10457 10 7C10 5.89543 9.10457 5 8 5C6.89543 5 6 5.89543 6 7C6 8.10457 6.89543 9 8 9Z" fill="currentColor"></path>
                             <path d="M11 14C11.5523 14 12 14.4477 12 15V21H14V15C14 13.3431 12.6569 12 11 12H5C3.34315 12 2 13.3431 2 15V21H4V15C4 14.4477 4.44772 14 5 14H11Z" fill="currentColor"></path>
                             <path d="M18 7H20V9H22V11H20V13H18V11H16V9H18V7Z" fill="currentColor"></path>
-                        </svg></span><select style="margin-left: 17px;width: 73px;" name="iuoi" value="oioi">
+                        </svg>
+                        </span>
+                        <select style="margin-left: 17px;width: 73px;" name="iuoi" value="oioi">
                         <optgroup label="Add User">
                             <option value="12">Heri</option>
                             <option value="13">Nelson</option>
                             <option value="14">Heritier</option>
                         </optgroup>
-                    </select></div>
+                    </select>
+                </div>
             </div>
         </div>
     </div>
 </template>
 <script>
 export default {
+    name:"ConferenceControle"
     
 }
 </script>

@@ -39,7 +39,7 @@
 </template>
 
 <script>
-import { STORE_ACTIONS } from "./../utils/config"
+import { STORE_ACTIONS } from "../utils/config"
 
 export default {
   name: "home",
