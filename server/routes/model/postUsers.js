@@ -39,6 +39,11 @@ const UserSchema=mongoose.Schema({
        require:true,
 
    },
+   status:{
+    type:Boolean,
+    require:true,
+
+},
    imagePath:{
     type:String,  
 

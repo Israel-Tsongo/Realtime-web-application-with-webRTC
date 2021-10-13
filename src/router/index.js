@@ -8,6 +8,7 @@ import Login from './../components/Login'
 import ChatMsg from './../components/chatMessages/Message.vue'
 
 import Chat from './../views/Chat.vue'
+import AdminPage from './../views/AdminPage.vue'
 import Home from './../views/Home.vue'
 import Profile from './../views/Profile.vue'
 import store from '../store'
@@ -72,7 +73,16 @@ export default new Router({
       // which is lazy-loaded when the route is visited.
       component:Profile,
       
-    }     
+    } ,
+    {
+      path: '/adminPage',
+      name: 'adminPage',
+      // route level code-splitting
+      // this generates a separate chunk (about.[hash].js) for this route
+      // which is lazy-loaded when the route is visited.
+      component:AdminPage,
+      
+    }        
     
     
   ]

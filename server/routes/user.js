@@ -61,6 +61,7 @@ userRouter.post('/register',async (req, res) => {
     service:req.body.service,
     fonction:req.body.fonction,
     password:req.body.password,
+    status:false,
     imagePath:__dirname+"/imageProfile/default.jpg",
     role:""  
 
@@ -217,5 +218,44 @@ userRouter.get("/profile/image",async (req,res)=>{
   
  })
 
+ userRouter.get('/userlist' , function (req , res) {
+    PostUsers.find({}).then(function (users) {
+    res.send(users);
+    });
+   });
+
+   userRouter.post('/users/update' , function (req , res) {
+    PostUsers.findByIdAndUpdate(req.body.id,
+                        {$set:{ 
+                                nom:req.body.nom,
+                                email:req.body.email,
+                                service:req.body.service,
+                                fonction:req.body.fonction,
+                                password:req.body.password,
+                                statut:req.body.statut,}                    
+                           },{new:true},function(err,result){
+
+                            if(err){
+                                console.log(err)
+                            }
+                            console.log(result)
+                            res.send("Done")
+                           }
+                     
+
+
+    
+    ) });
+
+
+userRouter.post('/users/delete' , function (req , res) {
+
+    
+        
+    PostUsers.deleteOne({_id:req.body.id},function(err){
+        if(err) return res.send(err)
+        res.json({message:`deleted`})
+    })
+})
 
 module.exports = userRouter

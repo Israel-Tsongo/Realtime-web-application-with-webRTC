@@ -404,6 +404,7 @@
        @import './assets/fonts/fontawesome5-overrides.min.css';
        @import './assets/bootstrap/css/bootstrap.min.css';
        @import './assets/css/chatMessage.css';
+       @import "./assets/css/fabStyle.css"
      
 </style>
 
