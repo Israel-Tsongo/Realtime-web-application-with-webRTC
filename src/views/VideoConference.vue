@@ -3,16 +3,16 @@
 <div id="content">
     <Navbar></Navbar>
     <div class="container-fluid" style="/*padding-left: 0.8rem;*//*padding-right: 0.8rem;*/">
-        <div style="height: 64rem;width: 100%;display: flex;align-items: center;justify-content: center;position: relative;">
-            <div style="height: 55rem;width: 53rem;display: inline-block;padding-right: 0.5rem;margin-right: 2rem;margin-top: -7rem;">
-               <conference-controle></conference-controle>
+        <div style="height: 60rem;width: 100%;display: flex;align-items: center;justify-content: center;position: relative;">
+            <div style="height: 45rem;width: 53rem;display: inline-block;padding-right: 0.5rem;margin-right: 2rem;margin-top: -8rem;">
+               
+               <conference-controle @invitation="invitate(user)" @displayType="displayType($event)" :users="users" :conference="conference" ></conference-controle>
 
-               <MultiVideoConference></MultiVideoConference>
-               <MonoVideoConference v-if="false" ></MonoVideoConference>
-               <BtnConferenceControle></BtnConferenceControle>          
-           
-                
-                <div style="height: 220px;width: 50px;align-items: flex-end;position: absolute;background: rgba(103,138,226,0.49);border-radius: 30px;bottom: 20%;left: 2%;">
+               <Conference @updatePeerslength="updatePeerslength" :conference="conference" :typeOfDisplay="this.typeOfDisplay" ></Conference>
+
+               <BtnConferenceControle :typeOfDisplay="typeOfDisplay"></BtnConferenceControle>          
+            
+                <div v-if="typeOfDisplay=='MultiVideoConference'" style="height: 220px;width: 50px;align-items: flex-end;position: absolute;background: rgba(103,138,226,0.49);border-radius: 30px;bottom: 20%;left: 2%;">
                     <input type="range" style="position: relative;width: 153px;height: 65px;bottom: -26%;left: -105%;transform: rotateZ(-90deg);">
                     <div class="input-field" style="height: auto;position: absolute;bottom: 3%;left: 3%;">
                         <span class="d-flex justify-content-center align-items-center" style="margin-left: 10px;">
@@ -21,7 +21,12 @@
                     </div>
                 </div>
             </div>
-            <ChatConference></ChatConference>
+            <ChatConference                 
+                :messages="messages" 
+                :maxMessageLength="90" 
+                :chatContainer="'scrollableDiv'"
+                @send-message="sendMessage($event)">
+            </ChatConference>
         </div>
 
     </div>
@@ -29,24 +34,201 @@
 </template>
 
 <script>
+
+import { STORE_ACTIONS, WS_EVENTS, DESCRIPTION_TYPE } from "./../utils/config"
 import Navbar from '../components/chatMessages/OtherComponents/Navbar.vue'
 import ConferenceControle from './conference/ConferenceControle.vue'
-import MultiVideoConference from './conference/MultiVideoConference.vue'
-import MonoVideoConference from "./conference/MonoVideoConference.vue"
+import Conference from "./conference/Conference.vue"
 import ChatConference from './conference/ChatConference.vue'
 import BtnConferenceControle from './conference/BtnConferenceControle.vue'
 //import Conference from '../components/conference/Conference.vue'
 
 export default {
     name:"VideoConference",
-    components:{  Navbar,ConferenceControle,MultiVideoConference,MonoVideoConference,ChatConference,BtnConferenceControle }
-       
+    components:{ 
+            Navbar,
+            ConferenceControle,
+            Conference,
+            ChatConference,
+            BtnConferenceControle 
+            },
+    sockets: {
+    newUser: function({users, username}) {
+      const isMe = this.$store.state.username === username
+      if (users.length > this.users.length) {
+        this.messages.push({join: true, msg:`${!isMe ? username : 'You'} joined the room`})
+      } else if(users.length < this.users.length) {
+        this.messages.push({join: true, msg:`${username} left the room`})
+      }
+      this.users = [...users]
+    },
 
-    
-    
+    newMessage: function({ message, username }) {
+      const isMe = this.$store.state.username === username
+      const msg = isMe ? ` ${message}` : {username, message}
+      this.messages.push({ msg, isMe })
+    },
+
+    privateChat: function({ to, from }) {
+      if (this.$store.state.username !== to || this.openPrivateChat.chat) return // je doute: plutot (!openPrivateChat.chat) 
+      //Open chat when the other peer opens it
+      this.openPrivateChat = { ...this.openPrivateChat,
+        chat: true,
+        user: from,
+        room: to
+      }
+    },
+
+    privateMessage: function({ privateMessage, to, from }) {
+      const isObj = typeof privateMessage === "object"
+      const isFromMe = this.$store.state.username === from
+      if (isObj && isFromMe) return
+
+      this.openPrivateChat.msg.push({
+        msg: isObj ? privateMessage.msg : privateMessage,
+        isMe: this.$store.state.username !== to
+      })
+    },
+
+    leavePrivateRoom: function({ privateMessage }) {
+      if (this.openPrivateChat.closed) return
+      this.openPrivateChat.msg.push({ msg: privateMessage })
+      this.openPrivateChat = { ...this.openPrivateChat, closed: true }
+    },
+
+    leaveChat: function({ users, message }) {
+      this.messages.push({join: true, msg: message})
+      this.users = [...users]
+    },
+
+    PCSignalingConference: function({ desc, from, to, candidate }) {
+      if (from === this.$store.state.username || (!!to && to !== this.$store.state.username)) return
+
+      if (desc) {
+        if (desc.type === DESCRIPTION_TYPE.offer) 
+          this.conference = { ...this.conference, offer: { from, desc }, open: true }
+        else if (desc.type === DESCRIPTION_TYPE.answer) 
+          this.conference = { ...this.conference, answer: { from, desc } }
+      } else if (candidate) {
+        this.conference = { ...this.conference, candidate: { from, candidate } }
+      } 
+    },
+
+    conferenceInvitation: function({ to, from, message}) {
+      if (message && (this.$store.state.username === from)) return this.$toastr.w(message)
+      if (this.$store.state.username !== to) return
+      
+      this.conference.room = from
+      this.$socket.emit(WS_EVENTS.joinConference, { ...this.$store.state,
+        to: from,
+        from: this.$store.state.username
+      })
+    },
+
+    joinConference: function({ from }) {
+      if (this.$store.state.username === from ) return
+      this.conference = { ...this.conference, user: from, userLeft: null }   
+    },
+
+    leaveConference: function({ from }) { // From equal to Me to equal to the initiator
+     from === this.conference.room 
+          ? this.conference = {} 
+          : this.conference = {...this.conference, userLeft: from, user: null }
+    }
+  },
+
+  //////
+  beforeCreate: function() {
+    this.$socket.emit(WS_EVENTS.joinRoom, this.$store.state)
+  },
+  data: function() {
+    return {
+      room: this.$store.state.room,
+      users: [],
+      messages: [],
+      peersLength:0,
+      typeOfDisplay:"MonoVideoConference",
+      openPrivateChat: {
+        chat: false,
+        user: null,
+        msg: [],
+        room: null,
+        closed: false
+      },
+      conference: {
+        admin: false,
+        user: '',
+        room: '',
+        offer: null,
+        answer: null,
+        candidate: null,
+        open: false,
+        userLeft: ''
+      }
+    }
+  },
+  async created(){
+      
+      this.toggleConference()
+
+  },
+  methods: {
+    onChangeRoom(val) {
+      if (this.room === val) return
+        this.$socket.emit(WS_EVENTS.leaveRoom, this.$store.state)
+        this.$store.dispatch(STORE_ACTIONS.changeRoom, val)
+        this.messages.length = 0
+        this.$socket.emit(WS_EVENTS.joinRoom, this.$store.state)
+    },
+    sendMessage(msg) {
+        this.$socket.emit(WS_EVENTS.publicMessage, { ...this.$store.state, message: msg })
+    },
+    openChat(user) {
+        this.openPrivateChat = { ...this.openPrivateChat,
+        chat: true,
+        user: user,
+        room: user // The room is the username of the initiator
+      }
+    },
+    closePrivateChat() {
+        this.openPrivateChat = { ...this.openPrivateChat,
+          chat: false,
+          closed: false,
+          user: null,
+          msg: [],
+          room: null
+      }
+    },
+    async logout() {
+      try {
+        this.$socket.emit(WS_EVENTS.leaveChat, {
+          room: this.room,
+          username:this.$store.state.username
+        })
+        await this.$store.dispatch(STORE_ACTIONS.leaveChat, this.$store.state.username)
+        this.$socket.close()
+        this.$router.push("/home")
+      } catch (error) {
+        console.log(error)
+      }
+    },
+    toggleConference() {
+      !this.conference.open 
+        ? this.conference = {...this.conference, open: true, admin: true, room: this.$store.state.username}
+        : this.conference = {}
+    },
+    updatePeerslength(newValue){
+        this.peersLength=newValue
+    },
+    displayType(type){
+      this.typeOfDisplay=type
+    }
+  }        
+ 
 }
+
 </script>
-<style
-Navbar scoped>
+<style>
+
 
 </style>

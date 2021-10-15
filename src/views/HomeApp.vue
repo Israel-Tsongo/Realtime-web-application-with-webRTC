@@ -147,7 +147,7 @@
 import Navbar from "./../components/chatMessages/OtherComponents/Navbar.vue"
 export default {
     name:"HomeApp",
-    component:{
+    components:{
         Navbar
     }
     

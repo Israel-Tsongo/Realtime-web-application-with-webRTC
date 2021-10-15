@@ -28,13 +28,13 @@ const config = require('../config');
 async function  getMatricule(){
 
     let numberOfDocuments
-     await PostUsers.countDocuments({},function(err,count){
-        if (err){return console.log("err when counting document")}
-         numberOfDocuments=count        
-         console.log("count avec vide",count)   
+        await PostUsers.countDocuments({},function(err,count){
+            if (err){return console.log("err when counting document")}
+            numberOfDocuments=count        
+            console.log("count avec vide",count)   
+            
+        })     
         
-    })     
-    
       
         if(numberOfDocuments===0){
                 return 1
@@ -52,12 +52,14 @@ async function  getMatricule(){
 
 userRouter.post('/register',async (req, res) => {
    let temp= await getMatricule()
+
+   console.log("+++",temp)
   const user = new PostUsers({
 
-    id:(await temp).toString(),
+    id:temp.toString(),
     nom:req.body.nom,
     email:req.body.email,
-    matricule:( await temp).toString()+"21",
+    matricule:temp.toString()+"21",
     service:req.body.service,
     fonction:req.body.fonction,
     password:req.body.password,
