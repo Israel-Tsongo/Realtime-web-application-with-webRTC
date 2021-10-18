@@ -204,16 +204,17 @@ export default {
         this.errorSignIn = undefined
         
         try {
+          console.log("####")
             await this.$store.dispatch(STORE_ACTIONS.signIn, {
               nomLog: this.nomLog,
               passwordLog: this.passwordLog
             })
-
+             console.log("++++")
             await this.$store.dispatch(STORE_ACTIONS.joinRoom, {
             room: 'GENERAL_SCOPE',
             username: undefined
             })
-
+             console.log("===")
             this.$socket.open()
 
             this.$router.push({name:"chatMessage"})

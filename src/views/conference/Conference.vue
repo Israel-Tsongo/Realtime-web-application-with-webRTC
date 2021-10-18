@@ -1,6 +1,15 @@
 <template>
 
         <div style="width:auto;height:auto">
+            <conference-controle 
+              @invitation="invitate($event)" 
+              @displayType="displayType($event)" 
+              :users="users"
+              :peersLength="peersLength" 
+              :conference="conference" 
+              :peers="peers">
+              </conference-controle>
+
             <MultiVideoConference
                v-if="typeOfDisplay==='MultiVideoConference'"
               :users="users"              
@@ -35,15 +44,17 @@ import { WS_EVENTS } from '../../utils/config'
 import { videoConfiguration } from './../../mixins/WebRTC'
 import MultiVideoConference from './MultiVideoConference.vue'
 import  MonoVideoConference from './MonoVideoConference.vue'
+import ConferenceControle from './ConferenceControle.vue'
 
 export default {
 
     name:"Conference",
-    components:{ MultiVideoConference, MonoVideoConference },
+    components:{ MultiVideoConference, MonoVideoConference,ConferenceControle },
     props: {
+    users: Array,
     typeOfDisplay:String,
     conference: Object,
-    users: Array,
+    
     
 
   },
@@ -88,6 +99,7 @@ export default {
         to: user,
         from: this.username
       })
+      console.log("invite",user)
     },
     initWebRTC(user, desc) {
       // Add user
@@ -106,6 +118,11 @@ export default {
         ? this.handleAnswer(desc, this.peers[user].pc, user, this.conference.room, true)
         : this.createOffer(this.peers[user].pc, user, this.conference.room, true)
     },
+    displayType(type){
+      this.typeOfDisplay=type
+    },
+
+
   },
   watch: {
     conference: function({ user, answer, candidate, userLeft, offer }, oldVal) {
@@ -135,8 +152,8 @@ export default {
       }
 
     }
-  }
 
+  }
 
 
 }

@@ -39,7 +39,7 @@
                 <div style="height: 75px;width: 77%;padding: 5px;border-radius: 20px;border: 4px solid white;display: inline-block;margin-right: 0.5rem;">
                     <div style="display: flex;align-items: center;height: auto;">
                         <div style="width: 73%;/*background: rgb(66,104,214);*/height: 34px;display: inline-block;">
-                            <input type="text" @keyup.enter="sendMessage()" placeholder="Message ..." style="margin-top: 7px;height: 25px;width: 90%;outline: none;background-color: rgba(235,237,239,0.73);border: none;border-bottom-width: 1px;">
+                            <input v-model="message" type="text" @keyup.enter="sendMessage()" placeholder="Message ..." style="margin-top: 7px;height: 25px;width: 90%;outline: none;background-color: rgba(235,237,239,0.73);border: none;border-bottom-width: 1px;">
                         </div>
                         <span style="margin-right: 0.3rem;height: 2rem;display: inline-block;margin-top: 0.2rem;">
                             <i class="fas fa-paperclip" style="font-size: 18px;"></i>

@@ -95,7 +95,7 @@ export default {
     },
     invitate(user) {
       this.$socket.emit(WS_EVENTS.conferenceInvitation, {
-        room: this.$store.state.room,
+        room: this.$store.state.room,// le room porte le nom de l'appelee 
         to: user,
         from: this.username
       })

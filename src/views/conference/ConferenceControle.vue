@@ -1,5 +1,5 @@
 <template>
-    <div style="height: 4.2rem;opacity: 0.98;border-radius: 20px;background: rgba(69,107,216,0.3);">
+    <div class="bg-primary " style="height: 4.2rem;">
         <div class="row no-gutters justify-content-center align-items-center">
             <div class="col-xl-4" style="padding-left: 5rem;">
                 <div class="input-field" style="width: 132px;height: 50px;display: flex;align-items: center;border: 3px solid #fff;">
@@ -22,6 +22,7 @@
                         </optgroup>
                     </select>
                 </div>
+                <button @click="accept()"> accept</button>
             </div>
             <div class="col-xl-4 d-xl-flex justify-content-xl-center align-items-xl-center" style="height: 70px;">
                 <div style="height: 50px;width: 16rem;">
@@ -36,8 +37,8 @@
                     
                 </div>
             </div>
-            <div class="col d-xl-flex justify-content-xl-center align-items-xl-center">
-                <div v-if="conference.admin"  :disabled="peersLength === 2 || users.length === 1" class="input-field" style="width: 144px;height: 50px;display: flex;align-items: center;border: 3px solid #fff;">
+            <div v-if="conference.admin"  :disabled="peersLength === 2 || users.length === 1" class="col d-xl-flex justify-content-xl-center align-items-xl-center">
+                <div  class="input-field" style="width: 144px;height: 50px;display: flex;align-items: center;border: 3px solid #fff;">
                         <span class="d-flex justify-content-center align-items-center" style="margin-left: 10px;height: 56px;width: 35px;">
                             <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24" fill="none" class="rounded-circle" style="background: #79ace8;box-shadow: 0px 0px 9px 2px;opacity: 0.72;width: 55px;height: 27px;color: rgb(35,58,234);">
                                 <path fill-rule="evenodd" clip-rule="evenodd" d="M8 11C10.2091 11 12 9.20914 12 7C12 4.79086 10.2091 3 8 3C5.79086 3 4 4.79086 4 7C4 9.20914 5.79086 11 8 11ZM8 9C9.10457 9 10 8.10457 10 7C10 5.89543 9.10457 5 8 5C6.89543 5 6 5.89543 6 7C6 8.10457 6.89543 9 8 9Z" fill="currentColor"></path>
@@ -45,15 +46,21 @@
                                 <path d="M18 7H20V9H22V11H20V13H18V11H16V9H18V7Z" fill="currentColor"></path>
                             </svg>
                         </span>
-                        <select v-for="user in users" :key="user.username" style="margin-left: 17px;width: 73px;" name="iuoi" value="oioi">
+                        <ul v-for="user in users" :key="user.username" >
+                            <li v-if="user.username !== $store.state.username && !peers[user.username]" 
+                             @click="invitate(user.username)">{{user.username}}</li>
+                        </ul>
                         
+                       <!-- <select v-for="user in users" :key="user.username" style="margin-left: 17px;width: 73px;" name="iuoi" value="oioi">
+                            
                             <option  
                                 v-if="user.username !== $store.state.username && !peers[user.username]" 
-                                @click="invitate(user.username)" > 
-                                <md-icon>person_add</md-icon> {{user.username}}                            
+                                @click="invitate(user.username)" >                                    
+                                
+                                <span >{{user.username}}</span>                           
                             </option>                            
-
-                        </select>
+                            
+                        </select>-->
                 </div>
             </div>
         </div>
@@ -63,9 +70,11 @@
 export default {
     name:"ConferenceControle",
     props:{
-        users:Array,
+        
         conference:Object,
-        peersLength:Number
+        peersLength:Number,
+        peers:Object,
+        users:Array,
 
     },
     methods:{
@@ -73,11 +82,16 @@ export default {
         invitate(user){
 
           this.$emit("invitation",user)
+          console.log("Invitation sent")
         },
 
         displayType(typeOfDisplay){
 
           this.$emit("displayType",typeOfDisplay)
+        },
+        accept(){
+
+          this.$emit("acceptInvitaion")
         }
     }
     

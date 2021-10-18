@@ -13,8 +13,8 @@ export const videoConfiguration = {
                     autoGainControl: false
                 },
                 video: {
-                    width: 400,
-                    height: 250
+                    width: 850,
+                    height: 340
                 },
             },
             // TURN/STUN ice servers               

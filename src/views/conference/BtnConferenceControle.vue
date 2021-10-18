@@ -21,7 +21,7 @@
                 </svg>
             </span>
         </button>
-        <button class="btn btn-danger btn-control" type="button" style="width: 61.1333px;height: 53.0667px;border-radius: 15px;">
+        <button @click="toggleConference()" class="btn btn-danger btn-control" type="button" style="width: 61.1333px;height: 53.0667px;border-radius: 15px;">
             <span><i class="material-icons" style="font-size: 26px;">call_end</i></span>
         </button>
         <button class="btn btn-primary btn-control" type="button">
@@ -44,6 +44,9 @@ export default {
     name:"BtnConferenceControle",
     props:{
         typeOfDisplay:String, 
+    },
+    toggleConference(){
+     this.$emit("ToggleConference")
     }
 }
 </script>

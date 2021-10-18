@@ -6,11 +6,20 @@
         <div style="height: 60rem;width: 100%;display: flex;align-items: center;justify-content: center;position: relative;">
             <div style="height: 45rem;width: 53rem;display: inline-block;padding-right: 0.5rem;margin-right: 2rem;margin-top: -8rem;">
                
-               <conference-controle @invitation="invitate(user)" @displayType="displayType($event)" :users="users" :conference="conference" ></conference-controle>
+                <button v-if="!conference.open"  @click="toggleConference()" class="btn btn-primary"> Initiate Call</button>
+               <Conference  
+                v-if="conference.open"        
+                :conference="conference" 
+                :typeOfDisplay="this.typeOfDisplay"
+                :users="users" >
+                
+                </Conference>
 
-               <Conference @updatePeerslength="updatePeerslength" :conference="conference" :typeOfDisplay="this.typeOfDisplay" ></Conference>
-
-               <BtnConferenceControle :typeOfDisplay="typeOfDisplay"></BtnConferenceControle>          
+               <BtnConferenceControle 
+                @acceptInvitation="acceptInvitaion()"
+                 @toggleConference="toggleConference()"
+                 :typeOfDisplay="typeOfDisplay">
+               </BtnConferenceControle>          
             
                 <div v-if="typeOfDisplay=='MultiVideoConference'" style="height: 220px;width: 50px;align-items: flex-end;position: absolute;background: rgba(103,138,226,0.49);border-radius: 30px;bottom: 20%;left: 2%;">
                     <input type="range" style="position: relative;width: 153px;height: 65px;bottom: -26%;left: -105%;transform: rotateZ(-90deg);">
@@ -37,7 +46,6 @@
 
 import { STORE_ACTIONS, WS_EVENTS, DESCRIPTION_TYPE } from "./../utils/config"
 import Navbar from '../components/chatMessages/OtherComponents/Navbar.vue'
-import ConferenceControle from './conference/ConferenceControle.vue'
 import Conference from "./conference/Conference.vue"
 import ChatConference from './conference/ChatConference.vue'
 import BtnConferenceControle from './conference/BtnConferenceControle.vue'
@@ -46,8 +54,7 @@ import BtnConferenceControle from './conference/BtnConferenceControle.vue'
 export default {
     name:"VideoConference",
     components:{ 
-            Navbar,
-            ConferenceControle,
+            Navbar,            
             Conference,
             ChatConference,
             BtnConferenceControle 
@@ -115,19 +122,27 @@ export default {
     },
 
     conferenceInvitation: function({ to, from, message}) {
+      
       if (message && (this.$store.state.username === from)) return this.$toastr.w(message)
       if (this.$store.state.username !== to) return
-      
-      this.conference.room = from
-      this.$socket.emit(WS_EVENTS.joinConference, { ...this.$store.state,
-        to: from,
-        from: this.$store.state.username
-      })
+
+      while(this.acceptConference){ console.log("Attempt for the response") }
+
+      if (this.$store.state.username == to){
+
+         
+
+        this.conference.room = from
+        this.$socket.emit(WS_EVENTS.joinConference, { ...this.$store.state,
+          to: from,
+          from: this.$store.state.username
+          })
+      }
     },
 
     joinConference: function({ from }) {
       if (this.$store.state.username === from ) return
-      this.conference = { ...this.conference, user: from, userLeft: null }   
+      this.conference = { ...this.conference, user: from, userLeft: null,open:true }   
     },
 
     leaveConference: function({ from }) { // From equal to Me to equal to the initiator
@@ -146,7 +161,8 @@ export default {
       room: this.$store.state.room,
       users: [],
       messages: [],
-      peersLength:0,
+      // peersLength:0,
+      // peers:{},
       typeOfDisplay:"MonoVideoConference",
       openPrivateChat: {
         chat: false,
@@ -169,7 +185,7 @@ export default {
   },
   async created(){
       
-      this.toggleConference()
+      //this.toggleConference()
 
   },
   methods: {
@@ -181,6 +197,7 @@ export default {
         this.$socket.emit(WS_EVENTS.joinRoom, this.$store.state)
     },
     sendMessage(msg) {
+       console.log("Salut le messags")
         this.$socket.emit(WS_EVENTS.publicMessage, { ...this.$store.state, message: msg })
     },
     openChat(user) {
@@ -217,12 +234,14 @@ export default {
         ? this.conference = {...this.conference, open: true, admin: true, room: this.$store.state.username}
         : this.conference = {}
     },
-    updatePeerslength(newValue){
-        this.peersLength=newValue
-    },
-    displayType(type){
-      this.typeOfDisplay=type
-    }
+    // updatePeerslength(newValue){
+    //     this.peersLength=newValue
+    // },
+    
+    // updatePeers(peerUpdated){
+    //   this.peers=peerUpdated
+    //   console.log("Updated peers",this.peers)
+    // }
   }        
  
 }

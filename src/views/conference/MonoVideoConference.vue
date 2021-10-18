@@ -5,21 +5,30 @@
         <div class="col">
             <div style="height: 590px;width: 55rem;display: flex;align-items: center;justify-content: center;background-color: white;border-radius: 30px;margin-right: 3rem;">
                 <div style="height: 530px;width: 51rem;position: relative;z-index: 1;">
-                    <span style="display: inline-block;height: 420px;width: 800px;">
-                            <Video 
-                                videoId="localVideo" 
-                                :pauseAudio="localPauseAudio" 
-                                :pauseVideo="localPauseVideo"
-                                :videoStream="localVideoStream"
-                                :muted="true"
-                                :displayControls="false">                                  
-                            </Video>
+                    <span v-for="(item, key) in peers" :key="key" style="display: inline-block;height: 420px;width: 800px;">
+
+                                <Video 
+                                    :videoId="key" 
+                                    :displayControls="false"                                   
+                                    :videoStream="peers[key].peerStream"
+                                    :muted="false">                                                                     
+                                </Video>
+                                {{peers}}
+                           
                         <!--<img class="img-fluid" src="assets/img/young-college-students.jpg" style="border-radius: 20px;height: inherit;width: inherit;">-->
                     </span>
                     <div style="display: inline-block;position: absolute;z-index: 10;height: auto;width: 103px;right: 3%;top: 8%;">
-                        <div style="display: flex;justify-content: center;align-items: center;height: 106px;width: 107px;background: white;border-radius: 20px;">
+                        <div  style="display: flex;justify-content: center;align-items: center;height: 106px;width: 107px;background: white;border-radius: 20px;">
                             <span style="display: inline-block;height: 100px;width: 100px;position: relative;">
-                                <img class="img-fluid" src="assets/img/114%20.jpg" style="border-radius: 20px;">
+                                                               
+                                 <Video 
+                                    videoId="localVideo" 
+                                    :pauseAudio="localPauseAudio" 
+                                    :pauseVideo="localPauseVideo"
+                                    :videoStream="localVideoStream"
+                                    :muted="true"
+                                    :displayControls="false">                                  
+                            </Video>
                             </span>
                             <span class="text-center" style="display: inline-block;position: absolute;bottom: 8%;right: 2%;background: rgb(84,150,84);border-radius: 10px;width: 28px;height: 30px;padding: 5px 2px;">
                                 <i class="material-icons" style="color: white;">mic_off</i>
@@ -92,6 +101,9 @@ export default {
                
         
     },
+    mounted(){
+        console.log("Peers are",this.peers)
+    }
    
     
 }
