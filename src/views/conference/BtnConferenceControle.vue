@@ -8,7 +8,7 @@
                 </svg>
             </span>
         </button>
-        <button class="btn btn-primary btn-control" type="button">
+        <button @click="shareScreen()" class="btn btn-primary btn-control" type="button">
             <span>
                 <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tabler icon-tabler-screen-share" style="font-size: 21px;">
                     <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
@@ -21,7 +21,7 @@
                 </svg>
             </span>
         </button>
-        <button @click="toggleConference()" class="btn btn-danger btn-control" type="button" style="width: 61.1333px;height: 53.0667px;border-radius: 15px;">
+        <button  class="btn btn-danger btn-control" type="button" style="width: 61.1333px;height: 53.0667px;border-radius: 15px;">
             <span><i class="material-icons" style="font-size: 26px;">call_end</i></span>
         </button>
         <button class="btn btn-primary btn-control" type="button">
@@ -45,8 +45,8 @@ export default {
     props:{
         typeOfDisplay:String, 
     },
-    toggleConference(){
-     this.$emit("ToggleConference")
+    shareScreen(){
+     this.$emit("shareScreen")
     }
 }
 </script>

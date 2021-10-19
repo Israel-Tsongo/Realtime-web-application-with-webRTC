@@ -54,7 +54,7 @@
                                     </svg>
                                 </span>
                             </button>
-                            <button class="btn btn-light btn-control rounded-circle" type="button" style="margin-right: 1rem;height: 50px;">
+                            <button @click="shareScreen()" class="btn btn-light btn-control rounded-circle" type="button" style="margin-right: 1rem;height: 50px;">
                                     <span style="display: inline-block;width: 38px;height: 30px;padding-top: 8px;">
                                         <i class="material-icons" style="font-size: 21px;">screen_share</i></span>
                             </button>
@@ -103,6 +103,14 @@ export default {
     },
     mounted(){
         console.log("Peers are",this.peers)
+    },
+    methods:{
+
+        shareScreen(){
+            this.$emit("shareScreen")
+            console.log("Screen trigged 1")
+        }
+
     }
    
     

@@ -28,8 +28,9 @@
                 :conference="conference"               
                 :localPauseVideo="pauseVideo"
                 :localPauseAudio="pauseAudio"
-                :peers="peers" >              
-               
+                :peers="peers"
+                @shareScreen="shareScreenMethod()" >              
+                
             </MonoVideoConference>
         </div>
     
@@ -62,7 +63,8 @@ export default {
   
   data: () => ({
     peers: {},
-    peersLength: 0
+    peersLength: 0,
+     shareScreen:false,
   }),
 
   async mounted() {
@@ -70,6 +72,7 @@ export default {
     // Admin join the room
     if (this.conference.admin) {
       await this.getUserMedia()
+      //await this.shareScreenMethod()
       this.$socket.emit(WS_EVENTS.joinConference, { ...this.$store.state,
         to: this.username
       })
@@ -78,6 +81,7 @@ export default {
     if(this.conference.offer) {
       const { offer: { from, desc } } = this.conference
       this.init(from, desc)
+     
     }
   },
   beforeDestroy() {
@@ -102,17 +106,19 @@ export default {
       console.log("invite",user)
     },
     initWebRTC(user, desc) {
-      // Add user
+      // Add new remote user
+
+      console.log(" +++++ initWebRTC has been called with user ",user)
       this.$set(this.peers, user, {
         username: user,
         pc: new RTCPeerConnection(this.configuration),
         peerStream: undefined,
         peerVideo: undefined
       })
-      this.addLocalStream(this.peers[user].pc)
-      this.onIceCandidates(this.peers[user].pc, user, this.conference.room, true)
-      this.onAddStream(this.peers[user], user)
-
+        this.addLocalStream(this.peers[user].pc)
+        this.onIceCandidates(this.peers[user].pc, user, this.conference.room, true)
+        this.onAddStream(this.peers[user], user)
+          
       // Act accordingly
       desc 
         ? this.handleAnswer(desc, this.peers[user].pc, user, this.conference.room, true)
@@ -120,6 +126,11 @@ export default {
     },
     displayType(type){
       this.typeOfDisplay=type
+    },
+    shareScreenMethod(){
+        this.shareScreen =!this.shareScreen
+        this.getUserDisplayMediaStream(this.shareScreen)
+        console.log("Screen trigged")
     },
 
 
@@ -144,6 +155,9 @@ export default {
         this.setRemoteDescription(answer.desc, this.peers[answer.from].pc)
       // Add candidate
       if (candidate && oldVal.candidate !== candidate) 
+        console.log("=======Candidate from==========",candidate.from)
+        console.log("=======peer==========",this.peers)
+        console.log("=======peer candidate from ==========",this.peers[candidate.from],"===",candidate.candidate)
         this.addCandidate(this.peers[candidate.from].pc, candidate.candidate)
       // New offer
       if(offer && offer !== oldVal.offer && oldVal.offer !== undefined){
@@ -151,7 +165,37 @@ export default {
         this.init(from, desc)
       }
 
+    },
+    peers:function(newValue,oldValue){
+        if(newValue!==oldValue){
+
+          console.log("Oldpeers",oldValue)
+          console.log("Newpeers",newValue)
+        }
+        
+    
     }
+    //localStream:function(newLocalStream,oldLocalStream){
+
+          //  this.peers.forEach(user =>{
+
+          //    if((user.peerStream && user.peerVideo) && newLocalStream !== oldLocalStream) {
+
+          //       this.addLocalStream(this.peers[user].pc)
+          //       this.onAddStream(this.peers[user], user)
+          //    }
+          //  })
+           
+
+          // if(this.shareScreen && newLocalStream !== oldLocalStream) {
+               
+               
+          //       this.initWebRTC(this.$store.username)
+            
+          //    }
+       
+     // }
+  
 
   }
 

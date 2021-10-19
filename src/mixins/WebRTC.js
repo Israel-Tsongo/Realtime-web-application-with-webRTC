@@ -41,18 +41,51 @@ export const videoConfiguration = {
 
     methods: {
         async getUserMedia() {
+           
             log(`Requesting ${this.username} video stream`)
 
             if ("mediaDevices" in navigator) {
                 try {
                     const stream = await navigator.mediaDevices.getUserMedia(this.constraints)
                     this.myVideo.srcObject = stream
+                    
                     this.myVideo.volume = 0
                     this.localStream = stream
                 } catch (error) {
                     log(`getUserMedia error: ${error}`)
                 }
             }
+          
+  
+
+        },
+        async getUserDisplayMediaStream(shareScreen){
+            console.log(" User trigged Screen",this.$store.state.username)
+
+             if(shareScreen){
+
+                try {
+
+                    const stream = await navigator.mediaDevices.getDisplayMedia()            
+                    this.localStream=stream         
+                    this.myVideo.srcObject = stream
+                    this.myVideo.volume = 0
+                    console.log("All pears 1",this.peers)
+                    this.addLocalStream(this.peers[this.$store.state.username].pc)
+
+                } catch (error) {   
+                log(`getUserDisplayMedia error: ${error}`)
+               }
+
+             }else{
+
+                
+                    this.getUserMedia()
+                    console.log("All pears 2",this.peers)
+                   this.addLocalStream(this.peers[this.$store.state.username].pc)
+               
+                 
+             }
         },
         getAudioVideo() {
             const video = this.localStream.getVideoTracks()
@@ -111,8 +144,9 @@ export const videoConfiguration = {
                 room: room,
             })
         },
-        addLocalStream(pc) {
-            pc.addStream(this.localStream)
+       addLocalStream(pc) {
+             pc.addStream(this.localStream)
+            console.log("addStreem called")
         },
         addCandidate(pc, candidate) {
             try {
@@ -122,7 +156,7 @@ export const videoConfiguration = {
                 log(`Error adding a candidate in ${this.username}. Error: ${error}`)
             }
         },
-        onIceCandidates(pc, to, room, conference = false) {
+         onIceCandidates(pc, to, room, conference = false) {
             pc.onicecandidate = ({ candidate }) => {
                 if (!candidate) return
                 setTimeout(() => {
@@ -132,16 +166,17 @@ export const videoConfiguration = {
                         from: this.username,
                         room: room,
                     })
-                }, 500)
+                }, 800)
             }
         },
-        onAddStream(user, video) {
+         onAddStream(user, video) {
             user.pc.onaddstream = event => {
                 user.peerVideo = user.peerVideo || document.getElementById(video)
                 if (!user.peerVideo.srcObject && event.stream) {
                     user.peerStream = event.stream
                     user.peerVideo.srcObject = user.peerStream
                 }
+                console.log("Remote video",event.stream)
             }
         },
         pauseVideo() {

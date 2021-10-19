@@ -11,14 +11,14 @@
                 v-if="conference.open"        
                 :conference="conference" 
                 :typeOfDisplay="this.typeOfDisplay"
-                :users="users" >
+                :users="users"
+               >                 
                 
                 </Conference>
 
                <BtnConferenceControle 
-                @acceptInvitation="acceptInvitaion()"
-                 @toggleConference="toggleConference()"
-                 :typeOfDisplay="typeOfDisplay">
+                  @shareScreen="shareScreenMethod()"                  
+                  :typeOfDisplay="typeOfDisplay">
                </BtnConferenceControle>          
             
                 <div v-if="typeOfDisplay=='MultiVideoConference'" style="height: 220px;width: 50px;align-items: flex-end;position: absolute;background: rgba(103,138,226,0.49);border-radius: 30px;bottom: 20%;left: 2%;">
@@ -124,20 +124,18 @@ export default {
     conferenceInvitation: function({ to, from, message}) {
       
       if (message && (this.$store.state.username === from)) return this.$toastr.w(message)
-      if (this.$store.state.username !== to) return
+      if (this.$store.state.username !== to) return     
 
-      while(this.acceptConference){ console.log("Attempt for the response") }
-
-      if (this.$store.state.username == to){
+      //if (this.$store.state.username == to){
 
          
-
         this.conference.room = from
         this.$socket.emit(WS_EVENTS.joinConference, { ...this.$store.state,
           to: from,
           from: this.$store.state.username
           })
-      }
+      //}
+      
     },
 
     joinConference: function({ from }) {
@@ -161,8 +159,7 @@ export default {
       room: this.$store.state.room,
       users: [],
       messages: [],
-      // peersLength:0,
-      // peers:{},
+      // peersLength:0,     
       typeOfDisplay:"MonoVideoConference",
       openPrivateChat: {
         chat: false,
@@ -234,9 +231,7 @@ export default {
         ? this.conference = {...this.conference, open: true, admin: true, room: this.$store.state.username}
         : this.conference = {}
     },
-    // updatePeerslength(newValue){
-    //     this.peersLength=newValue
-    // },
+    
     
     // updatePeers(peerUpdated){
     //   this.peers=peerUpdated

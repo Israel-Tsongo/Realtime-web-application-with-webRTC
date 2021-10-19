@@ -70,6 +70,7 @@ export default {
     // Admin join the room
     if (this.conference.admin) {
       await this.getUserMedia()
+      
       this.$socket.emit(WS_EVENTS.joinConference, { ...this.$store.state,
         to: this.username
       })
@@ -120,24 +121,24 @@ export default {
   },
   watch: {
     conference: function({ user, answer, candidate, userLeft, offer }, oldVal) {
-      if(userLeft && userLeft !== oldVal.userLeft) {
+      if(userLeft && (userLeft !== oldVal.userLeft)) {
         this.peersLength--
         this.peers[userLeft].pc.close()
         delete this.peers[userLeft]
       }
       // New user
-      if(user && user !== oldVal.user) {
+      if(user && (user !== oldVal.user)) {
         this.initWebRTC(user)
         this.peersLength++
       }
       // Handle answer
-      if(answer && oldVal.answer !== answer) 
+      if(answer && (oldVal.answer !== answer)) 
         this.setRemoteDescription(answer.desc, this.peers[answer.from].pc)
       // Add candidate
       if (candidate && oldVal.candidate !== candidate) 
         this.addCandidate(this.peers[candidate.from].pc, candidate.candidate)
       // New offer
-      if(offer && offer !== oldVal.offer && oldVal.offer !== undefined){
+      if(offer && (offer !== oldVal.offer) && (oldVal.offer !== undefined)){
         const { from, desc } = offer
         this.init(from, desc)
       }
