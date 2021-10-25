@@ -8,11 +8,13 @@
                
                 <button v-if="!conference.open"  @click="toggleConference()" class="btn btn-primary"> Initiate Call</button>
                <Conference  
-                v-if="conference.open"        
+                v-if="conference.open" 
+                :file="file"      
                 :conference="conference" 
                 :typeOfDisplay="this.typeOfDisplay"
                 :users="users"
-               >                 
+                @shareScreenEvent="updateConferenceData($event)"
+                @signal-SharingFile="signalSendingFile()">                 
                 
                 </Conference>
 
@@ -34,7 +36,9 @@
                 :messages="messages" 
                 :maxMessageLength="90" 
                 :chatContainer="'scrollableDiv'"
-                @send-message="sendMessage($event)">
+                @send-message="sendMessage($event)"
+                @share-file="affecteFile($event)">
+                
             </ChatConference>
         </div>
 
@@ -127,7 +131,6 @@ export default {
       if (this.$store.state.username !== to) return     
 
       //if (this.$store.state.username == to){
-
          
         this.conference.room = from
         this.$socket.emit(WS_EVENTS.joinConference, { ...this.$store.state,
@@ -136,6 +139,14 @@ export default {
           })
       //}
       
+    },
+    updateConferenceScreenData:function({usr,shareSrn}){
+      this.conference={...this.conference,shareSreenInfo:{userFrom:usr,shareScreen:shareSrn}}
+
+    },
+    sendingFile:function({user,sendFile}){
+      this.conference={...this.conference,shareFileInfo:{userFrom:user,shareFile:sendFile}}
+
     },
 
     joinConference: function({ from }) {
@@ -159,7 +170,7 @@ export default {
       room: this.$store.state.room,
       users: [],
       messages: [],
-      // peersLength:0,     
+      file:undefined,     
       typeOfDisplay:"MonoVideoConference",
       openPrivateChat: {
         chat: false,
@@ -176,7 +187,16 @@ export default {
         answer: null,
         candidate: null,
         open: false,
-        userLeft: ''
+        userLeft: '',
+        shareSreenInfo:{
+          userFrom:'',
+          shareScreen:false
+        },
+        shareFileInfo:{
+          userFrom:'',
+          shareFile:false
+
+        }
       }
     }
   },
@@ -233,10 +253,23 @@ export default {
     },
     
     
-    // updatePeers(peerUpdated){
-    //   this.peers=peerUpdated
-    //   console.log("Updated peers",this.peers)
-    // }
+    updateConferenceData({usr,shareSrn}){
+            
+           this.$socket.emit("updateConferenceScreenData",{usr,shareSrn,room:this.conference.room})
+      
+    },
+    affecteFile({file}){
+          this.file=file
+          
+    },
+    signalSendingFile(){
+          
+          this.$socket.emit("sendingFile", {user:this.$store.state.username, sendFile:true,room:this.conference.room })
+           // console.log("Sendig file called",this.file)
+            
+    },
+
+   
   }        
  
 }

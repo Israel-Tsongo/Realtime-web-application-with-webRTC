@@ -28,7 +28,11 @@ export const videoConfiguration = {
             // Local video 
             myVideo: undefined,
             localStream: undefined,
+            localDisplayStream:undefined,
             username: ""
+            
+           
+
         }
     },
 
@@ -47,8 +51,7 @@ export const videoConfiguration = {
             if ("mediaDevices" in navigator) {
                 try {
                     const stream = await navigator.mediaDevices.getUserMedia(this.constraints)
-                    this.myVideo.srcObject = stream
-                    
+                    this.myVideo.srcObject = stream                    
                     this.myVideo.volume = 0
                     this.localStream = stream
                 } catch (error) {
@@ -67,11 +70,11 @@ export const videoConfiguration = {
                 try {
 
                     const stream = await navigator.mediaDevices.getDisplayMedia()            
-                    this.localStream=stream         
+                    this.localDisplayStream=stream         
                     this.myVideo.srcObject = stream
                     this.myVideo.volume = 0
-                    console.log("All pears 1",this.peers)
-                    this.addLocalStream(this.peers[this.$store.state.username].pc)
+                   
+                  
 
                 } catch (error) {   
                 log(`getUserDisplayMedia error: ${error}`)
@@ -81,8 +84,8 @@ export const videoConfiguration = {
 
                 
                     this.getUserMedia()
-                    console.log("All pears 2",this.peers)
-                   this.addLocalStream(this.peers[this.$store.state.username].pc)
+                    
+                  
                
                  
              }
@@ -144,11 +147,116 @@ export const videoConfiguration = {
                 room: room,
             })
         },
+        onSendFile(dataChannel){
+            //console.log("this is your file",this.file)
+            console.log("inside on send file1")
+            if (this.file) {
+                 this.sendData(dataChannel)
+            //     console.log("Started to send File")
+
+            //     //dataChannel.label = this.file.name;
+            //     dataChannel.binaryType = 'arraybuffer';
+            //     //dataChannel.label="Phone"
+          
+            //     //dataChannel.onopen = async () => {
+            //         const sender= async ()=>{
+            //         const arrayBuffer = await this.file.arrayBuffer();
+            //         for (let i = 0; i < arrayBuffer.byteLength; i += this.MAXIMUM_MESSAGE_SIZE) {
+            //             dataChannel.send(arrayBuffer.slice(i, i + this.MAXIMUM_MESSAGE_SIZE));
+            //             console.log("repetition send :",i)
+            //         }
+            //         dataChannel.send(this.END_OF_FILE_MESSAGE);
+            //    // };
+            //     }
+            //     sender()
+            //     console.log("Ended to send File")
+          
+            //     dataChannel.onclose = () => {
+            //         console.log("Data Channel is closed")
+            //         console.log("file input =======",document.getElementById('select-file-input'))
+            //     document.getElementById('select-file-input').value = '';
+            //     };
+              }
+            
+             
+            // let channel=dataChannel
+            //   console.log("after creating datachanel",dataChannel)
+            //   console.log("After on message Data connection on the ready teste is ",dataChannel.readyState)
+
+            //   dataChannel.onopen=function(event){
+
+            //         console.log("channel:::: Bonjour bro")
+            //         console.log(" whene open channel is ",dataChannel)
+            //         dataChannel.send("Bonjour Bro")                    
+            //         console.log("The event in chanel.onopen",event)
+            //   }
+
+            //   dataChannel.onmessage=function(event){
+            //         console.log("On get message from the callee",event.data)
+            //   }
+
+           // },600)
+
+        },
+
+        sendData(sendChannel) {
+            let fileReader;
+            const file = document.getElementById('select-file-input').file[0];
+            console.log(`File is ${[file.name, file.size, file.type, file.lastModified].join(' ')}`);
+          
+            // Handle 0 size files.
+            // /statusMessage.textContent = '';
+            // downloadAnchor.textContent = '';
+            if (file.size === 0) {
+             // bitrateDiv.innerHTML = '';
+             // statusMessage.textContent = 'File is empty, please select a non-empty file';
+              //closeDataChannels();
+              return;
+            }
+            //sendProgress.max = file.size;
+            //receiveProgress.max = file.size;
+            const chunkSize = 16384;
+            fileReader = new FileReader();
+            let offset = 0;
+            fileReader.addEventListener('error', error => console.error('Error reading file:', error));
+            fileReader.addEventListener('abort', event => console.log('File reading aborted:', event));
+            fileReader.addEventListener('load', e => {
+              console.log('FileRead.onload ', e);
+              sendChannel.send(e.target.result);
+              offset += e.target.result.byteLength;
+             // sendProgress.value = offset;
+              if (offset < file.size) {
+                readSlice(offset);
+              }
+            });
+            const readSlice = o => {
+              console.log('readSlice ', o);
+              const slice = file.slice(offset, o + chunkSize);
+              fileReader.readAsArrayBuffer(slice);
+            };
+            readSlice(0);
+          },
+
+          
        addLocalStream(pc) {
-             pc.addStream(this.localStream)
-            console.log("addStreem called")
+           
+        if(!this.shareScreen && !this.conference.shareSreenInfo.shareScreen){
+           
+            pc.addStream(this.localStream)            
+
+           }else if(this.shareScreen && this.localDisplayStream !== undefined){              
+            
+            let sender=pc.getSenders().find(function(s){ return s.track.kind=='video'});
+            sender.replaceTrack(this.localDisplayStream.getTracks()[0])
+            
+
+           
+           }
+             
         },
         addCandidate(pc, candidate) {
+            
+
             try {
                 log(`${this.username} added a candidate`)
                 pc.addIceCandidate(candidate)
@@ -159,26 +267,97 @@ export const videoConfiguration = {
          onIceCandidates(pc, to, room, conference = false) {
             pc.onicecandidate = ({ candidate }) => {
                 if (!candidate) return
-                setTimeout(() => {
+               
                     this.$socket.emit(conference ? WS_EVENTS.PCSignalingConference : WS_EVENTS.privateMessagePCSignaling, {
                         candidate,
                         to: to,
                         from: this.username,
                         room: room,
                     })
-                }, 800)
+                
             }
         },
          onAddStream(user, video) {
-            user.pc.onaddstream = event => {
+             
+
+             user.pc.onaddstream = event => {
                 user.peerVideo = user.peerVideo || document.getElementById(video)
+                console.log("*******user.peerVideo",user.peerVideo)
+                console.log("*******document.getElementById(video)",document.getElementById(video))
+                console.log("*********(!user.peerVideo.srcObject)",(!user.peerVideo.srcObject))
+                console.log("*********(event.stream)",(event.stream))
+
                 if (!user.peerVideo.srcObject && event.stream) {
+                    console.log("^^^^^^^^^ Inside add stream")
                     user.peerStream = event.stream
                     user.peerVideo.srcObject = user.peerStream
                 }
                 console.log("Remote video",event.stream)
             }
         },
+        onReceveFile(dataChannel){
+
+                   
+
+
+            // console.log("Onreceve CALLED BUT externally")
+          
+                
+            //         dataChannel.send("Hi back")
+            //                 console.log("Hi back")
+                        
+            //         dataChannel.onmessage=function(event){
+
+            //                 console.log("oups ",event.data)
+            //         }
+            //     console.log("after ")
+            // console.log("Downloding file and sharefile is",dataChannel)
+            
+                
+
+                dataChannel.binaryType = 'arraybuffer';
+          
+                const receivedBuffers = [];
+                dataChannel.onmessage = async (event) => {
+                  const { data } = event;
+                  console.log("on message called")
+                  try {
+                    if (data !== this.END_OF_FILE_MESSAGE) {
+                      receivedBuffers.push(data);
+                    } else {
+                        console.log("Downloding file")
+                        const arrayBuffer = receivedBuffers.reduce((acc, arrayBuffer) => {
+                            const tmp = new Uint8Array(acc.byteLength + arrayBuffer.byteLength);
+                            tmp.set(new Uint8Array(acc), 0);
+                            tmp.set(new Uint8Array(arrayBuffer), acc.byteLength);
+                            console.log("Call it")
+                            return tmp;
+                      }, new Uint8Array());
+                      const blob = new Blob([arrayBuffer]);
+                      this.downloadFile(blob, dataChannel.label);
+                      dataChannel.close();
+                    }
+                  } catch (err) {
+                    console.log('File transfer failed');
+                  }
+                };
+             
+           
+        },
+
+        downloadFile(blob, fileName){
+
+            console.log("Start Downloading")
+                const a = document.createElement('a');
+                const url = window.URL.createObjectURL(blob);
+                a.href = url;
+                a.download = fileName;
+                a.click();
+                window.URL.revokeObjectURL(url);
+                a.remove()
+                console.log("End Downloading ")
+        },
+       
         pauseVideo() {
             this.localStream.getVideoTracks().forEach(t => (t.enabled = !t.enabled))
         },

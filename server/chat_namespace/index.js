@@ -55,6 +55,9 @@ const onConnection = (socket) => {
     socket.on('PCSignalingConference', events.PCSignalingConference(namespace))
     // Set status
     socket.on('changeStatus', events.changeStatus(socket, namespace))
+    //Set update
+    socket.on('updateConferenceScreenData', events.updateConferenceScreenData(socket, namespace))
+    socket.on('sendingFile', events.sendingFile(socket, namespace))
 
     // Disconnect
     socket.on('disconnect', async () => {

@@ -90,6 +90,7 @@
 <script >
 //@submit.prevent="onSubmit()"
 //ref="imgFile" @change="onSelect()
+
 import {url} from "./../utils/config"
 import axios from "axios"
 import Navbar from "./../components/chatMessages/OtherComponents/Navbar.vue"
@@ -120,8 +121,8 @@ import Navbar from "./../components/chatMessages/OtherComponents/Navbar.vue"
          },
 
          async getImage(){
-           // return  await axios.get(`${url}/profile/image`)
-           this.imageProfile= await `${url}/profile/image?idUser=6`
+           // return  await axios.get(`${url}/profile/image`).then((response)=>{this.imageProfile=respense.date})
+           this.imageProfile= await `http://localhost:8080/profile/image?idUser=6`
 
          },
 

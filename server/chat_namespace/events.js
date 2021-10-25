@@ -80,6 +80,20 @@ const PCSignalingConference = (namespace) => ({ desc, to, from, room, candidate 
 }
 
 
+const updateConferenceScreenData = (namespace) => ({ usr,shareSrn,room }) => {
+   
+         console.log(`User "${usr}" started screen sharing in the room "${room}"`)
+    namespace.to(room).emit('updateConferenceScreenData', { usr,shareSrn})
+}
+
+
+const sendingFile = (namespace) => ({ user,sendFile,room }) => {
+   
+    console.log(`User "${user}" started File sharing in the room "${room}"`)
+namespace.to(room).emit('sendingFile', { user,sendFile})
+}
+
+
 const leaveRoom = (socket, namespace) => ({ room, username }) => {
     console.log(`Room - User "${username}" wants to leave the room ${room}`)
 
@@ -194,5 +208,7 @@ module.exports = {
     conferenceInvitation,
     joinConference,
     leaveConference,
-    PCSignalingConference
+    PCSignalingConference,
+    updateConferenceScreenData,
+    sendingFile
 }

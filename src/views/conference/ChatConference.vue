@@ -41,9 +41,12 @@
                         <div style="width: 73%;/*background: rgb(66,104,214);*/height: 34px;display: inline-block;">
                             <input v-model="message" type="text" @keyup.enter="sendMessage()" placeholder="Message ..." style="margin-top: 7px;height: 25px;width: 90%;outline: none;background-color: rgba(235,237,239,0.73);border: none;border-bottom-width: 1px;">
                         </div>
-                        <span style="margin-right: 0.3rem;height: 2rem;display: inline-block;margin-top: 0.2rem;">
+
+                        <span @click="chooseFile()" style="margin-right: 0.3rem;height: 2rem;display: inline-block;margin-top: 0.2rem;">
                             <i class="fas fa-paperclip" style="font-size: 18px;"></i>
                         </span>
+
+                        
                         <span style="display: inline-block;height: 2rem;">
                             <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" fill="currentColor" viewBox="0 0 16 16" class="bi bi-emoji-smile" style="font-size: 20px;">
                                 <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"></path>
@@ -57,6 +60,8 @@
                     <i class="fa fa-send"></i>
                 </button>
             </div>
+             <input id="select-file-input" name="file" ref="fileToTransf" style="visibility:hidden" @change="onSelect" type="file" >
+
         </div>
 </div>
     
@@ -79,17 +84,33 @@ export default {
 
         return{
             display:'Chat',
-            message: ""
+            message: "",            
+            file:undefined
         }
     },
     methods: {
-    sendMessage() {
-      const msg = this.message.replace(/\n/g,'')
-      // Do not send empty messages
-      if(msg.replace(/\s/g, "").length === 0) return
-      this.$emit("send-message", msg)
-      this.message = ""
-    }
+        chooseFile(){
+             this.$refs.fileToTransf.click()            
+
+         },
+         onSelect(event){
+        this.file = event.target.files[0];
+    },
+        sendMessage() {
+        
+        if(this.file==undefined){
+
+            const msg = this.message.replace(/\n/g,'')
+            // Do not send empty messages
+            if(msg.replace(/\s/g, "").length === 0) return
+            this.$emit("send-message", msg)
+            this.message = ""
+        }{
+           
+            this.$emit("share-file",{file:this.file})
+        }
+        }
+   
 
   }
     
