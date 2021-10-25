@@ -144,8 +144,9 @@ export default {
       this.conference={...this.conference,shareSreenInfo:{userFrom:usr,shareScreen:shareSrn}}
 
     },
-    sendingFile:function({user,sendFile}){
-      this.conference={...this.conference,shareFileInfo:{userFrom:user,shareFile:sendFile}}
+    sendingFile:function({shareFileInfo}){
+      this.conference={...this.conference,shareFileInfo:{...shareFileInfo} }
+      console.log("====shareFileInfo====",this.conference.shareFileInfo)
 
     },
 
@@ -193,10 +194,13 @@ export default {
           shareScreen:false
         },
         shareFileInfo:{
-          userFrom:'',
-          shareFile:false
-
-        }
+            userFrom:"",
+            shareFile:false,
+            fileName:" ",
+            fileSize:Number, 
+            fileType:undefined, 
+            fileLastModif:undefined
+          }
       }
     }
   },
@@ -263,8 +267,15 @@ export default {
           
     },
     signalSendingFile(){
-          
-          this.$socket.emit("sendingFile", {user:this.$store.state.username, sendFile:true,room:this.conference.room })
+          const shareFileInfo={
+            userFrom:this.$store.state.username,
+            shareFile:true,
+            fileName:this.file.name, 
+            fileSize:this.file.size, 
+            fileType:this.file.type, 
+            fileLastModif:this.file.lastModified
+          }
+          this.$socket.emit("sendingFile", {shareFileInfo, room:this.conference.room })
            // console.log("Sendig file called",this.file)
             
     },

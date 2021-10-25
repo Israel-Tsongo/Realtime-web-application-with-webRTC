@@ -2,6 +2,7 @@
 
         <div style="width:auto;height:auto">
             <div>{{this.peers}}</div>
+             <a id="download"><button class="btn btn-primary">click</button> </a>
             <conference-controle 
               @invitation="invitate($event)" 
               @displayType="displayType($event)" 
@@ -72,12 +73,16 @@ export default {
    
     MAXIMUM_MESSAGE_SIZE: 65535,
     END_OF_FILE_MESSAGE:'EOF',
+    downloadAnchor:undefined,
+    receiveBuffer:[],              
+    receivedSize:0,
+
     
   }),
 
   async mounted() {
     this.myVideo = document.getElementById("localVideo")
-
+    this.downloadAnchor = document.getElementById('download');
     // Admin join the room
     if (this.conference.admin) {
       await this.getUserMedia()      
@@ -153,10 +158,10 @@ export default {
                       } }).then((newDataChannel)=>{
                            console.log("newDataChannel for the se",newDataChannel)
                             
-                            newDataChannel.send("Hello from admin")
-                            newDataChannel.onmessage=function(event){
-                              console.log("From other peer",event.data)
-                            }
+                            //newDataChannel.send("Hello from admin")
+                            // newDataChannel.onmessage=function(event){
+                            //   console.log("From other peer",event.data)
+                            // }
                             newDataChannel.binaryType = 'arraybuffer';
                             this.setDataChannel(newDataChannel)
 
@@ -188,11 +193,11 @@ export default {
                       } }).then((channel)=>{
 
                              console.log("channel of recever",channel)
-                            channel.send("Hello from Israel")
-                            channel.onmessage=function(event){
-                              console.log("From Heritier",event.data)
-                            }
-                            channel.binaryType = 'arraybuffer';
+                            //.send("Hello from Israel")
+                            // channel.onmessage=function(event){
+                            //   console.log("From Heritier",event.data)
+                            // }
+                            //channel.binaryType = 'arraybuffer';
                             this.setDataChannel(channel)
 
                       })

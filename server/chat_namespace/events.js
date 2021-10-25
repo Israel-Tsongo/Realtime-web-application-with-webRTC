@@ -87,10 +87,10 @@ const updateConferenceScreenData = (namespace) => ({ usr,shareSrn,room }) => {
 }
 
 
-const sendingFile = (namespace) => ({ user,sendFile,room }) => {
+const sendingFile = (namespace) => ({shareFileInfo,room }) => {
    
-    console.log(`User "${user}" started File sharing in the room "${room}"`)
-namespace.to(room).emit('sendingFile', { user,sendFile})
+    console.log(`User "${shareFileInfo.userFrom}" started File sharing in the room "${room}"`)
+namespace.to(room).emit('sendingFile', {shareFileInfo})
 }
 
 

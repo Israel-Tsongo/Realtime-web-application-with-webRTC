@@ -201,7 +201,7 @@ export const videoConfiguration = {
 
         sendData(sendChannel) {
             let fileReader;
-            const file = document.getElementById('select-file-input').file[0];
+            const file = this.file;
             console.log(`File is ${[file.name, file.size, file.type, file.lastModified].join(' ')}`);
           
             // Handle 0 size files.
@@ -237,7 +237,7 @@ export const videoConfiguration = {
             readSlice(0);
           },
 
-          
+
        addLocalStream(pc) {
            
         if(!this.shareScreen && !this.conference.shareSreenInfo.shareScreen){
@@ -295,10 +295,10 @@ export const videoConfiguration = {
                 console.log("Remote video",event.stream)
             }
         },
-        onReceveFile(dataChannel){
 
-                   
-
+       
+        onReceveFile(dataChannel){                   
+        
 
             // console.log("Onreceve CALLED BUT externally")
           
@@ -315,35 +315,86 @@ export const videoConfiguration = {
             
                 
 
-                dataChannel.binaryType = 'arraybuffer';
-          
-                const receivedBuffers = [];
-                dataChannel.onmessage = async (event) => {
-                  const { data } = event;
-                  console.log("on message called")
-                  try {
-                    if (data !== this.END_OF_FILE_MESSAGE) {
-                      receivedBuffers.push(data);
-                    } else {
-                        console.log("Downloding file")
-                        const arrayBuffer = receivedBuffers.reduce((acc, arrayBuffer) => {
-                            const tmp = new Uint8Array(acc.byteLength + arrayBuffer.byteLength);
-                            tmp.set(new Uint8Array(acc), 0);
-                            tmp.set(new Uint8Array(arrayBuffer), acc.byteLength);
-                            console.log("Call it")
-                            return tmp;
-                      }, new Uint8Array());
-                      const blob = new Blob([arrayBuffer]);
-                      this.downloadFile(blob, dataChannel.label);
-                      dataChannel.close();
-                    }
-                  } catch (err) {
-                    console.log('File transfer failed');
-                  }
-                };
+                
+                    this.onReceveFileCallback(dataChannel)
+                
+                // const receivedBuffers = [];
+                // dataChannel.onmessage = async (event) => {
+                //   const { data } = event;
+                //   console.log("on message called")
+                //   try {
+                //     if (data !== this.END_OF_FILE_MESSAGE) {
+                //       receivedBuffers.push(data);
+                //     } else {
+                //         console.log("Downloding file")
+                //         const arrayBuffer = receivedBuffers.reduce((acc, arrayBuffer) => {
+                //             const tmp = new Uint8Array(acc.byteLength + arrayBuffer.byteLength);
+                //             tmp.set(new Uint8Array(acc), 0);
+                //             tmp.set(new Uint8Array(arrayBuffer), acc.byteLength);
+                //             console.log("Call it")
+                //             return tmp;
+                //       }, new Uint8Array());
+                //       const blob = new Blob([arrayBuffer]);
+                //       this.downloadFile(blob, dataChannel.label);
+                //       dataChannel.close();
+                //     }
+                //   } catch (err) {
+                //     console.log('File transfer failed');
+                //   }
+                // };
              
            
         },
+        onReceveFileCallback(dataChannel){
+                 console.log("===============inside=====================")
+            dataChannel.binaryType = 'arraybuffer';
+                
+
+                dataChannel.onmessage = (event) => {
+
+                   
+                     console.log(`Received Message ${event.data.byteLength}`);
+                     this.receiveBuffer.push(event.data);
+                     this.receivedSize += event.data.byteLength;
+                     //receiveProgress.value = receivedSize;
+                   
+                     // we are assuming that our signaling protocol told
+                     // about the expected file size (and name, hash, etc).
+        
+                     const file = this.conference.shareFileInfo;
+                     console.log(`${this.receivedSize} compare to${file.fileSize}`)
+                     if (this.receivedSize === file.fileSize) { 
+                       const received = new Blob(this.receiveBuffer);
+                       this.receiveBuffer = [];
+                       console.log(`in side if condition`)
+                      //this.downloadFile(received, file.fileName);
+                      console.log("downloadAncor=-==1==",document.getElementById('download'))
+                      console.log("downloadAncor=-==2==",this.downloadAnchor)
+                       this.downloadAnchor.href = URL.createObjectURL(received);
+                       this.downloadAnchor.download = file.fileName;
+                       this.downloadAnchor.textContent =
+                         `Click to download '${file.fileName}' (${file.fileSize} bytes)`;
+                       //downloadAnchor.style.display = 'block';
+                   
+                     //   const bitrate = Math.round(receivedSize * 8 /
+                     //     ((new Date()).getTime() - timestampStart));
+                     //   bitrateDiv.innerHTML =
+                     //     `<strong>Average Bitrate:</strong> ${bitrate} kbits/sec (max: ${bitrateMax} kbits/sec)`;
+                   
+                     //   if (statsInterval) {
+                     //     clearInterval(statsInterval);
+                     //     statsInterval = null;
+                        }
+                   
+                      // closeDataChannels();
+                    // }
+                  // },
+
+                   
+                }
+
+      
+     },
 
         downloadFile(blob, fileName){
 
