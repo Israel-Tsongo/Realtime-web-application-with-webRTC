@@ -66,7 +66,7 @@ export default {
     }
   }),
   async created(){
-    this.imageProfile= await `${url}/profile/image?userMatric=`
+    this.imageProfile= await `${url}/profile/image?matricule=`
   },
   methods: {
     openChat(user,matricule) {

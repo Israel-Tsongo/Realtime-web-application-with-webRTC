@@ -1,7 +1,7 @@
 <template>
 
 <div id="content">
-    <Navbar></Navbar>
+   
     <div class="container-fluid">
         <header class="d-flex justify-content-center align-items-center masthead text-center text-white d-flex" id="headerSection">
             <div class="jumbotron" id="findRoomJumbotron">
@@ -154,14 +154,11 @@
     
 </template>
 <script>
-import Navbar from "./../components/chatMessages/OtherComponents/Navbar.vue"
+
 
 export default {
     name:"MeetingList",
-    components:{
-
-        Navbar
-    }
+    
     
 }
 </script>

@@ -4,7 +4,7 @@
 
 
 <div id="content">
-    <Navbar></Navbar>
+   
     <div class="container-fluid" style="margin-top: 7rem;">
       <section id="main-section-profile" style="/*height: 80vh;*//*width: 100%;*/">
         <div style="width: 93rem;">
@@ -142,9 +142,9 @@
 
 
 <script>
-import {url} from "./../utils/config"
+import {url} from "../../utils/config"
 import axios from "axios"
-import Navbar from "./../components/chatMessages/OtherComponents/Navbar.vue"
+
 import AdminPageModal from "./AdminPageModal"
 
 var JQuery=require("jquery")
@@ -153,7 +153,7 @@ var JQuery=require("jquery")
 export default {
 
   name:"adminPage",
-  components:{Navbar,AdminPageModal},
+  components:{AdminPageModal},
   data:function(){
 
       return {

@@ -4,26 +4,29 @@ import VueMaterial from 'vue-material'
 import 'vue-material/dist/vue-material.min.css'
 import 'vue-material/dist/theme/default.css' // This line here
 import VueToastr from "vue-toastr"
-import Login from './../components/Login'
-import ChatMsg from './../components/chatMessages/Message.vue'
-
+import Login from './../views/Login'
 import Chat from './../views/Chat.vue'
-import AdminPage from './../views/AdminPage.vue'
+import AdminPage from './../views/admin/AdminPage.vue'
 //import Home from './../views/Home.vue'
-import Conference from './../views/VideoConference.vue'
+import Conference from './../views/conference/VideoConference.vue'
 import MeetingList from './../views/MeetingList.vue'
+import MainChat from './../views/MainChat.vue'
 import HomeApp from './../views/HomeApp.vue'
 import Profile from './../views/Profile.vue'
 import store from '../store'
 
 
 Vue.use(VueMaterial)
+
+
+
 Vue.use(VueToastr, {
   defaultPosition: "toast-top-left",
   defaultTimeout: 3000,
   defaultProgressBar: false,
   defaultProgressBarValue: 0,
 })
+
 Vue.use(Router)
 
 export default new Router({
@@ -39,10 +42,18 @@ export default new Router({
       // }
       
     },
+    // {
+    //   path: '/chatMessage',
+    //   name: 'chatMessage',
+    //   component: ChatMsg,
+    //   // beforeEnter: (to, from, next) => {
+    //    // store.state.room && store.state.username ? next('/chat') : next()
+    //  // }
+    // },
     {
-      path: '/chatMessage',
-      name: 'chatMessage',
-      component: ChatMsg,
+      path: '/mainChat',
+      name: 'mainChat',
+      component: MainChat,
       // beforeEnter: (to, from, next) => {
        // store.state.room && store.state.username ? next('/chat') : next()
      // }

@@ -67,9 +67,9 @@
     
 </template>
 <script>
-import ChatOnlineAvatar from './ChatOnlineAvatar.vue'
-import ChatAreaConference from './ChatAreaConference.vue'
-import ChatParticipantConference from './ChatParticipantConference.vue'
+import ChatOnlineAvatar from '../components/ChatOnlineAvatar.vue'
+import ChatAreaConference from '../components/ChatAreaConference.vue'
+import ChatParticipantConference from '../components/ChatParticipantConference.vue'
 
 export default {
     name:"ChatConference",

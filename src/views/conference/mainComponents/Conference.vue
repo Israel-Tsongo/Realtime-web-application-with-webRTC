@@ -43,11 +43,11 @@
             
 
 <script>
-import { WS_EVENTS } from '../../utils/config'
-import { videoConfiguration } from './../../mixins/WebRTC'
-import MultiVideoConference from './MultiVideoConference.vue'
-import  MonoVideoConference from './MonoVideoConference.vue'
-import ConferenceControle from './ConferenceControle.vue'
+import { WS_EVENTS } from '../../../utils/config'
+import { videoConfiguration } from '../../../mixins/WebRTC'
+import MultiVideoConference from '../components/MultiVideoConference.vue'
+import  MonoVideoConference from '../components/MonoVideoConference.vue'
+import ConferenceControle from '../components/ConferenceControle.vue'
 
 export default {
 

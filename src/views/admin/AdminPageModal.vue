@@ -47,7 +47,7 @@
 </template>
 <script>
 import axios from "axios"
-import {url} from "./../utils/config"
+import {url} from "../../utils/config"
 var JQuery=require("jquery")
   window.JQuery=JQuery;
   window.$=JQuery;

@@ -100,7 +100,7 @@
     
 </template>
 <script>
-import Video from '../../components/video/Video.vue'
+import Video from '../../../components/video/Video.vue'
 export default {
   components: { Video },
     name:"MultiVideoConference",

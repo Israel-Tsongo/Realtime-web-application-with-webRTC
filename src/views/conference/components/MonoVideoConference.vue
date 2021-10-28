@@ -84,7 +84,7 @@
     
 </template>
 <script>
-import Video from '../../components/video/Video.vue'
+import Video from '../../../components/video/Video.vue'
 export default {
     name:"MonoVideoConference",
     components: { Video },

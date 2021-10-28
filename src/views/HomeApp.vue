@@ -1,7 +1,7 @@
 <template>
 <div id="content">
 
-    <Navbar></Navbar>
+   
 
     <div class="container-fluid">
         <header class="masthead" style="background: #ffffff;width: inherit;height: 545px;">
@@ -144,12 +144,10 @@
 </template>
 <script>
 
-import Navbar from "./../components/chatMessages/OtherComponents/Navbar.vue"
+
 export default {
     name:"HomeApp",
-    components:{
-        Navbar
-    }
+    
     
 }
 </script>

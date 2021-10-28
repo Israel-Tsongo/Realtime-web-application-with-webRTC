@@ -17,7 +17,7 @@ export default new Vuex.Store({
   mutations: {
 
     signIn(state,{nomLog,matricule,passwordLog}){
-      state.username=nomLog 
+      state.username=nomLog
       state.matricule=matricule
       state.password=passwordLog
 
@@ -98,7 +98,7 @@ export default new Vuex.Store({
    
     joinRoom({ commit }, userAndRoom) {
 
-      console.log("username",this.state.username)
+      console.log("username",this.state.matricule)
       let data = {...userAndRoom,username:this.state.username,password:this.state.password}
 
       return new Promise(async (resolve, reject) => {

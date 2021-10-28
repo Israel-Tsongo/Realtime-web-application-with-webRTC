@@ -4,7 +4,7 @@
     
 
 <div id="content" >
-<Navbar> </Navbar> 
+
 <div class="container-fluid">
         <section style="margin-top: 11rem;height: 30rem;display: flex;justify-content: center;align-items: center;">
             <div style="width: 60rem;height: 25rem;">
@@ -93,13 +93,11 @@
 
 import {url} from "./../utils/config"
 import axios from "axios"
-import Navbar from "./../components/chatMessages/OtherComponents/Navbar.vue"
+
 
    export default{
      name:"Profile",
-     components:{
-         Navbar,
-     },
+     
      data(){
 
          return{
@@ -122,7 +120,7 @@ import Navbar from "./../components/chatMessages/OtherComponents/Navbar.vue"
 
          async getImage(){
            // return  await axios.get(`${url}/profile/image`).then((response)=>{this.imageProfile=respense.date})
-           this.imageProfile= await `http://localhost:8080/profile/image?idUser=6`
+           this.imageProfile= await `http://localhost:3000/profile/image?matricule=${this.$state.matricule.matricule}`
 
          },
 
@@ -166,13 +164,13 @@ import Navbar from "./../components/chatMessages/OtherComponents/Navbar.vue"
    
 <style lang="css">
 
-    @import './../components/chatMessages/assets/fonts/material-icons.min.css';
-    @import './../components/chatMessages/assets/css/styles.css';
-    @import './../components/chatMessages/assets/fonts/material-icons.min.css';
-    @import './../components/chatMessages/assets/fonts/ionicons.min.css';
-    @import './../components/chatMessages/assets/fonts/font-awesome.min.css';
-    @import './../components/chatMessages/assets/fonts/fontawesome-all.min.css';
-    @import './../components/chatMessages/assets/fonts/fontawesome5-overrides.min.css';
-    @import './../components/chatMessages/assets/bootstrap/css/bootstrap.min.css';  
+    @import './chatMessages/assets/fonts/material-icons.min.css';
+    @import './chatMessages/assets/css/styles.css';
+    @import './chatMessages/assets/fonts/material-icons.min.css';
+    @import './chatMessages/assets/fonts/ionicons.min.css';
+    @import './chatMessages/assets/fonts/font-awesome.min.css';
+    @import './chatMessages/assets/fonts/fontawesome-all.min.css';
+    @import './chatMessages/assets/fonts/fontawesome5-overrides.min.css';
+    @import './chatMessages/assets/bootstrap/css/bootstrap.min.css';  
    
 </style>

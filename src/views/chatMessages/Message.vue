@@ -2,8 +2,7 @@
 <template>
 
   
-<!--<div id="wrapper">
-    <div class="d-flex flex-column" id="content-wrapper" > -->
+
         <div id="content" >
         
         
@@ -112,8 +111,7 @@
                 </section>
             </div>
         </div>
-    <!--</div>
- </div>-->
+   
    
 </template>
 
@@ -121,7 +119,7 @@
 
 
 <script>
-
+/*
   import { STORE_ACTIONS, WS_EVENTS, DESCRIPTION_TYPE,url } from "./../../utils/config"  
   import Navbar from "./OtherComponents/Navbar.vue"
   import LeftColumn from "./LeftColumn/LeftColumn.vue"
@@ -175,9 +173,15 @@
    components:{ Navbar,LeftColumn, RightColumn,VideoModal,Audio },
     // Before create
     async created(){
-      console.log("Matricule",this.$store.state.matricule)
-      this.imageProfile= await `${url}/profile/image?userMatric=${this.$store.state.matricule}`
+        
+      
+      this.imageProfile= await `${url}/profile/image/?matricule=${this.$store.state.matricule}`
+      
     },
+     mounted(){
+                 
+
+  },
     beforeCreate: function() {
         this.$socket.emit(WS_EVENTS.joinRoom, this.$store.state)
     },       
@@ -389,7 +393,7 @@
   
       
 }
-
+*/
 
 </script>
 

@@ -10,7 +10,7 @@
 
             <div class="input-field-login">
               <i class="fas fa-user"></i>
-              <input type="text" v-model="nomLog" placeholder="Email" />
+              <input type="text" v-model="matriculeLog" placeholder="Matricule" />
             </div>
             <div class="input-field-login">
               <i class="fas fa-lock"></i>
@@ -145,7 +145,7 @@
 <script>
 
 
-import { STORE_ACTIONS } from "./../utils/config"
+import { STORE_ACTIONS } from "../utils/config"
 
 export default {
   name:"Login",
@@ -158,7 +158,7 @@ export default {
     password:undefined,
     passwordConfirm:undefined,
     // Field for Login
-    nomLog:undefined,
+    matriculeLog:undefined,
     passwordLog:undefined,
     // Errors
     errorSignIn: undefined,
@@ -200,13 +200,13 @@ export default {
       }    
   },
      async submitFormLogin() {
-        if(!(this.nomLog && this.passwordLog)) return
+        if(!(this.matriculeLog && this.passwordLog)) return
         this.errorSignIn = undefined
         
         try {
           console.log("####")
             await this.$store.dispatch(STORE_ACTIONS.signIn, {
-              nomLog: this.nomLog,
+              matriculeLog: this.matriculeLog,
               passwordLog: this.passwordLog
             })
              console.log("++++")
@@ -217,7 +217,7 @@ export default {
              console.log("===")
             this.$socket.open()
 
-            this.$router.push({name:"chatMessage"})
+            this.$router.push({name:"mainChat"})
               //this.$socket.open()
         } catch (error) {
               this.errorSignIn = error.message ? error.message : this.defaultError
