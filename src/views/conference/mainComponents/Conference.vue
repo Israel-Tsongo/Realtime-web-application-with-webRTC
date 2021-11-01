@@ -1,8 +1,8 @@
 <template>
 
-        <div style="width:auto;height:auto">
-            <div>{{this.peers}}</div>
-             <a id="download"><button class="btn btn-primary">click</button> </a>
+        <div style="width:inherit;height:inherit">
+           <!-- <div>{{this.peers}}</div>
+             <a id="download"><button class="btn btn-primary">click</button> </a>-->
             <conference-controle 
               @invitation="invitate($event)" 
               @displayType="displayType($event)" 
@@ -132,10 +132,12 @@ export default {
         peerStream: undefined,
         peerVideo: undefined
       })
+
        console.log(`+++++ in initWebRTC peers after init entrant: ${this.peers[user]}` )
        // on ajoute notre video(nous moderateur) sur l'object qui represente l'autre peer
           this.onIceCandidates(this.peers[user].pc, user, this.conference.room, true)
-         
+         this.addLocalStream(this.peers[user].pc)   
+         this.onAddStream(this.peers[user], user)
 
           if(this.conference.admin&& this.dataChannel==undefined){
              // this.onSendFile(this.peers[user].pc)               
@@ -211,9 +213,7 @@ export default {
          
 				
 		
-        this.addLocalStream(this.peers[user].pc)        
-         
-        this.onAddStream(this.peers[user], user)
+        
    
       // Act accordingly
       desc 

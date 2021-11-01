@@ -10,9 +10,9 @@
                     <div id="caroussel-div" style="margin-top: 40px;height: 450px;">
                         <div class="carousel slide" data-ride="carousel" id="carousel-1" style="margin-top: 90px;">
                             <div class="carousel-inner" style="width: 100%;height: 450px;">
-                                <div class="carousel-item active"><img class="w-100 d-block" src="assets/img/Video-Conferencing-Hub_Header-Image-min.jpg" alt="Slide Image" style="height: 450px;"></div>
-                                <div class="carousel-item"><img class="w-100 d-block" src="assets/img/AdobeStock_124857641-1024x683.jpeg.optimal.jpeg" alt="Slide Image"></div>
-                                <div class="carousel-item"><img class="w-100 d-block" src="assets/img/video-guidelines.jpg" alt="Slide Image"></div>
+                                <div class="carousel-item active"><img class="w-100 d-block" src="./chatMessages/assets/img/Video-Conferencing-Hub_Header-Image-min.jpg" alt="Slide Image" style="height: 450px;"></div>
+                                <div class="carousel-item"><img class="w-100 d-block" src="./chatMessages/assets/img/AdobeStock_124857641-1024x683.jpeg.optimal.jpeg" alt="Slide Image"></div>
+                                <div class="carousel-item"><img class="w-100 d-block" src="./chatMessages/assets/img/video-guidelines.jpg" alt="Slide Image"></div>
                             </div>
                             <div><a class="carousel-control-prev" href="#carousel-1" role="button" data-slide="prev"><span class="carousel-control-prev-icon"></span><span class="sr-only">Previous</span></a><a class="carousel-control-next" href="#carousel-1" role="button" data-slide="next"><span class="carousel-control-next-icon"></span><span class="sr-only">Next</span></a></div>
                             <ol class="carousel-indicators">
@@ -68,7 +68,7 @@
                         <p style="font-size: 25px;">Pour initier&nbsp; ou rejoindre un appel&nbsp; il suffit d'avoir un navigateur web recent sur son ordinateur ou tablette ou le telephone mobile.</p>
                     </div>
                 </div>
-                <div class="col-xl-3"><span style="display: inline-block;height: 240px;width: 350px;"><img src="assets/img/index.png" style="height: inherit;width: inherit;"></span></div>
+                <div class="col-xl-3"><span style="display: inline-block;height: 240px;width: 350px;"><img src="./chatMessages/assets/img/index.png" style="height: inherit;width: inherit;"></span></div>
             </div>
         </section>
         <section style="height: 35rem;background-color: #ffffff;">
@@ -78,7 +78,7 @@
                 </div>
             </div>
             <div class="row">
-                <div class="col-xl-4"><span style="display: inline-block;height: 310px;width: 470px;"><img src="assets/img/webRTC-Conference-with-Mesh-Architecture.png" style="height: inherit;width: inherit;"></span></div>
+                <div class="col-xl-4"><span style="display: inline-block;height: 310px;width: 470px;"><img src="./chatMessages/assets/img/webRTC-Conference-with-Mesh-Architecture.png" style="height: inherit;width: inherit;"></span></div>
                 <div class="col-xl-8 d-xl-flex justify-content-xl-center align-items-xl-center">
                     <div style="padding-left: 2rem;width: 45rem;">
                         <h1 class="text-center" style="margin-bottom: 1rem;">Architecture Mesh</h1>
@@ -100,7 +100,7 @@
                         <p style="font-size: 25px;">Ce système est accessible sur ordinateur ,sur tablette ainsi que sur téléphone. Les ressources du téléphone mobile étant limitées cela réduit considérablement&nbsp; le nombre d'hôtes pouvant être en communication simultanément.</p>
                     </div>
                 </div>
-                <div class="col-xl-3"><span style="display: inline-block;height: 400px;width: 501px;"><img class="img-fluid" src="assets/img/compatible%20device%20meet.png" style="height: inherit;width: inherit;"></span></div>
+                <div class="col-xl-3"><span style="display: inline-block;height: 400px;width: 501px;"><img class="img-fluid" src="./chatMessages/assets/img/compatible_device_meet.png" style="height: inherit;width: inherit;"></span></div>
             </div>
         </section>
         <section style="height: 29rem;background-color: #ffffff;">
@@ -110,7 +110,7 @@
                 </div>
             </div>
             <div class="row">
-                <div class="col text-center"><span style="display: inline-block;width: 150px;height: 150px;"><img class="img-fluid rounded-circle" src="assets/img/114%20.jpg"></span>
+                <div class="col text-center"><span style="display: inline-block;width: 150px;height: 150px;"><img class="img-fluid rounded-circle" src="./chatMessages/assets/img/neymar.jpg"></span>
                     <h4>Jack Le Mortier</h4>
                     <p style="font-weight: bold;">PDG</p>
                     <div class="row d-xl-flex justify-content-xl-center">
@@ -119,7 +119,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="col text-center"><span style="display: inline-block;width: 150px;height: 150px;"><img class="img-fluid rounded-circle" src="assets/img/114%20.jpg"></span>
+                <div class="col text-center"><span style="display: inline-block;width: 150px;height: 150px;"><img class="img-fluid rounded-circle" src="./chatMessages/assets/img/neymar.jpg"></span>
                     <h4>Willy Ndeze</h4>
                     <p style="font-weight: bold;">CHEF MARKETING</p>
                     <div class="row d-xl-flex justify-content-xl-center">
@@ -128,7 +128,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="col text-center"><span style="display: inline-block;width: 150px;height: 150px;"><img class="img-fluid rounded-circle" src="assets/img/114%20.jpg"></span>
+                <div class="col text-center"><span style="display: inline-block;width: 150px;height: 150px;"><img class="img-fluid rounded-circle" src="./chatMessages/assets/img/neymar.jpg"></span>
                     <h4>Hugo chavez</h4>
                     <p style="font-weight: bold;">DIRECTEUR</p>
                     <div class="row d-xl-flex justify-content-xl-center">

@@ -1,5 +1,5 @@
 <template>
-<div v-if="typeOfDisplay=='MultiVideoConference'"   style="height: 5rem;display: flex;justify-content: center;">
+<div v-if="typeOfDisplay=='MultiVideoConference' && conference.open"   style="height: 5rem;display: flex;justify-content: center;">
     <div class="d-lg-flex align-items-lg-center" style="width: auto;height: 100%;/*margin-top: 40px;*/">
         <button class="btn btn-primary btn-control" type="button">
             <span>
@@ -44,6 +44,7 @@ export default {
     name:"BtnConferenceControle",
     props:{
         typeOfDisplay:String, 
+        conference:Object
     },
     shareScreen(){
      this.$emit("shareScreen")

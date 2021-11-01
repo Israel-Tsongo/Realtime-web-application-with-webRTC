@@ -1,5 +1,6 @@
 
 const mongoose = require("mongoose");
+const bcrypt=require("bcrypt")
 
 const UserSchema=mongoose.Schema({
 
@@ -47,8 +48,18 @@ const UserSchema=mongoose.Schema({
    imagePath:{
     type:String,  
 
+},   
+  role:{
+  type:String,  
+  require:true,
 }   
 
+
+})
+UserSchema.pre('save',async function(next){
+  const salt =await bcrypt.genSalt()
+  this.password=await bcrypt.hash(this.password,salt)
+  next()
 
 })
 

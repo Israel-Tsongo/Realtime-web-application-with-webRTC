@@ -8,7 +8,7 @@
         
             <!--################  Message info  ####################-->
             
-            <InfoMessage v-bind:allPrivateChatInfo="allPrivateChatInfo" @closeIt="closeChat()" @callToggled="video($event,!videoCall)"></InfoMessage>
+            <InfoMessage v-bind:allPrivateChatInfo="allPrivateChatInfo" :users="users" @closeIt="closeChat()" @callToggled="video($event,!videoCall)"></InfoMessage>
             
             <!--################  Messages  ####################-->
             
@@ -67,6 +67,7 @@ import { WS_EVENTS, DESCRIPTION_TYPE } from "./../../../utils/config"
        
        openPrivateChat:Boolean,
        allPrivateChatInfo:Object,
+       users:Array
        
        
    },
@@ -160,17 +161,19 @@ import { WS_EVENTS, DESCRIPTION_TYPE } from "./../../../utils/config"
    
    
    watch: {
-    allPrivateChatInfo: function({ chat }, oldVal) {
+    allPrivateChatInfo: function({ chat,user }, oldVal) {
 
       if (chat && (chat !== oldVal.chat) ) { // if chat exist and chat different to the old chat then ..
+        
         // Peer openning private chat
         if (this.allPrivateChatInfo.room !== this.$store.state.username){ // In private chat the room name is equal to the username of the initiator
             this.$socket.emit(WS_EVENTS.joinPrivateRoom, {
               ...this.$store.state,
-              to: this.allPrivateChatInfo.user,
-              matricule:this.allPrivateChatInfo.matricule,
+              to: user,
+              matricule: this.$store.state.matricule,
               from: this.$store.state.username,
             })
+             console.log('chat changed test end emited',user)
         }
         // Peer receiving a private chat request
         if (this.allPrivateChatInfo.room === this.$store.state.username) {
@@ -178,10 +181,11 @@ import { WS_EVENTS, DESCRIPTION_TYPE } from "./../../../utils/config"
                 ...this.$store.state,
                 // to: this.allPrivateChatInfo.user, 
                 to: this.$store.state.username,
-                matricule:this.allPrivateChatInfo.matricule, 
+                matricule:this.$store.state.matricule, 
                 from: this.$store.state.username,
                 joinConfirmation: true
             })
+            console.log('chat changed 3 end emited')
         }
       }
     },

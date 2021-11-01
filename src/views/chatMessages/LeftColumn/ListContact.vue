@@ -11,13 +11,11 @@
 	
   <div v-for="(user,index) in userList" :key="'contactRow-'+index" class="row contact-row" v-bind:disabled="openPrivateChat" >	
 
-        
-
             <div class="col-sm-2 col-md-2 col-lg-2 col-xl-3 d-xl-flex justify-content-xl-center align-items-xl-center contact-col-image">
               <span class="contact-span-image">
                   <img class="img-fluid contact-img" :src="imageProfile+user.matricule">
                   <span class="remoteOnlineStatus rounded-circle">
-                    <span class="rounded-circle"></span>
+                    <span v-bind:class="user.status" class="rounded-circle"></span>
                   </span>
               </span>
             </div>
@@ -49,7 +47,7 @@
 
 <script>
 
-import { STORE_ACTIONS, STATUS_OPTIONS, WS_EVENTS,url } from "./../../../utils/config"
+import { url } from "./../../../utils/config"
 
 export default {
   name: "ListContact",
@@ -59,11 +57,7 @@ export default {
   },
   data: () => ({
     imageProfile:"",
-    status: {
-      available_status: "#05b105",
-      absent_status: "#f7bb04",
-      unavailable_status: "#bb0000"
-    }
+   
   }),
   async created(){
     this.imageProfile= await `${url}/profile/image?matricule=`
@@ -72,20 +66,10 @@ export default {
     openChat(user,matricule) {
       this.$emit("open-chat", {user,matricule})
     },
-    changeStatus() {
-      this.$store.dispatch(STORE_ACTIONS.changeStatus).then( ()=> {
-        this.$socket.emit(WS_EVENTS.changeStatus, this.$store.state)
-      })
-    }
+    
   },
   computed: {
-    myStatus: function() {
-      return {
-        available: this.$store.state.status === STATUS_OPTIONS.available,
-        absent: this.$store.state.status === STATUS_OPTIONS.absent,
-        unavailable: this.$store.state.status === STATUS_OPTIONS.unavailable
-      }
-    },
+    
     userList: function()  {
 
       let currentUsername=this.$store.state.username
@@ -105,8 +89,17 @@ export default {
 
 
 
-<style>
+<style lang="scss" scoped >
 
+.available {
+    background-color:#05b105 !important;
+  }
+.absent {
+    background-color:#f7bb04 !important;
+  }
+.unavailable {
+    background-color:#bb0000 !important;
+  }
 
 
 

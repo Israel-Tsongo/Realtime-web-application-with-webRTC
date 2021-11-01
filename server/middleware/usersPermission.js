@@ -5,7 +5,7 @@
  // Verifier the existance on an user
 function userExist (req,res, next)  {
 
-const matricule="121"//req.params.matricule
+const matricule=req.params.matricule
 if(matricule){
 
     const userMatricule=req.body.userMatricule    

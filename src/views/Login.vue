@@ -147,6 +147,7 @@
 
 import { STORE_ACTIONS } from "../utils/config"
 
+
 export default {
   name:"Login",
   data: () => ({
@@ -165,7 +166,10 @@ export default {
     errorSignUp:undefined,
     defaultError: 'Something went wrong' 
   }),
-  
+   async mounted(){
+
+      
+   },
    methods:{
 
     signUpEvent(){
@@ -204,20 +208,43 @@ export default {
         this.errorSignIn = undefined
         
         try {
-          console.log("####")
-            await this.$store.dispatch(STORE_ACTIONS.signIn, {
-              matriculeLog: this.matriculeLog,
-              passwordLog: this.passwordLog
-            })
-             console.log("++++")
-            await this.$store.dispatch(STORE_ACTIONS.joinRoom, {
-            room: 'GENERAL_SCOPE',
-            username: undefined
-            })
-             console.log("===")
-            this.$socket.open()
+          console.log("## Submit login##")
 
-            this.$router.push({name:"mainChat"})
+               
+
+                              // clean code
+
+                          await this.$store.dispatch(STORE_ACTIONS.signIn, {
+                            matriculeLog: this.matriculeLog,
+                            passwordLog: this.passwordLog,
+                            room:'GENERAL_SCOPE',
+                            //username:" ",
+
+                         })
+
+                   // Fake code
+
+            //  console.log("++++")
+            // await this.$store.dispatch(STORE_ACTIONS.joinRoom, {
+            // room: 'GENERAL_SCOPE',
+            // matricule: this.matriculeLog,
+            // username:this.$store.state.username,
+            // passwordLog:this.passwordLog
+            // })
+            console.log("-----",this.$store.state.username)
+            
+            if(this.$store.state.username && this.$store.state.room && this.$store.state.room){
+                
+                console.log("===")
+                 this.$socket.open()
+                 this.$router.push({name:"mainChat"})
+
+            }else{
+
+              this.errorSignIn="Some thing went wrong on server side"
+              
+            }
+             
               //this.$socket.open()
         } catch (error) {
               this.errorSignIn = error.message ? error.message : this.defaultError

@@ -3,15 +3,19 @@
 
   
 
-<div id="content" >
+<div id="content" style="border: 1px solid black; margin-top:60px" >
         
         
-<!--######### navbar ##########-->           
+<!--######### navbar  ##########-->      
         
-    <Navbar v-bind:imgProfile="this.imageProfile" @changeScreen="changeActualScreen($event)"> </Navbar>  
-                        
-<!--######## End navBar ##########-->           
-            
+    <Navbar v-bind:imgProfile="this.imageProfile" @changeScreen="changeActualScreen($event)" @logout="logout()"> </Navbar>  
+                         
+<!--######## End navBar ##########--> 
+
+            <HomeApp v-if="screen =='Home'" ></HomeApp>
+             <Profile @changeImageProfile="changeImageProfile()" v-if="screen =='Profile'"> </Profile> 
+            <AdminPage v-if="screen =='AdminPage'"  ></AdminPage>
+
             <div v-if="screen =='PrivateChatScreen'"  class="container-fluid">
 
                 <section id="main-section">             
@@ -24,17 +28,20 @@
                                         <div class="row" id="rowMsg" >                                               
                                             
                                             <!--#########   Left main column ,  List of  Contact  ###############--> 
-                                                <LeftColumn v-bind:imgProfile="this.imageProfile" :users="users" :openPrivateChat="openPrivateChat.chat || conference.open" @open-chat="openChat"> </LeftColumn>                                                
+                                                <LeftColumn v-bind:imgProfile="this.imageProfile" :users="users" :openPrivateChat="openPrivateChat.chat || conference.open" @open-chat="openChat($event)"> </LeftColumn>                                                
                                            <!--######  End LeftColumn  ######-->                                                
                                                 
                                             <!--#############   Right main column ,  List of  Allmessages  #######--> 
                                                     
                                                 <RightColumn 
-                                                    ref="closeRef"                                                                                                 
+                                                    ref="closeRef" 
+                                                    :v-if="openPrivateChat.chat" 
+                                                    :users="users"                                                                                               
                                                     v-bind:openPrivateChat="openPrivateChat.chat" 
                                                     v-bind:allPrivateChatInfo="openPrivateChat" 
                                                     @videoAnswerUpdate="updateVideoAnswer($event)"                                                
-                                                    @clickForcall="open($event)"> </RightColumn> 
+                                                    @clickForcall="open($event)"> 
+                                                </RightColumn> 
                                                  
                                             <!--######  End RightColumn ######-->
                                         </div>
@@ -138,8 +145,13 @@ import Navbar from "./chatMessages/OtherComponents/Navbar.vue"
 import LeftColumn from "./chatMessages/LeftColumn/LeftColumn.vue"
 import RightColumn from "./chatMessages/RightColumn/RightColumn.vue"
 import VideoModal from "./chatMessages/OtherComponents/VideoModal.vue"
+import AdminPage from "./admin/AdminPage.vue"
+import Profile from "./Profile.vue"
+import HomeApp from "./HomeApp.vue"
 import Audio from  './chatMessages/OtherComponents/Audio.vue' 
-  
+import Toasted from 'vue-toasted'
+import Vue from 'vue'
+
 var JQuery=require("jquery")
 window.JQuery=JQuery;
 window.$=JQuery;
@@ -148,7 +160,7 @@ export default {
     name:"MainChat",
     components:{
         Navbar,LeftColumn, RightColumn,VideoModal,Audio,
-        VideoConference
+        VideoConference,AdminPage,Profile,HomeApp
     },
 
     sockets: {
@@ -216,19 +228,55 @@ export default {
         },
 
         conferenceInvitation: function({ to, from, message}) {
-        
+        console.log("Invitation receved")
         if (message && (this.$store.state.username === from)) return this.$toastr.w(message)
         if (this.$store.state.username !== to) return     
 
         if (this.$store.state.username == to){
-            // this.saveInvitationData({to,from})
-            // this.$toasted.show('You are invited')
-            
-            this.conference.room = from
-            this.$socket.emit(WS_EVENTS.joinConference, { ...this.$store.state,
-              to: from,
-              from: this.$store.state.username
-              })
+
+             
+              
+            Vue.use(Toasted, {
+              
+              duration:5000,
+              position: 'top-center',
+              theme:'bubble',
+              type:'info',
+              icon:'check',  
+              fullWidth:true,
+              
+              action:[
+                    
+                    {  
+                      text:'Decline',
+                      onClick:(e,toastObject)=>{
+                        toastObject.goAway(0);
+                      }
+                    }, 
+                    { 
+                      text:'Acccept',
+                      onClick:(e,toastObject)=>{
+
+                          
+
+                          this.conference.room = from
+                          this.$socket.emit(WS_EVENTS.joinConference, { ...this.$store.state,
+                          to: from,
+                          from: this.$store.state.username
+                          })
+
+                           this.screen="ConferenceScreen"
+
+                           toastObject.goAway(0)
+
+                      }
+                    }
+                ]  
+  
+            })
+
+            this.$toasted.show('Vous etes invite a participer a une video conference')            
+           
 
         }
         
@@ -257,12 +305,13 @@ export default {
 
   //////
   beforeCreate: function() {
+      //console.log("this.$store.state",this.$store.state)
     this.$socket.emit(WS_EVENTS.joinRoom, this.$store.state)
   },
   
   data: function() {
     return {
-      screen:"PrivateChatScreen",
+      screen:"Home",
       imageProfile:"",
       audioCall:false,
       videoCall:false,
@@ -276,7 +325,7 @@ export default {
       users: [],
       messages: [],
       file:undefined,     
-      typeOfDisplay:"MonoVideoConference",
+      typeOfDisplay:"MultiVideoConference",
       openPrivateChat: {
         chat: false,
         user: null,
@@ -309,20 +358,21 @@ export default {
       }
     }
   },
- async created(){
-      this.imageProfile= await `${url}/profile/image/?matricule=${this.$store.state.matricule}`
-      //this.toggleConference()
+  created(){
+     
+      
   },
-  mounted(){
-          console.log("query value.value=",this.$route.query.value)
-        if(this.$route.query.value!==undefined){
-
-          this.joinConference=this.$route.query.value
-        }
+   mounted(){
+      this.changeImageProfile()
          
   },
  
   methods: {
+      async changeImageProfile(){
+
+            this.imageProfile= await `${url}/profile/image?matricule=${this.$store.state.matricule}`
+            console.log(" this.getData() ")
+      },
       changeActualScreen(screenName){
           this.screen=screenName
 
@@ -413,7 +463,7 @@ export default {
        console.log("Salut le messags")
         this.$socket.emit(WS_EVENTS.publicMessage, { ...this.$store.state, message: msg })
     },
-    openChat(user,matricule) {
+    openChat({user,matricule}) {
         this.openPrivateChat = { ...this.openPrivateChat,
         chat: true,
         matricule:matricule,
@@ -438,12 +488,15 @@ export default {
         })
         await this.$store.dispatch(STORE_ACTIONS.leaveChat, this.$store.state.username)
         this.$socket.close()
-        this.$router.push("/login")
+        this.$router.push({name:"login"})
       } catch (error) {
         console.log(error)
       }
     },
     toggleConference() {
+
+      this.openPrivateChat.chat?this.closePrivateChat():""
+
       !this.conference.open 
         ? this.conference = {...this.conference, open: true, admin: true, room: this.$store.state.username}
         : this.conference = {}
@@ -475,17 +528,7 @@ export default {
 
    
   },
-  watch:{
-
-
-    joinConference:function(newValue,oldValue){
-
-      if(newValue=='JoinIt'&& newValue !== oldValue)
-      {
-       this.conferenceInvitationJoin(this.invitationData)
-      }
-    }
-  }  
+  
 
 
 }

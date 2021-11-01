@@ -22,10 +22,30 @@ ChatRedis.prototype.addUser = function (room, socketId, userObject) {
     this.client
         .hsetAsync(room, socketId, JSON.stringify(userObject))
         .then(
-            () => console.debug('addUser ', userObject.nom + ' added to the room ' + room),
+            () => console.debug('addUser ', userObject.username + ' added to the room ' + room),
             err => console.log('addUser', err)
         )
 }
+
+
+
+
+
+
+ChatRedis.prototype.RemoveAll = function () {
+    console.log("clearing cache")
+    this.client.flushdb((err,succeeded)=>{
+             console.log("clearing cahce")
+            if(err)console.log("error")
+            else console.log("purge Cache",succeeded)
+        })
+            
+}
+
+
+
+
+
 
 /**
  * Get all users by room

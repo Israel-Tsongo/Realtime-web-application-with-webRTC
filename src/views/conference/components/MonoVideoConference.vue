@@ -1,13 +1,13 @@
 <template>
 
-<div style="height: auto;width: 100%;">
-    <div class="row" id="Video-row" style="width: 52rem;">
+<div style="height: auto;width: 100%; display:flex; justify-content:center">
+    <div class="row" id="Video-row" style="width: inherit;">
         <div class="col">
-            <div style="height: 590px;width: 55rem;display: flex;align-items: center;justify-content: center;background-color: white;border-radius: 30px;margin-right: 3rem;">
-                <div style="height: 530px;width: 51rem;position: relative;z-index: 1;">
+            <div style="height: 400px; width:810px;display: flex;align-items: center;justify-content: center;background-color: white;border-radius: 30px;margin-right: 3rem;">
+                <div style="height: inherit;width:inherit;position: relative;z-index: 1;">
                     <span v-for="(item, key) in peers" :key="key" style="display: inline-block;height: 420px;width: 800px;">
 
-                                <Video 
+                               <Video 
                                     :videoId="key" 
                                     :displayControls="false"                                   
                                     :videoStream="peers[key].peerStream"
@@ -36,7 +36,7 @@
                         </div>
                     </div>
                     <!--Volume -->
-                    <div style="height: 220px;width: 50px;align-items: flex-end;position: absolute;background: rgba(255,255,255,0.49);border-radius: 30px;bottom: 25%;left: 4%;">
+                    <div style="height: 220px;width: 50px;align-items: flex-end;position: absolute;background: rgba(255,255,255,0.49);border-radius: 30px;bottom: 5%;left: 4%;">
                         <input type="range" style="position: relative;width: 153px;height: 65px;bottom: -26%;left: -105%;transform: rotateZ(-90deg);">
                         <div class="input-field" style="height: auto;position: absolute;bottom: 3%;left: 3%;">
                             <span class="d-flex justify-content-center align-items-center" style="margin-left: 10px;">
@@ -45,7 +45,7 @@
                         </div>
                     </div>
                     <!--Controle -->
-                    <div style="position: absolute;height: 5rem;display: flex;justify-content: center;margin-top: 20px;bottom: 20%;right: 30%;">
+                    <div style="position: absolute;height: 5rem;display: flex;justify-content: center;margin-top: 20px;bottom: 1%;right: 30%;">
                         <div class="d-lg-flex align-items-lg-center" style="width: auto;height: 100%;/*margin-top: 40px;*/">
                             <button class="btn btn-light btn-control rounded-circle" type="button" style="margin-right: 1rem;height: 50px;">
                                 <span style="display: inline-block;width: 35px;height: 27px;">

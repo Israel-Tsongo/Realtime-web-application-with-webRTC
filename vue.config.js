@@ -4,12 +4,29 @@ module.exports = {
     productionSourceMap: false,
     devServer:{
 
-       proxy:"http://localhost:3000",	   
+        //host:"0.0.0.0",
+        //disableHostCheck:true,
+        // proxy: {
+        //     "^/login": {
+        //       target: "http://localhost:3000/login",
+        //       changeOrigin: true,
+        //       logLevel: "debug",
+             
+        //     }
+
+       // }
     }
+
+     //   proxy:"http://localhost:3000/",	
+    //    disableHostCheck:true,
+    //    https:false 
+    // public:http://l 
+    // allowedHost:[] 
+    
   
 }
 
- //  disableHostCheck:true,
+ //  
 //  
 //  hot :true,	     
 //  port:8080,

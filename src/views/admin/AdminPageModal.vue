@@ -29,7 +29,7 @@
                                     <input type="text" class="form-control form-control-user-left" v-model="password" id="password" placeholder="Mot de passe" name="password" />
                                 </div>
                                 <div class="col-sm-6 all-col all-col-right" style="padding-left: 0px;">
-                                    <input type="text" class="form-control form-control-user-right" v-model="statut" id="statut" placeholder="Statut" name="statut" />
+                                    <input type="text" class="form-control form-control-user-right" v-model="status" id="statut" placeholder="Statut" name="statut" />
                                 </div>
                             </div>
                         </form>
@@ -66,9 +66,9 @@ export default {
             nom:this.selectedUser.nom,
             email:this.selectedUser.email,
             service:this.selectedUser.service,
-            fonction:this.selectedUser,
+            fonction:this.selectedUser.fonction,
             password:this.selectedUser.password,
-            statut:this.selectedUser.password,
+            status:this.selectedUser.status,
 
         }
 
@@ -77,42 +77,30 @@ export default {
     
    async  created(){
         
-       this.init()
+       
     },
     methods:{
-         init(){           
-                  
-             this.$nextTick(function(){
-                   
-                // document.querySelector('#nom').value=this.selectedUser.nom
-                // document.querySelector('#email').value=this.selectedUser.email
-                // document.querySelector('#service').value=this.selectedUser.service
-                // document.querySelector('#fonction').value=this.selectedUser.fonction
-                // document.querySelector('#password').value=this.selectedUser.password
-                // document.querySelector('#statut').value=this.selectedUser.status                             
-                
-                
-             })
-            
-            
-
-         },
+        
+          
         async updateUser(){
 
-           await axios.post(`${url}/users/update`,{   
-                                                id:this.selectedUser._id,
-                                                nom:this.nom,email:this.email,
-                                                service:this.service,fonction:this.fonction,
-                                                password:this.password,statut:this.statut,
-                                                }).then((response)=>{
-                                                    console.log(response)
-                                                    this.$emit("close-modal")
-                                                }).catch(function(error){
+           await axios.post(`${url}/admin/users/update`,{ 
 
-                                                    console.log(error);
-                                                })
+                        
+                        matricule:this.selectedUser.matricule,
+                        nom:this.nom,email:this.email,
+                        service:this.service,fonction:this.fonction,
+                        password:this.password,status:this.status,
+
+                        }).then((response)=>{
+                            console.log(response)
+                            this.$emit("close-modal")
+                        }).catch(function(error){
+
+                            console.log(error);
+                        })
                                                 
-
+                this.$emit("reloadData")
       },
       close(){
 

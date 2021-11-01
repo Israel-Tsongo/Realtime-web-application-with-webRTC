@@ -11,10 +11,10 @@ export const videoConfiguration = {
                     echoCancellation: true,
                     noiseSuppression: true,
                     autoGainControl: false
-                },
+                },                
                 video: {
-                    width: 850,
-                    height: 340
+                    width: 800,
+                    height: 470
                 },
             },
             // TURN/STUN ice servers               
@@ -54,6 +54,7 @@ export const videoConfiguration = {
                     this.myVideo.srcObject = stream                    
                     this.myVideo.volume = 0
                     this.localStream = stream
+                    console.log("this.localStream request media",this.localStream)
                 } catch (error) {
                     log(`getUserMedia error: ${error}`)
                 }
@@ -241,6 +242,8 @@ export const videoConfiguration = {
        addLocalStream(pc) {
            
         if(!this.shareScreen && !this.conference.shareSreenInfo.shareScreen){
+
+            console.log("this.localstream  addlocal stream",this.localStream)
            
             pc.addStream(this.localStream)            
 

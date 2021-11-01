@@ -1,39 +1,39 @@
 <template>
   <div class="video">
-    <div class="video__spinner">
+    <!--<div class="video__spinner">
       <md-progress-spinner 
         v-if="!videoStream" 
         class="md-accent" 
         md-mode="indeterminate">
       </md-progress-spinner>
-     </div>
+     </div>-->
 
-    <AudioVideoControls 
+    <!--<AudioVideoControls 
         v-if="displayControls" 
         :pauseVideo="pauseVideo" 
         :pauseAudio="pauseAudio">
-    </AudioVideoControls>
+    </AudioVideoControls>-->
     <video  
         :id="videoId"      
-        autoplay="true"
-        muted="muted"
+        autoplay="true"        
+        muted="muted"        
         v-if="muted">
     </video>
     <video  
         :id="videoId" 
-        autoplay="true"
+        autoplay="true"        
         v-if="!muted">
     </video>
   </div>
 </template>
 
 <script>
-import AudioVideoControls from "./AudioVideoControls"
+//import AudioVideoControls from "./AudioVideoControls"
 
 export default {
   name: "Video",
   components: {
-    AudioVideoControls
+   // AudioVideoControls
   },
   props: {
       videoId: String,
@@ -48,9 +48,12 @@ export default {
 
 <style lang="scss" scoped>
 .video {
-  background-color: #353535;
+  background-color: rgb(56, 56, 55);
   height: 100%;
+  width: 100%;
   position: relative;
+  border-radius: 25px;
+  
   &__spinner {
     position: absolute;
     width: 100%;
@@ -60,8 +63,13 @@ export default {
     justify-content: center;
   }
   video {
+    
     width: 100%;
     height: 100%;
+    border-radius: 25px;
+    
+
+    
   }
 }
 </style>

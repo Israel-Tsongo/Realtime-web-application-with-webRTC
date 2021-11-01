@@ -18,19 +18,18 @@
                                             <div style="width: 200px;height: auto;">
                                                 <span class="text-center rounded-circle" style="display: inline-block;width: 161px;height: 161px;border: 5px solid rgb(78,115,223);">
                                                     <span class="rounded-circle" style="display: inline-block;width: 150px;height: 150px;">
-                                                        <img alt="content-img" class="rounded-circle" :src="this.imageProfile" style="width: inherit;height: inherit;">
+                                                        <img alt="content-img" class="rounded-circle" :src="imageProfile" style="width: inherit;height: inherit;">
                                                     </span>
                                                 </span>
-                                                <div style="height: 40px;width: 100%;text-align: center;margin-top: 2rem;">
-                                                    
-                                                    <!--<form  @submit.prevent="onSubmit()"  enctype="multipart/form-data" >-->
-
-                                                            <input name="image" ref="imgFile" style="visibility:hidden" @change="onSelect()" type="file" >
-                                                            
-                                                            <button class="btn btn-primary" type="button" @click="chooseFile()" style="border-radius: 10px;font-weight: 800;font-family: cursive;">Changer</button>
-                                                    <!--</form>-->
-                                                    <h5>{{this.message}}</h5>
-                                                </div>
+                                                <div style="width:100% ;display:flex; justify-content:center">
+                                                    <div style="height:130px;width:60%;text-align: center;margin-top: 2rem; border:1px solid black,display:flex; align-content:center">
+                                                       
+                                                        <input name="image" ref="imgFile" style="visibility:hidden" @change="onSelect()" type="file" >                                                                
+                                                        <button class="btn btn-primary" type="button" @click="chooseFile()" style="border-radius: 10px;font-weight: 800;font-family: cursive;">Changer</button>
+                                                        <button class="btn btn-primary" type="button" @click="saveImage()" style=" margin-top:0.5rem;border-radius: 10px;font-weight: 800;font-family: cursive;">Save</button>
+                                                       
+                                                    </div>
+                                                </div>    
                                             </div>
                                         </div>
                                     </div>
@@ -38,18 +37,18 @@
                                         <h4 class="text-center" style="margin-bottom: 2rem;">Information personnel</h4>
                                         <div class="row">
                                             <div class="col">
-                                                <form @submit.prevent="submitInfo()" >
+                                                
                                                     <div class="form-row">
                                                         <div class="col">
                                                             <div class="form-group text-left">
                                                                 <label for="nom"><strong>Nom</strong></label>
-                                                                <input id="nom" class="form-control" type="text" placeholder="Israel Tsongo" name="nom" style="border-radius:10px;">
+                                                                <input v-model="nom" id="nom" class="form-control" type="text"   style="border-radius:10px;">
                                                             </div>
                                                         </div>
                                                         <div class="col">
                                                             <div class="form-group text-left">
                                                                 <label for="email"><strong>Adresse mail</strong><br></label>
-                                                                <input id="email" class="form-control" type="email" placeholder="user@example.com" name="email" style="border-radius: 10px;">
+                                                                <input v-model="email" id="email" class="form-control" type="email"   style="border-radius: 10px;">
                                                             </div>
                                                         </div>
                                                     </div>
@@ -57,20 +56,20 @@
                                                         <div class="col">
                                                             <div class="form-group text-left">
                                                                 <label for="service"><strong>Service</strong><br></label>
-                                                                <input id="service" class="form-control" type="text" placeholder="Academique" name="service" style="border-radius: 10px;">
+                                                                <input v-model="service" id="service" class="form-control" type="text"  style="border-radius: 10px;">
                                                             </div>
                                                         </div>
                                                         <div class="col">
                                                             <div class="form-group text-left">
                                                                 <label for="fonction"><strong>Fonction</strong><br></label>
-                                                                <input id="fonction" class="form-control" type="text" placeholder="Secretaire Generale" name="fonction" style="border-radius: 10px;">
+                                                                <input v-model="fonction" id="fonction" class="form-control" type="text"  style="border-radius: 10px;">
                                                             </div>
                                                         </div>
                                                     </div>
                                                     <div class="form-group" style="text-align: center;margin-top: 2rem;">
-                                                        <button class="btn btn-primary btn-sm" type="submit"  style="height: 50px;width: 200px;border-radius: 10px;font-weight: 800;font-family: cursive;">Changer vos informations</button>
+                                                        <button @click="submitInfo()" class="btn btn-primary btn-sm" type="submit"  style="height: 50px;width: 100px;border-radius: 10px;font-weight: 800;font-family: cursive;">Modifier</button>
                                                     </div>
-                                                </form>
+                                               
                                             </div>
                                         </div>
                                     </div>
@@ -101,50 +100,83 @@ import axios from "axios"
      data(){
 
          return{
-             imageProfile:null,
+             nom:"",
+             email:"",
+             service:"",
+             fonction:"",
+             imageProfile:"",
              file:"",
              message:""
          }
      },
-     async created(){
+     async mounted(){
+            //
+            
+            this.getData()
 
-            await this.getImage()
-      
-     },
+           },
      methods:{
          chooseFile(){
-             this.$refs.imgFile.click()
-             
+             this.$refs.imgFile.click()            
 
          },
 
-         async getImage(){
-           // return  await axios.get(`${url}/profile/image`).then((response)=>{this.imageProfile=respense.date})
-           this.imageProfile= await `http://localhost:3000/profile/image?matricule=${this.$state.matricule.matricule}`
-
-         },
+       
 
          onSelect(){
             
              const file = this.$refs.imgFile.files[0];
              this.file=file;
-             this.onSubmit()
+             
          },
-         async onSubmit(){
+         async saveImage(){
 
 
              const formData=new FormData()
              formData.append("image",this.file)
+             formData.append("matricule",this.$store.state.matricule)
+
              try{
-                 await axios.post(`${url}/profile`,formData)
+                 console.log("Save image",)
+                 await axios.post(`${url}/profile/image`,formData).then((res)=>{
+
+                     console.log("success",res.data)
+                    this.getData() 
+                 }).catch((err)=>{
+                     console.log("err",err.data);
+                 })
                  this.message="Uploaded"
+                
              }catch(err){
                console.log(err)
                this.message= "something went wrong"
              }
-             this.getImage()
-         }
+            this.getData() 
 
+             
+         },
+         async submitInfo(){
+               
+               await axios.post(`${url}/profile/userUpdate`,{matricule:this.$store.state.matricule, nom:this.nom, email:this.email, fonction:this.fonction, service:this.service})
+               this.getData()
+
+         },
+         async getData(){
+             console.log("Get data called")
+            this.imageProfile= await `${url}/profile/image?matricule=${this.$store.state.matricule}`
+
+            await axios.get(`${url}/profile/user?matricule=${this.$store.state.matricule}`).then((response)=>{
+                 
+                 
+                 this.nom=response.data.nom
+                 this.email=response.data.email
+                 this.service=response.data.service
+                 this.fonction=response.data.fonction
+             
+             })
+             this.$emit("changeImageProfile")
+         }
+           
 
      },
      

@@ -3,7 +3,7 @@ const express = require('express')
 const app = express()
 const io = app.io = require('socket.io')()
 const cors = require('cors')
-const bodyParser = require('body-parser')
+//const bodyParser = require('body-parser')
 const path = require('path')
 //const busboy = require('connect-busboy');
 const users = require('./routes/user')
@@ -13,22 +13,21 @@ const users = require('./routes/user')
 const chat = require('./chat_namespace')
 
 
+
 const corsOpts={
 
     origin:"*",
-    methods:[
-        "GET",
-        "POST"
-    ],
-    allowedHeaders:[
-        'Content-Type',
-    ],
+    credentials:true,
+    'allowedHeaders':['sessionId','Content-Type'],
+    'exposedHeaders':['sessionId'],
+    'methods':'GET,HEAD,PUT,PACTH,POST,DELETE',
+    'preflightContinue':false
 }
 
     
 app.use(cors(corsOpts)); 
 
-app.use(bodyParser.json())
+app.use(express.json())
 
        
 
@@ -45,12 +44,19 @@ app.use((req, res, next) => {
  * Routing
  */
  app.use('/', users)
- app.use('/profile/', profile)
+ app.use('/profile', profile)
  
- app.use('/admin/', admin)
+ app.use('/admin', admin)
 
 //app.use('/auth', users)
 app.use('/rooms', rooms)
+
+app.get("/test",(req,res)=>{
+
+
+    console.log("test Called ")
+    res.status(200).json({message:"success"})
+})
 
 // Static routing
 app.use(express.static(path.join(__dirname, '../dist')))

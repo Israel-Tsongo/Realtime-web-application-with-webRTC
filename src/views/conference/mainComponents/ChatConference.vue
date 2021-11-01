@@ -1,6 +1,6 @@
 <template>
 
-<div id="chat-div" style="height: 50rem;width: 24%;display: inline-block;background: rgba(235,237,239,0.73);border-radius: 50px 0px 0px 50px;margin-top: -5rem;">
+<div id="chat-div" style="border: 1px solid black; height: 90%;width: 28%;display: inline-block;background: rgba(235,237,239,0.73);border-radius: 50px 0px 0px 50px;margin-top: -5rem;">
         <div style="width:100%;height: 45px;padding-left: 2rem;display: flex;justify-content: center;justify-items: center;margin-top: 30px;">
             <div style="width: 95%;height: 40px;">
                 <button @click="display='Chat'" class="btn btn-primary" type="button" style="margin-right: 0.4rem;width: 127px;">

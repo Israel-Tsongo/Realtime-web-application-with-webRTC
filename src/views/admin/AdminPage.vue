@@ -64,7 +64,7 @@
                                             <td class="col-capital all-col">{{user.matricule}}</td>
                                             <td class="all-col">{{user.service}}</td>
                                             <td class="all-col">{{user.fonction}}</td>
-                                            <td class="col-contrat all-col">{{user.password}}</td>
+                                            <td class="col-contrat all-col">{{user.password.substring(0,10)+"..."}}</td>
                                             <td class="col-contrat all-col">{{user.status}}</td>
                                             <td class="col-contrat all-col">{{user.role}}</td>
                                             
@@ -121,7 +121,7 @@
                         </div>
                         
                         <div class="modal-body">
-                         <AdminPageModal v-if="callModal" v-bind:selectedUser="this.selectedUser" @close-modal="closeModal()"></AdminPageModal>
+                         <AdminPageModal @reloadData="init()" v-if="callModal" v-bind:selectedUser="this.selectedUser" @close-modal="closeModal()"></AdminPageModal>
                         </div>
 
                         <div  class="modal-footer">
@@ -163,25 +163,31 @@ export default {
           callModal:false
       }
   },
-  async created(){
+  mounted(){
     
-    const userList = await axios.get(`${url}/userlist`)
-    this.users=userList.data      
+       this.init()
     
 
   },
 
   methods:{
+      async  init(){
+          console.log("Init in admin function")
+           const userList = await axios.get(`${url}/admin/userList`)
+            this.users=userList.data  
+      },
       clickRadioBtn(){
 
 
          
-            this.userId=document.querySelector('input[name="userValue"]:checked').value;             
-            this.users.forEach(user => {
+            this.userId=document.querySelector('input[name="userValue"]:checked').value; 
+                        
+                const keys= Object.keys(this.users)
+                 keys.forEach((key) => {
 
-                    if(user._id===this.userId){
+                    if(this.users[key]._id==this.userId){
 
-                        this.selectedUser=user
+                        this.selectedUser=this.users[key]
                     }                    
                 });           
         
@@ -219,7 +225,8 @@ export default {
 
           }else if(type==="delete"){
 
-                axios.post(`${url}/users/delete`,{id:this.userId})
+                axios.post(`${url}/admin/users/delete`,{id:this.userId})
+                this.init()
 
           }
 

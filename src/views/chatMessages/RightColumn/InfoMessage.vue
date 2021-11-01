@@ -52,18 +52,22 @@
 
     <div class="row rowInfo">
         <div class="col-md-3 col-xl-4 d-xl-flex justify-content-xl-center align-items-xl-center colsMessages">
-            <div id="messages-user-nfo">
+            <div  id="messages-user-nfo">
                 <div id="messages-info-img">
                     <span id="messages-info-spanImg">
                         <img class="img-fluid rounded-circle" id="messages-info-imgProfile" :src="this.imageProfile" >
-                        <span class="remoteOnlineStatusInfo rounded-circle">
-                            <span class="rounded-circle"></span>                        
+                        <span v-for="user in userLst"  :key="user.username" class="remoteOnlineStatusInfo rounded-circle">
+                            
+                            <span v-bind:class="user.status" class="rounded-circle"></span> 
+                                                  
                         </span>
                     </span>
                 </div>
                 <div id="messages-info-personnal">
                     <h4 id="remoteName">{{allPrivateChatInfo.user}}</h4>
-                    <span id="remoteStateConnection">Aujourdhui a 10 h 30</span>
+                    <span v-for="user in userLst"  :key="user.username">
+                        <span id="remoteStateConnection">{{user.status=="available"?"En ligne":user.status=="unavailable"?"Deconnectee":user.status}}</span>
+                     </span>
                 </div>
             </div>
         </div>
@@ -116,7 +120,8 @@ export default {
  
    name:"InfoMessage",
    props:{
-         allPrivateChatInfo:Object
+         allPrivateChatInfo:Object,
+         users:Array
 
    },
    data:function(){
@@ -126,7 +131,7 @@ export default {
        }
    },
    async created(){
-    this.imageProfile= await `${url}/profile/image?userMatric=${this.allPrivateChatInfo.matricule}`
+    this.imageProfile= await `${url}/profile/image?matricule=${this.allPrivateChatInfo.matricule}`
 
    },
    methods:{
@@ -143,8 +148,25 @@ export default {
 
       }
 
+   },
+   computed: {
+    
+    userLst: function()  {
 
-   }
+      let currentUsername=this.$store.state.username
+      
+      
+      return this.users.filter(function (user) {
+
+              console.log("username from array",user.username)
+              console.log("hey username",currentUsername)
+               return currentUsername !== user.username
+             
+      })
+
+    }
+  
+  }
 
 }
 
@@ -152,9 +174,16 @@ export default {
 </script>
 
 
-<style>
+<style lang="scss" scoped >
 
-
-
+.available {
+    background-color:#05b105 !important;
+  }
+.absent {
+    background-color:#f7bb04 !important;
+  }
+.unavailable {
+    background-color:#bb0000 !important;
+  }
 
 </style>

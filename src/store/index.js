@@ -16,10 +16,13 @@ export default new Vuex.Store({
   },
   mutations: {
 
-    signIn(state,{nomLog,matricule,passwordLog}){
+    signIn(state,{nomLog,matricule,passwordLog,room}){
+      //signIn==joinRoom
+      
       state.username=nomLog
       state.matricule=matricule
       state.password=passwordLog
+      state.room = room
 
     },
     signUp(state){
@@ -27,10 +30,10 @@ export default new Vuex.Store({
       state.room= undefined      
 
     },
-    joinRoom(state, { room,username }) {
-      state.room = room,
-      state.username = username
-    },
+    // joinRoom(state, { room,username }) {
+    //   state.room = room,
+    //   state.username = username
+    // },
     changeRoom(state, room) {
       state.room = room
     },
@@ -74,15 +77,18 @@ export default new Vuex.Store({
         try {
           console.log("Sign in has been called")
           ///const { body } = await Vue.http.post(`${url}/login`, data)
-          await axios.post(`${url}/login`, data).then(function(response){
+          await axios.post(`${url}/login`, data).then(function(response){         
              
-              commit(STORE_ACTIONS.signIn, response.data)
+              commit(STORE_ACTIONS.signIn, {...response.data,room:data.room})
               resolve()
 
           }).catch(function(error){
                   if (error.response.status === 400 || error.response.status === 401 || error.response.status === 500) {
-                    reject({ message: error.response.data })
-                    console.log(`Message from the server afetr Sign in : ${error.response.data}`)
+                    // Quand il sera chez l'admin on lui communiquera son numero matricule
+                    
+                    reject({ message: error.response.data.message })
+
+                    console.log(`Message from the server after Sign in : ${error.response.data}`)
                   }
                   reject(error)
           })          
@@ -99,7 +105,7 @@ export default new Vuex.Store({
     joinRoom({ commit }, userAndRoom) {
 
       console.log("username",this.state.matricule)
-      let data = {...userAndRoom,username:this.state.username,password:this.state.password}
+      let data = {...userAndRoom,username:this.state.username,}
 
       return new Promise(async (resolve, reject) => {
         try {
@@ -144,7 +150,7 @@ export default new Vuex.Store({
     leaveChat({ commit }, username) {
       return new Promise(async (resolve, reject) => {
         try {
-          const { body : { code } } = await Vue.http.post(`${url}/auth/logout`, { username })
+          const { body : { code } } = await Vue.http.post(`${url}/logout`, { username })
           if (code !== 200) reject()
           commit(STORE_ACTIONS.leaveChat)
           resolve()

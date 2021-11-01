@@ -1,32 +1,33 @@
 
 <template>
 
-    
-
-
+   
     <div class="container-fluid" >
     
-        <div style="height: 60rem;width: 100%;display: flex;align-items: center;justify-content: center;position: relative;">
-            <div style="height: 45rem;width: 53rem;display: inline-block;padding-right: 0.5rem;margin-right: 2rem;margin-top: -8rem;">
+        <div style=" border: 5px solid black; height: 700px ;width: 100%;display: flex;align-items: center;justify-content: center;position: relative;">
+            <div id="conferenceErea" style="height: 550px ;width: 53rem;display: inline-block;padding-right: 0.5rem;margin-right: 2rem;margin-top: -8rem;">
                
-                <button v-if="!conference.open"  @click="toggleConference()" class="btn btn-primary"> Initiate Call</button>
+                <button id="startVideoConferenceBtn" v-if="!conference.open"  @click="toggleConference()" class="btn btn-primary">start video call</button>
+              
                <Conference  
-                v-if="conference.open" 
-                :file="file"      
-                :conference="conference" 
-                :typeOfDisplay="typeOfDisplay"
-                :users="users"
-                @shareScreenEvent="updateConferenceData($event)"
-                @signal-SharingFile="signalSendingFile()">                 
+                    v-if="conference.open" 
+                    :file="file"      
+                    :conference="conference" 
+                    :typeOfDisplay="typeOfDisplay"
+                    :users="users"
+                    @shareScreenEvent="updateConferenceData($event)"
+                    @signal-SharingFile="signalSendingFile()">                
                 
                 </Conference>
 
                <BtnConferenceControle 
-                  @shareScreen="shareScreenMethod()"                  
+                  v-if="conference.open"
+                  @shareScreen="shareScreenMethod()"
+                  :conference="conference"                   
                   :typeOfDisplay="typeOfDisplay">
                </BtnConferenceControle>          
             
-                <div v-if="typeOfDisplay=='MultiVideoConference'" style="height: 220px;width: 50px;align-items: flex-end;position: absolute;background: rgba(103,138,226,0.49);border-radius: 30px;bottom: 20%;left: 2%;">
+                <div v-if=" conference.open && typeOfDisplay=='MultiVideoConference'" style="height: 220px;width: 50px;align-items: flex-end;position: absolute;background: rgba(103,138,226,0.49);border-radius: 30px;bottom: -12%;left: -7%;">
                     <input type="range" style="position: relative;width: 153px;height: 65px;bottom: -26%;left: -105%;transform: rotateZ(-90deg);">
                     <div class="input-field" style="height: auto;position: absolute;bottom: 3%;left: 3%;">
                         <span class="d-flex justify-content-center align-items-center" style="margin-left: 10px;">
@@ -48,6 +49,25 @@
     </div>
 
 </template>
+
+<style lang="css">
+
+        #conferenceErea{
+        position:relative
+
+        }
+        #startVideoConferenceBtn{
+
+         position: absolute;
+            top: 42%;
+            left: 43%;
+       
+
+  }
+
+
+
+</style>
 
 <script>
 import Conference from "./mainComponents/Conference.vue"
@@ -389,7 +409,3 @@ export default {
 //}
 
 </script>
-<style>
-
-
-</style>

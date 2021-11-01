@@ -9,36 +9,36 @@ import VueResource from 'vue-resource'
 import './styles/app.scss'
 import { url } from './utils/config'
 import adapter from 'webrtc-adapter'
-import Toasted from 'vue-toasted'
+//import Toasted from 'vue-toasted'
 
 console.log(`Browser ${adapter.browserDetails.browser} - version ${adapter.browserDetails.version}`)
 
 
-Vue.use(Toasted,  {
-  router,
-  duration:50000,
-  position: 'top-center',
-  theme:'bubble',
-  type:'info',
-  icon:'check',  
-  fullWidth:true,
+// Vue.use(Toasted,  {
+//   router,
+//   duration:50000,
+//   position: 'top-center',
+//   theme:'bubble',
+//   type:'info',
+//   icon:'check',  
+//   fullWidth:true,
   
-  action:[
+//   action:[
         
-        {  
-          text:'Decline',
-          onClick:(e,toastObject)=>{
-            toastObject.goAway(0);
-          }
-        }, 
-        { 
-          text:'Accept',
-          href:'/conference?value=JoinIt'
-        }
-    ]
+//         {  
+//           text:'Decline',
+//           onClick:(e,toastObject)=>{
+//             toastObject.goAway(0);
+//           }
+//         }, 
+//         { 
+//           text:'Accept',
+//           href:'/conference?value=JoinIt'
+//         }
+//     ]
    
   
-})
+// })
 
 
 
