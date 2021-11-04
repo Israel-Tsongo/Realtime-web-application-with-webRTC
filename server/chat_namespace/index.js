@@ -12,7 +12,7 @@ const onConnection = (socket) => {
     let userRoom, userName
 
     // Listening for joining a room
-    socket.on('joinRoom', ({ username,matricule, room, status }) => {
+    socket.on('joinRoom', ({ username,matricule,service,fonction, room, status }) => {
         console.log(`User ${username} wants to join the room ${room}`)
 
         // Join the room
@@ -24,7 +24,7 @@ const onConnection = (socket) => {
 
             try {
                 // add user for the suitable ROOM
-                await ChatRedis.addUser(room, userName, { username, status, privateChat: false, conference: false,matricule })
+                await ChatRedis.addUser(room, userName, { username, status,service,fonction, privateChat: false, conference: false,matricule })
                 const users = await ChatRedis.getUsers(room)
                 // Notify all the users in the same room
                 namespace.in(room).emit('newUser', { users, username })

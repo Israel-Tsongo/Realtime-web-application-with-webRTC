@@ -4,8 +4,8 @@
    
     <div class="container-fluid" >
     
-        <div style=" border: 5px solid black; height: 700px ;width: 100%;display: flex;align-items: center;justify-content: center;position: relative;">
-            <div id="conferenceErea" style="height: 550px ;width: 53rem;display: inline-block;padding-right: 0.5rem;margin-right: 2rem;margin-top: -8rem;">
+        <div style="height: 700px ;width: 100%;display: flex;align-items: center;justify-content: center;position: relative;">
+            <div v-bind:class="[!conference.open?'conferenceErea':'']" id="conferenceErea" style="border-radius:30px ; height: 550px ;width: 53rem;display: inline-block;padding-right: 0.5rem;margin-right: 2rem;margin-top: -8rem;">
                
                 <button id="startVideoConferenceBtn" v-if="!conference.open"  @click="toggleConference()" class="btn btn-primary">start video call</button>
               
@@ -41,8 +41,8 @@
                 :maxMessageLength="90" 
                 :chatContainer="'scrollableDiv'"
                 @send-message="sendMessage($event)"
-                @share-file="affecteFile($event)">
-                
+                @share-file="affecteFile($event)"
+                :users="users">
             </ChatConference>
         </div>
 
@@ -51,6 +51,12 @@
 </template>
 
 <style lang="css">
+        .conferenceErea{
+        
+         background:rgb(243, 243, 243);
+         border: 0.5px solid rgb(103, 103, 250);
+        
+        }
 
         #conferenceErea{
         position:relative

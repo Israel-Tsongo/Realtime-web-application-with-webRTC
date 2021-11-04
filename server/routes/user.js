@@ -131,7 +131,7 @@ userRouter.post('/login',async (req, res) => {
    //console.log("Body",loginUser)
     try{
            //
-          const getUser = await PostUsers.findOne({matricule:121}) // and   password:req.body.passwordLog    
+          const getUser = await PostUsers.findOne({matricule:req.body.matriculeLog}) // and   password:req.body.passwordLog    
           
            console.log("333",getUser)
           
@@ -169,7 +169,7 @@ userRouter.post('/login',async (req, res) => {
                                             ChatRedis.addUser(getUser.nom, config.KEY, loginUser)
                                             console.log(`User ${getUser.nom} logged`)
                                            
-                                            res.status(200).json({nomLog:getUser.nom,matricule:getUser.matricule,password:getUser.password})        
+                                            res.status(200).json({nomLog:getUser.nom,matricule:getUser.matricule,service:getUser.service,fonction:getUser.fonction})        
                                             //res.send({ code: 200, message: 'Logged in succesfully' })
                                         }
                             
@@ -199,7 +199,7 @@ userRouter.post('/login',async (req, res) => {
                 }          
           
             }catch(error){
-                res.send({code:401,message:"une error s'est produit lors du login"})
+                res.send({code:401,message:"une error s'est produite lors du login"})
             }
     
 })

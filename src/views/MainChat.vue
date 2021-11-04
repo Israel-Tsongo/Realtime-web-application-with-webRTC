@@ -3,7 +3,7 @@
 
   
 
-<div id="content" style="border: 1px solid black; margin-top:60px" >
+<div id="content" style=" margin-top:60px" >
         
         
 <!--######### navbar  ##########-->      
@@ -238,7 +238,7 @@ export default {
               
             Vue.use(Toasted, {
               
-              duration:5000,
+              duration:50000,
               position: 'top-center',
               theme:'bubble',
               type:'info',

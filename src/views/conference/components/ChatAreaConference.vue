@@ -1,10 +1,7 @@
 <template>
 
-<div class="scrollableDiv" style="height: 48%;padding-left: 1.2rem;">
-            <p  class="text-center" style="">
-              <span><i class="fa fa-dot-circle-o" style="color: rgb(254,254,255);"></i></span>
-              Christiana Jona<span>11:34</span>AM
-            </p>
+<div class="scrollableDiv" style="height: 80%;padding-left: 1.2rem;">
+            
 
             <div v-for="msg in messages" :key="msg.msg" style="padding: 5px 5px 5px 5px;">
                 <!--<div style="display: flex;justify-items: center;width: 100%;height: auto;margin-bottom: 1.5rem;">

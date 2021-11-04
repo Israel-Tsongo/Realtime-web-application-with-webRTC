@@ -8,7 +8,7 @@
                 </svg>
             </span>
         </button>
-        <button @click="shareScreen()" class="btn btn-primary btn-control" type="button">
+        <button  class="btn btn-primary btn-control" type="button">
             <span>
                 <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tabler icon-tabler-screen-share" style="font-size: 21px;">
                     <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
@@ -27,7 +27,7 @@
         <button class="btn btn-primary btn-control" type="button">
             <span><i class="fa fa-microphone" style="font-size: 25px;"></i></span>
         </button>
-        <button class="btn btn-primary btn-control" type="button">
+        <button @click="shareScreen()" class="btn btn-primary btn-control" type="button">
             <span style="height: 55px;">
                 <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" fill="currentColor" viewBox="0 0 16 16" class="bi bi-arrows-fullscreen" style="font-size: 27px;">
                     <path fill-rule="evenodd" d="M5.828 10.172a.5.5 0 0 0-.707 0l-4.096 4.096V11.5a.5.5 0 0 0-1 0v3.975a.5.5 0 0 0 .5.5H4.5a.5.5 0 0 0 0-1H1.732l4.096-4.096a.5.5 0 0 0 0-.707zm4.344 0a.5.5 0 0 1 .707 0l4.096 4.096V11.5a.5.5 0 1 1 1 0v3.975a.5.5 0 0 1-.5.5H11.5a.5.5 0 0 1 0-1h2.768l-4.096-4.096a.5.5 0 0 1 0-.707zm0-4.344a.5.5 0 0 0 .707 0l4.096-4.096V4.5a.5.5 0 1 0 1 0V.525a.5.5 0 0 0-.5-.5H11.5a.5.5 0 0 0 0 1h2.768l-4.096 4.096a.5.5 0 0 0 0 .707zm-4.344 0a.5.5 0 0 1-.707 0L1.025 1.732V4.5a.5.5 0 0 1-1 0V.525a.5.5 0 0 1 .5-.5H4.5a.5.5 0 0 1 0 1H1.732l4.096 4.096a.5.5 0 0 1 0 .707z"></path>
@@ -45,10 +45,14 @@ export default {
     props:{
         typeOfDisplay:String, 
         conference:Object
-    },
-    shareScreen(){
-     this.$emit("shareScreen")
+    },methods:{
+
+        shareScreen(){
+            this.$emit("shareScreen")
+        }
+
     }
+   
 }
 </script>
 <style>

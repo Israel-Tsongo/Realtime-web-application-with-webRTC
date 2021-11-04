@@ -22,6 +22,8 @@
                     
                     <li style="cursor:default" class="nav-item"><a style="text-decoration:none" class="nav-link js-scroll-trigger navColor">A propos</a></li>
                     
+                       
+                   
                    <li style="cursor:default"  @click="dropdown()" class="nav-item d-lg-flex justify-content-lg-center align-items-lg-center" id="profileDropdown">
                         <div @click="dropdown()" class="nav-item dropdown show">
                            
@@ -39,7 +41,7 @@
 
                     </li> 
                     <div id="profileDropdown"> <DropDown @logout="logout()" @changeScreen="changeScreen($event)" v-bind:imgProfile="imgProfile" ></DropDown> </div> 
-                    
+                   
                 </ul>
             </div>
         </div>
@@ -51,6 +53,10 @@
 </template>
 
 <script>
+var JQuery=require("jquery")
+  window.JQuery=JQuery;
+  window.$=JQuery;
+
 import DropDown from "./DropDown"
 
 
@@ -62,6 +68,7 @@ export default {
 
        imgProfile:String
    },
+  
    methods:{
 
        logout(){
@@ -75,10 +82,6 @@ export default {
            console.log("screen change",screenName)
           
        },
-      
-
-         
-
        
    }
    

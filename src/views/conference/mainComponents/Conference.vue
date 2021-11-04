@@ -13,6 +13,7 @@
               </conference-controle>
 
             <MultiVideoConference
+
                v-if="typeOfDisplay==='MultiVideoConference'"
               :users="users"              
               :conference="conference"               
@@ -24,7 +25,7 @@
               </MultiVideoConference>
 
             <MonoVideoConference 
-                v-if="typeOfDisplay==='MonoVideoConference'"
+                v-if="false && typeOfDisplay==='MonoVideoConference'"
                 :users="users" 
                 :localVideoStream="localStream" 
                 :conference="conference"               

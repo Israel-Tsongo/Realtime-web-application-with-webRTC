@@ -3,27 +3,18 @@ const mongoose = require("mongoose");
 
 const MeetingSchema=mongoose.Schema({
 
-  id:{
+ 
+
+    initiatorMatricule:{
     type:String,
     require:true,
 
   },
+    invitedUserMatricule:{
+       type:Array,
+       required:true
 
-   title:{
-     type:String,
-     require:true,
-
-   },
-   UsersId:{
-    type:String,
-    require:true,
-
-  },
-  initiatorId:{
-    type:String,
-    require:true,
-
-  },
+    },
 
    status:{
      type:String,
@@ -35,12 +26,12 @@ const MeetingSchema=mongoose.Schema({
        require:true,
    },
    HeureDebut:{
-       type:String,
+       type:Date,
        require:true,
 
    },
    HeureFin:{
-    type:Boolean,
+    type:Date,
     require:true,
    }
 

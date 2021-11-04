@@ -51,11 +51,30 @@ app.use((req, res, next) => {
 //app.use('/auth', users)
 app.use('/rooms', rooms)
 
-app.get("/test",(req,res)=>{
+app.get("/services",(req,res)=>{
+     const service=[
 
+        {
+            name:"Technique",
+            description:"Ce service se charge de la technique de l'entreprise et de la securitee des donnees."
+        },
+        {
+            name:"Economique",
+            description:"Ce service se charge de l'economie'de l'entreprise."
+        },
+        {
+            name:"Marketing",
+            description:"Ce service se charge  du Marketing ."
+        },
+        {
+            name:"Administratif",
+            description:"Ce service se charge de la direction de l'entreprise et de la gestion."
+        }
 
-    console.log("test Called ")
-    res.status(200).json({message:"success"})
+     ]
+
+   
+    res.status(200).json({services:service})
 })
 
 // Static routing

@@ -9,20 +9,23 @@ export default new Vuex.Store({
   state: {
     room: undefined,
     username: undefined,
-    matricule:undefined,
-    password:undefined,    
+    matricule:undefined,      
+    service:undefined,
+    fonction:undefined,  
     status: STATUS_OPTIONS.available,
     rooms: []
   },
   mutations: {
 
-    signIn(state,{nomLog,matricule,passwordLog,room}){
+    signIn(state,{nomLog,matricule,room,service,fonction}){
       //signIn==joinRoom
       
       state.username=nomLog
-      state.matricule=matricule
-      state.password=passwordLog
+      state.matricule=matricule     
       state.room = room
+      state.service=service
+      state.fonction=fonction
+      
 
     },
     signUp(state){
