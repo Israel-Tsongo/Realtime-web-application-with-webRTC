@@ -54,6 +54,7 @@ export const videoConfiguration = {
                     this.myVideo.srcObject = stream                    
                     this.myVideo.volume = 0
                     this.localStream = stream
+                    
                     console.log("this.localStream request media",this.localStream)
                 } catch (error) {
                     log(`getUserMedia error: ${error}`)
@@ -82,13 +83,9 @@ export const videoConfiguration = {
                }
 
              }else{
-
+  
+                    this.getUserMedia()            
                 
-                    this.getUserMedia()
-                    
-                  
-               
-                 
              }
         },
         getAudioVideo() {
@@ -149,6 +146,9 @@ export const videoConfiguration = {
             })
         },
         onSendFile(dataChannel){
+           
+            // console.log("downloadAncor=-==1==",this.$refs.download)
+            console.log("+==========test=======",document.getElementById('download'))
             //console.log("this is your file",this.file)
             console.log("inside on send file1")
             if (this.file) {
@@ -216,6 +216,8 @@ export const videoConfiguration = {
             }
             //sendProgress.max = file.size;
             //receiveProgress.max = file.size;
+            this.$emit("signal-SharingFile")
+
             const chunkSize = 16384;
             fileReader = new FileReader();
             let offset = 0;
@@ -236,6 +238,10 @@ export const videoConfiguration = {
               fileReader.readAsArrayBuffer(slice);
             };
             readSlice(0);
+
+             console.log("send file .getElementById(download)",document.getElementById("download"))
+           
+             // this.$emit("send-message", {type:"file",fileName:file.name,fileSize:file.size,fileType: file.type,})
           },
 
 
@@ -243,18 +249,24 @@ export const videoConfiguration = {
            
         if(!this.shareScreen && !this.conference.shareSreenInfo.shareScreen){
 
-            console.log("this.localstream  addlocal stream",this.localStream)
-           
-            pc.addStream(this.localStream)            
+                 console.log("this.localstream  addlocal stream",this.localStream)
+                    
+                if(this.localDisplayStream !== undefined && this.localStream !== undefined && !this.shareScreen){
+                        let sender=pc.getSenders().find(function(s){ return s.track.kind=='video'});
+                        sender.replaceTrack(this.localStream.getTracks().find(track => track.kind === 'video'))
+                }else{
 
-           }else if(this.shareScreen && this.localDisplayStream !== undefined){              
+                    pc.addStream(this.localStream)            
+                }
+
+        }else if(this.shareScreen && this.localDisplayStream !== undefined){              
             
             let sender=pc.getSenders().find(function(s){ return s.track.kind=='video'});
             sender.replaceTrack(this.localDisplayStream.getTracks()[0])
             
 
            
-           }
+        }
              
         },
         addCandidate(pc, candidate) {
@@ -349,16 +361,26 @@ export const videoConfiguration = {
            
         },
         onReceveFileCallback(dataChannel){
-                 console.log("===============inside=====================")
-            dataChannel.binaryType = 'arraybuffer';
-                
 
+            console.log("+==========test=======",document.getElementById('download'))
+            let anchor=document.getElementById('download')
+            let receiveBuffer=[]             
+            let receivedSize=0
+
+
+                 console.log("===============inside=======OnReceve==============")
+            dataChannel.binaryType = 'arraybuffer';
+                 //var href=""
+
+                 
+                //  this.downloadAnchor.setAtribute('href',href)
+                //  this.downloadAnchor.innerHTML=
                 dataChannel.onmessage = (event) => {
 
                    
                      console.log(`Received Message ${event.data.byteLength}`);
-                     this.receiveBuffer.push(event.data);
-                     this.receivedSize += event.data.byteLength;
+                     receiveBuffer.push(event.data);
+                     receivedSize += event.data.byteLength;
                      //receiveProgress.value = receivedSize;
                    
                      // we are assuming that our signaling protocol told
@@ -366,17 +388,28 @@ export const videoConfiguration = {
         
                      const file = this.conference.shareFileInfo;
                      console.log(`${this.receivedSize} compare to${file.fileSize}`)
-                     if (this.receivedSize === file.fileSize) { 
-                       const received = new Blob(this.receiveBuffer);
-                       this.receiveBuffer = [];
+                     if (receivedSize === file.fileSize) { 
+
+                       const received = new Blob(receiveBuffer);
+                       receiveBuffer = [];
                        console.log(`in side if condition`)
-                      //this.downloadFile(received, file.fileName);
-                      console.log("downloadAncor=-==1==",document.getElementById('download'))
-                      console.log("downloadAncor=-==2==",this.downloadAnchor)
-                       this.downloadAnchor.href = URL.createObjectURL(received);
-                       this.downloadAnchor.download = file.fileName;
-                       this.downloadAnchor.textContent =
+                      // this.downloadFile(received, file.fileName);
+                      
+                    //   console.log("downloadAncor=-==1==",this.$refs.download)                         
+                         
+                       // this.downloadAnchor=document.createElement("a") 
+                        //this.downloadAnchor.setAttribute("id","download")
+
+                        console.log("downloadAncor=-==1==",document.getElementById('download'))
+                        console.log("downloadAncor=-==1==",anchor)
+
+                       anchor.href = URL.createObjectURL(received);
+                       anchor.download = file.fileName;
+                       anchor.textContent =
                          `Click to download '${file.fileName}' (${file.fileSize} bytes)`;
+
+                         console.log("===== downloadAncor=-==2==",anchor)
+
                        //downloadAnchor.style.display = 'block';
                    
                      //   const bitrate = Math.round(receivedSize * 8 /
@@ -418,5 +451,30 @@ export const videoConfiguration = {
         pauseAudio() {
             this.localStream.getAudioTracks().forEach(t => (t.enabled = !t.enabled))
         },
+        endCall(){
+
+            if(this.localStream !== undefined){
+                this.localStream.getTracks().forEach(track => track.stop())
+                console.log("localstream stopedd")
+
+            }
+            if(this.localDisplayStream !== undefined){
+                this.localDisplayStream.getTracks().forEach(track => track.stop())
+                console.log("localstream stopedd")
+            }
+
+            Object.values(this.peers).forEach(peer => peer.pc.close())
+            this.peers = {}
+            
+           
+            
+            this.$socket.emit(WS_EVENTS.leaveConference, {  ...this.$store.state,
+              from: this.username,
+              conferenceRoom: this.conference.room
+            })
+            console.log("all destroyed")
+           
+           
+        }
     },
 }

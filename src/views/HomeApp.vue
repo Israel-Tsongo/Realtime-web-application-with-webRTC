@@ -49,7 +49,12 @@
                     <h4 style="margin-bottom: 2rem;">Messagerie instantanee</h4>
                     <p>Debuter un 'échange instantané de messages textuels entre plusieurs personnes dans l'organistaion.<br><br></p>
                 </div>
-                <div class="col text-center"><span class="rounded-circle" style="display: inline-block;width: 95px;height: 95px;background-color: rgb(67,104,214);padding-top: 1.5rem;margin-bottom: 1rem;"><span style="display: inline-block;"><i class="fa fa-files-o" style="font-size: 50px;color: #ffffff;"></i></span></span>
+                <div class="col text-center">
+                    <span class="rounded-circle" style="display: inline-block;width: 95px;height: 95px;background-color: rgb(67,104,214);padding-top: 1.5rem;margin-bottom: 1rem;">
+                        <span style="display: inline-block;">
+                            <i class="fa fa-files-o" style="font-size: 50px;color: #ffffff;"></i>
+                        </span>
+                    </span>
                     <h4 style="margin-bottom: 2rem;">Partage des fichiers</h4>
                     <p>Initier un echange des fichiers entre plusieurs personnes par l'intermédiaire d'ordinateurs.<br><br></p>
                 </div>

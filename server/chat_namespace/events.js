@@ -58,14 +58,14 @@ const joinConference = (socket, namespace) => ({ username, room, to, from }) => 
 }
 
 const leaveConference = (socket, namespace) => async ({ room, from, conferenceRoom }) => {
-    console.log(`Conference - User "${from}" wants to leave the conference room ${room}`)
+    console.log(`Conference - User "${from}" wants to leave the conference room ${conferenceRoom}`)
 
     try {
         const user = await ChatRedis.getUser(room, from)
         await ChatRedis.setUser(room, from, { ...user, conference: false })
         socket.leave(conferenceRoom, () => {
-            namespace.to(conferenceRoom).emit('leaveConference', { room, from })
-            console.log(`Conference - User ${from} left the conference room ${room}`)
+            namespace.to(conferenceRoom).emit('leaveConference', { conferenceRoom, from })
+            console.log(`Conference - User ${from} left the conference room ${conferenceRoom}`)
         })
     } catch (error) {
         console.log(error)
@@ -80,10 +80,10 @@ const PCSignalingConference = (namespace) => ({ desc, to, from, room, candidate 
 }
 
 
-const updateConferenceScreenData = (namespace) => ({ usr,shareSrn,room }) => {
+const updateConferenceScreenData = (namespace) => ({ userFrom,shareSrn,room }) => {
    
-         console.log(`User "${usr}" started screen sharing in the room "${room}"`)
-    namespace.to(room).emit('updateConferenceScreenData', { usr,shareSrn})
+         console.log(`User "${userFrom}" started screen sharing in the room "${room}"`)
+    namespace.to(room).emit('updateConferenceScreenData', { userFrom,shareSrn})
 }
 
 

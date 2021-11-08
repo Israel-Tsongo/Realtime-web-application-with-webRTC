@@ -1,12 +1,12 @@
 <template>
   <div class="video">
-    <!--<div class="video__spinner">
+    <div class="video__spinner">
       <md-progress-spinner 
         v-if="!videoStream" 
         class="md-accent" 
         md-mode="indeterminate">
       </md-progress-spinner>
-     </div>-->
+     </div>
 
     <!--<AudioVideoControls 
         v-if="displayControls" 
@@ -39,8 +39,8 @@ export default {
       videoId: String,
       displayControls: Boolean,
       videoStream: MediaStream,
-      pauseVideo: Function,
-      pauseAudio: Function,
+      // pauseVideo: Function,
+      // pauseAudio: Function,
       muted: Boolean
   }
 }

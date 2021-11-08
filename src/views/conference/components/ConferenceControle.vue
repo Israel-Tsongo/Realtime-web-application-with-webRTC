@@ -9,8 +9,8 @@
                 <div style=" border: 1px solid red;height:inherit;width:30%">
 
                 </div>         
-               <!--v-if="conference.admin"  :disabled="peersLength === 2 || users.length === 1"--> 
-                <div style="display:flex;justify-content:flex-end;align-items:center;border: 1px solid red;height:inherit;width:30%">
+               <!--v-if="conference.admin"  :disabled="peersLength === 3 || users.length === 2"--> 
+                <div v-if="conference.admin"  :disabled="peersLength === 3 || users.length === 2" style="display:flex;justify-content:flex-end;align-items:center;border: 1px solid red;height:inherit;width:30%">
                     <div  style="border: 1px solid black;height:65%;width:52%">
                         <button @click="toggleModalToInvitePeople()" class="btn btn-success" type="button" style="margin-right: 0.4rem;width: 127px;">
                                 <span style="margin-right: 8px;margin-bottom: 10px;">
@@ -50,7 +50,7 @@
                                 
                         <div  style="height:400px; width:100%; margin-top:-50px; margin-bottom:-50px; overflow-y:scroll;padding-right:5px">
                                     
-                                        <div v-for="user in users" :key="user.username" style="margin-bottom:1px; border:1px solid black;display: flex;justify-items: center;width: 100%;height: auto;background-color:white;border-radius: 10px ;">
+                                        <div v-for="user in userList" :key="user.username" style="margin-bottom:1px; border:1px solid black;display: flex;justify-items: center;width: 100%;height: auto;background-color:white;border-radius: 10px ;">
                                             <div style=" display: flex;justify-content:flex-end; align-items:center; width: 12%;height: auto;">
                                                 <span class="rounded-circle" style="height: 50px;width:50px;border: 4px solid #fff;display: inline-block;position: relative;z-index: 1; ">
                                                     <img class="img-fluid rounded-circle" :src="imageProfile+user.matricule" width="inherit" height="inherit" >
@@ -207,7 +207,22 @@ export default {
         
 
        
+    },computed: {
+    
+    userList: function()  {
+
+      let currentUsername=this.$store.state.username
+      return this.users.filter(function (user) {
+
+              console.log("username from array",user.username)
+              console.log("hey username",currentUsername)
+
+              return currentUsername !== user.username
+      })
+
     }
+  
+  }
     
 }
 

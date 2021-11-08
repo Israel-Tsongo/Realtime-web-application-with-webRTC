@@ -1,9 +1,13 @@
 <template>
 
         <div style="width:inherit;height:inherit">
+
            <!-- <div>{{this.peers}}</div>
-             <a id="download"><button class="btn btn-primary">click</button> </a>-->
-            <conference-controle 
+
+             <a id="download"><button class="btn btn-primary">click</button> </a>
+             {{downloadAnchor}}-->
+            <conference-controle
+              v-if="conference.open" 
               @invitation="invitate($event)" 
               @displayType="displayType($event)" 
               :users="users"
@@ -14,7 +18,7 @@
 
             <MultiVideoConference
 
-               v-if="typeOfDisplay==='MultiVideoConference'"
+               v-if="conference.open && typeOfDisplay==='MultiVideoConference'"
               :users="users"              
               :conference="conference"               
               :localVideoStream="localStream"
@@ -23,6 +27,15 @@
               :peers="peers" >             
                             
               </MultiVideoConference>
+               <BtnConferenceControle 
+                  v-if="conference.open"
+                  @shareScreen="shareScreenMethod()"
+                  @endCall="endCall()"
+                  :localPauseVideo="pauseVideo"
+                  :localPauseAudio="pauseAudio"
+                  :conference="conference"                   
+                  :typeOfDisplay="typeOfDisplay">
+               </BtnConferenceControle> 
 
             <MonoVideoConference 
                 v-if="false && typeOfDisplay==='MonoVideoConference'"
@@ -49,17 +62,17 @@ import { videoConfiguration } from '../../../mixins/WebRTC'
 import MultiVideoConference from '../components/MultiVideoConference.vue'
 import  MonoVideoConference from '../components/MonoVideoConference.vue'
 import ConferenceControle from '../components/ConferenceControle.vue'
+import BtnConferenceControle from './BtnConferenceControle.vue'
 
 export default {
 
     name:"Conference",
-    components:{ MultiVideoConference, MonoVideoConference,ConferenceControle },
+    components:{ MultiVideoConference, MonoVideoConference,ConferenceControle, BtnConferenceControle  },
     props: {
     users: Array,
     typeOfDisplay:String,
     conference: Object,
-    file:File
-    
+    file:File  
     
 
   },
@@ -71,22 +84,22 @@ export default {
     peersLength: 0,
     shareScreen:false,
     dataChannels:{} ,
-   
+    isVideoStarted:false,
     MAXIMUM_MESSAGE_SIZE: 65535,
     END_OF_FILE_MESSAGE:'EOF',
     downloadAnchor:undefined,
-    receiveBuffer:[],              
-    receivedSize:0,
+    
 
     
   }),
 
   async mounted() {
     this.myVideo = document.getElementById("localVideo")
-    this.downloadAnchor = document.getElementById('download');
+    //this.downloadAnchor = document.getElementById("download")
     // Admin join the room
     if (this.conference.admin) {
-      await this.getUserMedia()      
+      await this.getUserMedia()
+           
       this.$socket.emit(WS_EVENTS.joinConference, { ...this.$store.state,
         to: this.username
       })
@@ -141,9 +154,7 @@ export default {
          this.onAddStream(this.peers[user], user)
 
           if(this.conference.admin&& this.dataChannel==undefined){
-             // this.onSendFile(this.peers[user].pc)               
-              // this.onSendFile(this.dataChannel) 
-               
+             
              const dataChannelNew =(user,pc)=>{
                return new Promise((resolve,reject)=>{
                    
@@ -241,19 +252,31 @@ export default {
     //for Heritier
     async shareScreenMethod(){
         
-        this.shareScreen =!this.shareScreen
+        if(!this.conference.shareSreenInfo.shareScreen ||this.conference.shareSreenInfo.userFrom ==this.$store.state.username){
+              
+              if(this.localStream!==undefined){
 
-        await this.getUserDisplayMediaStream(this.shareScreen)
+                this.isVideoStarted=true 
+              }
 
-        for(const user in this.peers){ //user is all key from this.peers object           
-            
-           this.addLocalStream(this.peers[user].pc)
+              this.shareScreen =!this.shareScreen
 
-        }        
-        
-        this.$emit("shareScreenEvent",{usr:this.$store.state.username,shareSrn:this.shareScreen})
+              await this.getUserDisplayMediaStream(this.shareScreen)
 
-        console.log("Screen trigged")
+              for(const user in this.peers){ //user is all key from this.peers object           
+                  
+                  this.addLocalStream(this.peers[user].pc)
+
+              }        
+              
+              this.$emit("shareScreenEvent",{userFrom:this.$store.state.username,shareSrn:this.shareScreen})
+
+              console.log("Screen trigged")
+        }else{
+
+            this.$toastr.w("Someone is sharing his screen please ask him to desable his screen before you start")
+
+        }
     },
 
 
@@ -261,8 +284,7 @@ export default {
   watch: {
     conference: function({ user, answer, candidate, userLeft, offer,shareSreenInfo,shareFileInfo }, oldVal) {
       if(userLeft && userLeft !== oldVal.userLeft) {
-        this.peersLength--
-        this.$emit("updatePeersLength",this.peersLength)
+        this.peersLength--        
         this.peers[userLeft].pc.close()
         delete this.peers[userLeft]
       }
@@ -273,6 +295,7 @@ export default {
         this.peersLength++
         this.$emit("updatePeersLength",this.peersLength)
       }
+      
 
         // Recever of sharing
         
@@ -289,12 +312,7 @@ export default {
            // this.onReceveFile(this.peers[shareFileInfo.userFrom].pc)
            console.log("==this.dataChannel==== when Receving=========",this.dataChannels[shareFileInfo.userFrom].dataChannel)
             //this.onSendFile(this.dataChannel) 
-            this.onReceveFile(this.dataChannels[shareFileInfo.userFrom].dataChannel)
-          //  this.dataChannel.send("Halla madrida From Isramen")
-          //  this.dataChannel.onmessage=function(event){
-          //    console.log("from Israel",event.data)
-          //  }
-           
+            this.onReceveFile(this.dataChannels[shareFileInfo.userFrom].dataChannel)          
                   
         
       }
@@ -344,7 +362,7 @@ export default {
 
                   }
 
-                this.$emit("signal-SharingFile")
+                
                         
                                 
                     
@@ -362,7 +380,18 @@ export default {
                    }       
   
               // }
-    }
+    },
+    // downloadAnchor:function(newValue){
+    //    console.log(" before downloadAnchor is",newValue)
+    //    console.log("before downloadAnchor is",this.downloadAnchor)
+
+    //       if(newValue!==undefined){
+    //                console.log("downloadAnchor is",newValue)
+    //                console.log("downloadAnchor is",this.downloadAnchor)
+    //                 this.$emit("downloadAnchor",newValue)
+    //       }
+
+    // }
   }
 
 }

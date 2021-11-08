@@ -22,9 +22,11 @@
            
         <ChatAreaConference
              v-if="display=='Chat'"  
-             :messages="messages"  
-             :maxMessageLength="maxMessageLength" 
-             :chatContainer="chatContainer" >              
+             :messages="messages"
+             :downloadElement="downloadElement"
+             :conference="conference"
+             :fileToSend="file" >              
+                           
         </ChatAreaConference>
          
         <ChatParticipantConference v-if="display=='Participant'" :users="users" > </ChatParticipantConference>       
@@ -35,7 +37,7 @@
                 <div style="height: 60px;width: 82%;padding: 5px;border-radius: 20px; display: inline-block;margin-right: 0.5rem;">
                     <div style="display: flex;align-items: center;height: auto;">
                         <div style="width: 80%;/*background: rgb(66,104,214);*/height: 34px;display: inline-block;">
-                            <textarea v-model="message" type="text" @keyup.enter="sendMessage()" placeholder="Message ..." style="padding-left:7px;height: 40px;width: 95%;outline: none;background-color: white;border: none;border-bottom-width: 1px; border-radius:10px"></textarea>
+                            <textarea name id  v-model="message" type="text" cols="7" rows="4"  @keyup.enter="sendMessage()" placeholder="Message ..." style="padding-left:7px;height: 40px;width: 95%;outline: none;background-color: white;border: none;border-bottom-width: 1px; border-radius:10px"></textarea>
                         </div>
 
                         <span @click="chooseFile()" style="margin-right: 0.3rem;height: 2rem;display: inline-block;margin-top: 0.2rem;">
@@ -73,8 +75,8 @@ export default {
     props:{
         users:Array,
         messages: Array,
-        maxMessageLength: Number,
-        chatContainer: String
+        conference:Object,
+        downloadElement:HTMLAnchorElement                
 
     },
     data(){
@@ -100,9 +102,9 @@ export default {
             const msg = this.message.replace(/\n/g,'')
             // Do not send empty messages
             if(msg.replace(/\s/g, "").length === 0) return
-            this.$emit("send-message", msg)
+            this.$emit("send-message",{type:"text",msg})
             this.message = ""
-        }{
+        }else{
            
             this.$emit("share-file",{file:this.file})
         }

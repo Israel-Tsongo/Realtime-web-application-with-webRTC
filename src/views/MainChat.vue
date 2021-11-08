@@ -124,13 +124,14 @@
                 :conference="conference"
                 :messages="messages"
                 :typeOfDisplay="typeOfDisplay"
-                :file="file"
+                :file="file"                
+                @resetAllConferenceData="resetAllConferenceData()"
                 @toggleConference="toggleConference()"
                 @send-message="sendMessage($event)"
-                @share-file="affecteFile($event)"
-                @shareScreen="shareScreenMethod()"
+                @share-file="affecteFile($event)"                
                 @shareScreenEvent="updateConferenceData($event)"
                 @signal-SharingFile="signalSendingFile()" ></VideoConference>
+                <!--@downloadAnchor="downloadAnchorMethod($event)"-->
 
         </div>
   
@@ -176,9 +177,12 @@ export default {
         },
 
         newMessage: function({ message, username }) {
+
         const isMe = this.$store.state.username === username
-        const msg = isMe ? ` ${message}` : {username, message}
+        const msg = isMe ? {message:message} : {username, message} 
+        console.log("=======",msg)       
         this.messages.push({ msg, isMe })
+
         },
 
         privateChat: function({ to, from,matricule }) {
@@ -281,8 +285,8 @@ export default {
         }
         
         },
-        updateConferenceScreenData:function({usr,shareSrn}){
-        this.conference={...this.conference,shareSreenInfo:{userFrom:usr,shareScreen:shareSrn}}
+        updateConferenceScreenData:function({userFrom,shareSrn}){
+        this.conference={...this.conference,shareSreenInfo:{userFrom:userFrom,shareScreen:shareSrn}}
 
         },
         sendingFile:function({shareFileInfo}){
@@ -292,14 +296,16 @@ export default {
         },
 
         joinConference: function({ from }) {
+            console.log("in join conference from is",from)
         if (this.$store.state.username === from ) return
         this.conference = { ...this.conference, user: from, userLeft: null,open:true }   
         },
 
         leaveConference: function({ from }) { // From equal to Me to equal to the initiator
         from === this.conference.room 
-            ? this.conference = {} 
-            : this.conference = {...this.conference, userLeft: from, user: null }
+            ? this.conference = {} //...this.conference,open:false,userLeft: from,user: null,admin:false,room:''
+            : this.conference = {...this.conference, userLeft: from, user: null } // open:false
+         console.log("conference open",this.conference)
         }
   },
 
@@ -368,6 +374,39 @@ export default {
   },
  
   methods: {
+
+    //   downloadAnchorMethod(el){
+    //      this.downloadElement=el
+    //   },
+      resetAllConferenceData(){
+         this.conference= {
+
+                admin: false,
+                user: '',
+                room: '',
+                offer: null,
+                answer: null,
+                candidate: null,
+                open: false,
+                userLeft: '',
+                shareSreenInfo:{
+                userFrom:'',
+                shareScreen:false
+                },
+
+                shareFileInfo:{
+                    userFrom:"",
+                    shareFile:false,
+                    fileName:" ",
+                    fileSize:Number, 
+                    fileType:undefined, 
+                    fileLastModif:undefined
+                }
+            }
+        
+   },
+
+
       async changeImageProfile(){
 
             this.imageProfile= await `${url}/profile/image?matricule=${this.$store.state.matricule}`
@@ -460,7 +499,7 @@ export default {
         this.$socket.emit(WS_EVENTS.joinRoom, this.$store.state)
     },
     sendMessage(msg) {
-       console.log("Salut le messags")
+       console.log("Salut le messags",msg)
         this.$socket.emit(WS_EVENTS.publicMessage, { ...this.$store.state, message: msg })
     },
     openChat({user,matricule}) {
@@ -503,9 +542,9 @@ export default {
     },
     
     
-    updateConferenceData({usr,shareSrn}){
+    updateConferenceData({userFrom,shareSrn}){
             
-           this.$socket.emit("updateConferenceScreenData",{usr,shareSrn,room:this.conference.room})
+           this.$socket.emit("updateConferenceScreenData",{userFrom,shareSrn,room:this.conference.room})
       
     },
     affecteFile({file}){

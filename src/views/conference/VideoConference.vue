@@ -10,22 +10,19 @@
                 <button id="startVideoConferenceBtn" v-if="!conference.open"  @click="toggleConference()" class="btn btn-primary">start video call</button>
               
                <Conference  
+                    ref="mainConference"
                     v-if="conference.open" 
                     :file="file"      
                     :conference="conference" 
                     :typeOfDisplay="typeOfDisplay"
                     :users="users"
+                    @send-message="sendMessage($event)"
+                    @downloadAnchor="downloadAnchorMethod($event)"
+                    @resetAllConferenceData="resetAllConferenceData()"
                     @shareScreenEvent="updateConferenceData($event)"
                     @signal-SharingFile="signalSendingFile()">                
                 
-                </Conference>
-
-               <BtnConferenceControle 
-                  v-if="conference.open"
-                  @shareScreen="shareScreenMethod()"
-                  :conference="conference"                   
-                  :typeOfDisplay="typeOfDisplay">
-               </BtnConferenceControle>          
+                </Conference>                       
             
                 <div v-if=" conference.open && typeOfDisplay=='MultiVideoConference'" style="height: 220px;width: 50px;align-items: flex-end;position: absolute;background: rgba(103,138,226,0.49);border-radius: 30px;bottom: -12%;left: -7%;">
                     <input type="range" style="position: relative;width: 153px;height: 65px;bottom: -26%;left: -105%;transform: rotateZ(-90deg);">
@@ -37,9 +34,9 @@
                 </div>
             </div>
             <ChatConference                 
-                :messages="messages" 
-                :maxMessageLength="90" 
-                :chatContainer="'scrollableDiv'"
+                :messages="messages"
+                :conference="conference" 
+                :downloadElement="downloadElement"                                           
                 @send-message="sendMessage($event)"
                 @share-file="affecteFile($event)"
                 :users="users">
@@ -78,25 +75,34 @@
 <script>
 import Conference from "./mainComponents/Conference.vue"
 import ChatConference from './mainComponents/ChatConference.vue'
-import BtnConferenceControle from './mainComponents/BtnConferenceControle.vue'
+
 
 export default {
-  name: "chat",
+  name: "VideoConference",
   props:{
     conference:Object,
     users:Array,
     messages:Array,
     typeOfDisplay:String,
-    file:File
+    file:File,
+    
 
   },
+  data:()=>({
+     downloadElement:undefined
+  }),
   components:{ 
                      
         Conference,
         ChatConference,
-        BtnConferenceControle 
+       
   },
   methods:{
+
+      downloadAnchorMethod(el){
+          this.downloadElement=el
+         this.$emit("downloadAnchor",el)
+      },
 
    sendMessage(data){
 
@@ -107,8 +113,8 @@ export default {
       this.$emit("share-file",data)
 
    },
-   shareScreenMethod(data){
-      this.$emit("shareScreen",data)
+   shareScreenMethod(){
+      this.$refs.mainConference.shareScreenMethod()
 
    },
    signalSendingFile(){
@@ -122,8 +128,10 @@ export default {
    },
    toggleConference(){
         this.$emit("toggleConference")
+   },
+   resetAllConferenceData(){
+        this.$emit("resetAllConferenceData")
    }
-
 
 
   }

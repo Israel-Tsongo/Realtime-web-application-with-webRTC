@@ -1,4 +1,12 @@
-const http = require('http')
+//const http = require('http')
+const https = require('https')
+const fs = require('fs')
+
+
+const key=fs.readFileSync(__dirname+'/ssl/key.pem')
+const cert=fs.readFileSync(__dirname+'/ssl/cert.pem')
+
+
 const redis = require('socket.io-redis')
 const mongoose = require("mongoose")
 
@@ -10,9 +18,10 @@ const config = require('./config')
 
 
 
+const server = https.createServer({key:key,cert:cert},app)
 
 // Server
-const server = http.createServer(app)
+//const server = http.createServer(app)
 
 // Atach server to the socket
 app.io.attach(server)
