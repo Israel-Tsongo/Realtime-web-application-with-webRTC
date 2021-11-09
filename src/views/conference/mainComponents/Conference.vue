@@ -88,6 +88,7 @@ export default {
     MAXIMUM_MESSAGE_SIZE: 65535,
     END_OF_FILE_MESSAGE:'EOF',
     downloadAnchor:undefined,
+    oldUser:''
     
 
     
@@ -153,8 +154,10 @@ export default {
          this.addLocalStream(this.peers[user].pc)   
          this.onAddStream(this.peers[user], user)
 
-          if(this.conference.admin&& this.dataChannel==undefined){
-             
+          if(this.conference.admin){
+
+          console.log("============= inside if(this.conference.admin)")
+
              const dataChannelNew =(user,pc)=>{
                return new Promise((resolve,reject)=>{
                    
@@ -187,45 +190,93 @@ export default {
 
 
          if(!this.conference.admin){
+            
+             
+            if(this.conference.user!==this.oldUser && this.conference.user!==undefined && this.conference.user!==''){
 
-            const dataChannel =(user,pc)=>{
-               return new Promise((resolve,reject)=>{                   
-                      pc.ondatachannel=(event)=>{
-                      const channel =event.channel                    
-                      channel.onopen=(event)=>{
+              //#############################DUPLICATE CODE#################################             
 
+
+             const dataChannelNew =(user,pc)=>{
+               return new Promise((resolve,reject)=>{
+                   
+                      const newDataChannel=pc.createDataChannel("chatFileForSimpleUser")
+                      newDataChannel.onopen=(event)=>{
                                 try {
                                   if (event) {
-                                    console.log("console--event in promise")
-                                    resolve({user:user,channel:channel})
+                                    console.log("openeD")
+                                    resolve({user:user,newDataChannel:newDataChannel})
                                   }
                         
                                  } catch (error) {
                                    reject(error)
                                  }
-                           }
-                      } }).then(({user,channel})=>{
-
-                             console.log("channel of recever",channel)
-                             console.log("dataChannel for",user)
-                            //.send("Hello from Israel")
-                            // channel.onmessage=function(event){
-                            //   console.log("From Heritier",event.data)
+                      } }).then(({user,newDataChannel})=>{
+                           console.log("newDataChannel for the se",newDataChannel)
+                            console.log("for the user",user)
+                            //newDataChannel.send("Hello from admin")
+                            // newDataChannel.onmessage=function(event){
+                            //   console.log("From other peer",event.data)
                             // }
-                            //channel.binaryType = 'arraybuffer';
-                            this.setDataChannel(user,channel)
+                            newDataChannel.binaryType = 'arraybuffer';
+                            this.setDataChannel(user,newDataChannel)
 
                       })
              }
+             dataChannelNew(user,this.peers[user].pc)
+
+                      //##########################################
 
 
-            dataChannel(user,this.peers[user].pc)
+            }else{
 
+
+
+          console.log("#############################DUPLICATE CODE#################################")
+
+                  console.log("=-=-creating data chanell else=-=-== User :",user)
+                    
+                  const dataChannel =(user,pc)=>{
+                    return new Promise((resolve,reject)=>{  
+                            console.log("promise called")                 
+                            pc.ondatachannel=(event)=>{
+                              console.log("ondatachanel called")
+                            const channel =event.channel                    
+                            channel.onopen=(event)=>{
+                              console.log("on open called")
+                                      try {
+                                        if (event) {
+                                          console.log("console--event in promise")
+                                          resolve({user:user,channel:channel})
+                                        }
+                              
+                                      } catch (error) {
+                                        reject(error)
+                                      }
+                                }
+                            } }).then(({user,channel})=>{
+
+                                  console.log("channel of recever",channel)
+                                  console.log("dataChannel for",user)
+                                  //.send("Hello from Israel")
+                                  // channel.onmessage=function(event){
+                                  //   console.log("From Heritier",event.data)
+                                  // }
+                                  //channel.binaryType = 'arraybuffer';
+                                  this.setDataChannel(user,channel)
+
+                            })
+                  }
+
+
+                  dataChannel(user,this.peers[user].pc)
+
+            }
+
+
+            
          }
-         
-				
-		
-        
+      
    
       // Act accordingly
       desc 
@@ -243,6 +294,7 @@ export default {
       this.$set(this.dataChannels,user, {
         dataChannel:channel
       })
+      console.log("after seting DataChanel",this.dataChannels)
       console.log("after seting DataChanel",this.dataChannels[user].dataChannel)
 
     },
@@ -290,9 +342,11 @@ export default {
       }
       // New user
       if(user && user !== oldVal.user) {
-        
+        this.oldUser=oldVal.user
+        console.log("++++++++++++++++++++++++OldUser",oldVal.user,"newUser",user)
         this.initWebRTC(user)
         this.peersLength++
+       
         this.$emit("updatePeersLength",this.peersLength)
       }
       
@@ -310,7 +364,9 @@ export default {
             console.log("who share file",shareFileInfo.userFrom)
             console.log(this.peers[shareFileInfo.userFrom].pc)
            // this.onReceveFile(this.peers[shareFileInfo.userFrom].pc)
+             console.log("this.dataChannels",this.dataChannels)
            console.log("==this.dataChannel==== when Receving=========",this.dataChannels[shareFileInfo.userFrom].dataChannel)
+          
             //this.onSendFile(this.dataChannel) 
             this.onReceveFile(this.dataChannels[shareFileInfo.userFrom].dataChannel)          
                   
@@ -347,13 +403,14 @@ export default {
 
               if(this.file!==undefined || newValue !== oldValue){                    
 
-                        
-                for(const channel in this.dataChannels){ //user is all key from this.peers object           
+                console.log("==this.dataChannel", this.dataChannels)
+                for(const channelName in this.dataChannels){ //user is all key from this.peers object           
                     console.log("The sender start to send his File")
 
                 //this.dataChannel= this.peers[user].pc.createDataChannel("chatFile")
-                console.log("==this.dataChannel==== when Sending=========",this.dataChannels[channel].dataChannel)
-                this.onSendFile(this.dataChannels[channel].dataChannel) 
+                 
+                console.log("==this.dataChannel==== when Sending=========",this.dataChannels[channelName].dataChannel)
+                this.onSendFile(this.dataChannels[channelName].dataChannel) 
                 // this.onReceveFile(this.dataChannel)
                 // console.log(" after initialisation now dataChannel is ",this.dataChannel)
                 // this.dataChannel.send("salut from admin")

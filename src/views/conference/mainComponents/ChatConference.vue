@@ -22,8 +22,7 @@
            
         <ChatAreaConference
              v-if="display=='Chat'"  
-             :messages="messages"
-             :downloadElement="downloadElement"
+             :messages="messages"             
              :conference="conference"
              :fileToSend="file" >              
                            
@@ -75,8 +74,7 @@ export default {
     props:{
         users:Array,
         messages: Array,
-        conference:Object,
-        downloadElement:HTMLAnchorElement                
+        conference:Object,                  
 
     },
     data(){

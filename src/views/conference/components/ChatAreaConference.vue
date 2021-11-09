@@ -44,7 +44,7 @@
           
             
             <div class="message" >
-                    <a id="download"><button class="btn btn-primary">click</button> </a>
+                    <a id="download"> </a>
                     <div v-for="msg in messages" :key="msg.msg.toString()" style="margin-bottom:0.5rem" class="message__container">
                      
                       <p
@@ -100,12 +100,13 @@ export default {
     messages: Array,
     fileToSend:File,
     conference:Object,
-    downloadElement:HTMLAnchorElement
+    
     
     
   },data:()=>({
       chatContainer:"scrollableDiv",
       maxMessageLength:43,
+      downloadElement:undefined,
   }),
   directives: {
     message: {
@@ -172,9 +173,20 @@ export default {
     },
   },
   watch: {
-    messages: function(){
+    messages: function({type}){
       const chatArea = document.getElementsByClassName(this.chatContainer)[0]
       chatArea.scrollTop = chatArea.scrollHeight + 100
+
+      console.log("=========document.getElementById(download)",document.getElementById("download"))
+
+      if(type=='file'){
+
+        console.log("===When type = file ====== document.getElementById(download)",document.getElementById("download"))
+        this.downloadElement=document.getElementById("download")
+
+      }
+      
+
       // console.log(")))))))",this.downloadElement)
       // document.getElementById("telecharger")!==null?document.getElementById("telecharger").appendChild(this.downloadElement):document.getElementById("telecharger")
       // console.log("=========document.getElementById(download)==============",document.getElementById("telecharger"))

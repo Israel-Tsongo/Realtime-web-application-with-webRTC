@@ -8,11 +8,6 @@
       </md-progress-spinner>
      </div>
 
-    <!--<AudioVideoControls 
-        v-if="displayControls" 
-        :pauseVideo="pauseVideo" 
-        :pauseAudio="pauseAudio">
-    </AudioVideoControls>-->
     <video  
         :id="videoId"      
         autoplay="true"        
@@ -49,22 +44,22 @@ export default {
 <style lang="scss" scoped>
 .video {
   background-color: rgb(56, 56, 55);
-  height: 100%;
-  width: 100%;
+  height: inherit;
+  width: inherit;
   position: relative;
   border-radius: 25px;
   
   &__spinner {
     position: absolute;
-    width: 100%;
+    width: inherit;
     display: flex;
-    height: 100%;
+    height: 223px;    
     align-items: center;
     justify-content: center;
   }
   video {
     
-    width: 100%;
+    width: 100%;   
     height: 100%;
     border-radius: 25px;
     

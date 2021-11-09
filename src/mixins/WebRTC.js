@@ -241,7 +241,7 @@ export const videoConfiguration = {
 
              console.log("send file .getElementById(download)",document.getElementById("download"))
            
-             // this.$emit("send-message", {type:"file",fileName:file.name,fileSize:file.size,fileType: file.type,})
+              //this.$emit("send-message", {type:"file",fileName:file.name,fileSize:file.size,fileType: file.type,})
           },
 
 
@@ -282,7 +282,8 @@ export const videoConfiguration = {
          onIceCandidates(pc, to, room, conference = false) {
             pc.onicecandidate = ({ candidate }) => {
                 if (!candidate) return
-               
+
+                //if(candidate.protocol !== 'tcp')
                     this.$socket.emit(conference ? WS_EVENTS.PCSignalingConference : WS_EVENTS.privateMessagePCSignaling, {
                         candidate,
                         to: to,
@@ -387,7 +388,7 @@ export const videoConfiguration = {
                      // about the expected file size (and name, hash, etc).
         
                      const file = this.conference.shareFileInfo;
-                     console.log(`${this.receivedSize} compare to${file.fileSize}`)
+                     console.log(`${receivedSize} compare to${file.fileSize}`)
                      if (receivedSize === file.fileSize) { 
 
                        const received = new Blob(receiveBuffer);

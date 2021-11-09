@@ -16,8 +16,7 @@
                     :conference="conference" 
                     :typeOfDisplay="typeOfDisplay"
                     :users="users"
-                    @send-message="sendMessage($event)"
-                    @downloadAnchor="downloadAnchorMethod($event)"
+                    @send-message="sendMessage($event)"                   
                     @resetAllConferenceData="resetAllConferenceData()"
                     @shareScreenEvent="updateConferenceData($event)"
                     @signal-SharingFile="signalSendingFile()">                
@@ -35,8 +34,7 @@
             </div>
             <ChatConference                 
                 :messages="messages"
-                :conference="conference" 
-                :downloadElement="downloadElement"                                           
+                :conference="conference"                                                         
                 @send-message="sendMessage($event)"
                 @share-file="affecteFile($event)"
                 :users="users">
@@ -89,7 +87,7 @@ export default {
 
   },
   data:()=>({
-     downloadElement:undefined
+     
   }),
   components:{ 
                      
@@ -99,10 +97,7 @@ export default {
   },
   methods:{
 
-      downloadAnchorMethod(el){
-          this.downloadElement=el
-         this.$emit("downloadAnchor",el)
-      },
+   
 
    sendMessage(data){
 

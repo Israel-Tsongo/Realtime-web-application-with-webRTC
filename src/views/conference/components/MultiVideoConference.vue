@@ -9,10 +9,10 @@
                     <div class="row" style="width:100% ;margin-right: 0px;margin-left: 0px; padding:0px,margin:0px;margin-top:5px">
                         
                         
-                        <div class="col" style="max-height:223px;width:48%">
+                        <div class="col" style="height:223px;width:48%">
                                     
                                      <fullscreen :fullscreen.sync="localFullscreen">
-                                        <div id="containsVideo" style="border-radius: 20px;position: relative;width:100%; max-height:223px">
+                                        <div id="containsVideo" style="border-radius: 20px;position: relative;width:100%; height:223px">
                                             
                                             <!--- ## Local Video ## -->
 
@@ -36,10 +36,10 @@
                         </div>
 
                         
-                        <div  v-if="peerKeys[0]" class="col d-lg-flex align-items-lg-center" style="max-height:223px;width:48%">
+                        <div  v-if="peerKeys[0]" class="col d-lg-flex align-items-lg-center" style="height:223px;width:48%">
                                 <!--- ## first Remote Video ## -->
                             <fullscreen :fullscreen.sync="RemoteFullscreen1">
-                                    <div  style="border-radius: 20px; display:inline-block; max-height:223px; width:100%; position: relative;">
+                                    <div  style="border-radius: 20px; display:inline-block; height:223px; width:100%; position: relative;">
                                         <!--- ##  ## -->
                                         
                                             <Video 
@@ -64,8 +64,8 @@
 
                    
                     
-                    <div v-if="peerKeys.lenght > 1" class="row" style="width:100%; margin-top:5px; margin-right:0px; margin-left: 0px; padding:0px,margin:0px">
-                        <div class="col" style="max-height:223px;width:48%">
+                    <div v-if="peerKeys.length > 1" class="row" style="width:100%; margin-top:5px; margin-right:0px; margin-left: 0px; padding:0px,margin:0px">
+                        <div class="col" style="max-height:223px;max-width:48%">
                           <fullscreen :fullscreen.sync="RemoteFullscreen2">
                             <div style="border-radius: 20px; display: inline-block;border-radius: 20px;position: relative;width:100%; max-height:223px">
                                 
@@ -117,7 +117,7 @@
             </div>
         </div>
     </div>
-    <div style="width:90%,height:90%" class="fullscreen-wrapper">
+    <div style="width:100%;height:100%" class="fullscreen-wrapper">
       
     </div>
 </div>

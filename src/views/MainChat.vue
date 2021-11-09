@@ -119,7 +119,7 @@
             </div>
             <VideoConference
 
-                v-if="screen =='ConferenceScreen' && 'conference.open'"                 
+                v-if="screen ==conference.open ||'ConferenceScreen'"                 
                 :users="users"
                 :conference="conference"
                 :messages="messages"
@@ -131,7 +131,7 @@
                 @share-file="affecteFile($event)"                
                 @shareScreenEvent="updateConferenceData($event)"
                 @signal-SharingFile="signalSendingFile()" ></VideoConference>
-                <!--@downloadAnchor="downloadAnchorMethod($event)"-->
+                
 
         </div>
   
@@ -304,7 +304,7 @@ export default {
         leaveConference: function({ from }) { // From equal to Me to equal to the initiator
         from === this.conference.room 
             ? this.conference = {} //...this.conference,open:false,userLeft: from,user: null,admin:false,room:''
-            : this.conference = {...this.conference, userLeft: from, user: null } // open:false
+            : this.conference = {...this.conference, userLeft: from, user: null } // 
          console.log("conference open",this.conference)
         }
   },
@@ -375,9 +375,6 @@ export default {
  
   methods: {
 
-    //   downloadAnchorMethod(el){
-    //      this.downloadElement=el
-    //   },
       resetAllConferenceData(){
          this.conference= {
 
