@@ -6,10 +6,10 @@
             <div style="height:475px; width:810px;background-color: white;border-radius: 30px;display:flex">
                    
                 <div   id="video-space" style="max-height:475px;width: 100%;align-items:center;" v-bind:class="[peerKeys.length==1?'videoSpace':'']">
-                    <div class="row" style="width:100% ;margin-right: 0px;margin-left: 0px; padding:0px,margin:0px;margin-top:5px">
+                    <div class="row" style="width:100%;max-height:223px ;margin-right: 0px;margin-left: 0px; padding:0px,margin:0px;margin-top:5px">
                         
                         
-                        <div class="col" style="height:223px;width:48%">
+                        <div class="col" style="height:223px;width:50%">
                                     
                                      <fullscreen :fullscreen.sync="localFullscreen">
                                         <div id="containsVideo" style="border-radius: 20px;position: relative;width:100%; height:223px">
@@ -19,6 +19,7 @@
                                             <Video 
                                                 videoId="localVideo"                                                
                                                 :videoStream="localVideoStream"
+                                                :isFullScreen="isFullScreen"  
                                                 :muted="true"
                                                 :displayControls="false">                                  
                                             </Video> 
@@ -39,12 +40,13 @@
                         <div  v-if="peerKeys[0]" class="col d-lg-flex align-items-lg-center" style="height:223px;width:48%">
                                 <!--- ## first Remote Video ## -->
                             <fullscreen :fullscreen.sync="RemoteFullscreen1">
-                                    <div  style="border-radius: 20px; display:inline-block; height:223px; width:100%; position: relative;">
+                                    <div  style="border-radius: 20px; display:inline-block; height:auto; width:100%; position: relative;">
                                         <!--- ##  ## -->
                                         
                                             <Video 
                                                 :videoId="peerKeys[0]" 
-                                                :displayControls="false"                                   
+                                                :displayControls="false"
+                                                :isFullScreen="isFullScreen"                                   
                                                 :videoStream="peers[peerKeys[0]].peerStream"
                                                 :muted="false">                                                                     
                                             </Video>  
@@ -72,7 +74,8 @@
                                 <Video 
                                     v-if="peerKeys[1]"
                                     :videoId="peerKeys[1]" 
-                                    :displayControls="false"                                   
+                                    :displayControls="false"
+                                    :isFullScreen="isFullScreen"                                     
                                     :videoStream="peers[peerKeys[1]].peerStream"
                                     :muted="false">                                                                     
                                 </Video>
@@ -97,6 +100,7 @@
                                             :videoId="peerKeys[2]" 
                                             :displayControls="false"                                   
                                             :videoStream="peers[peerKeys[2]].peerStream"
+                                            :isFullScreen="isFullScreen"  
                                             :muted="false">                                                                     
                                         </Video>
 
@@ -117,7 +121,7 @@
             </div>
         </div>
     </div>
-    <div style="width:100%;height:100%" class="fullscreen-wrapper">
+    <div style="width:100%;max-height:100%" class="fullscreen-wrapper">
       
     </div>
 </div>
@@ -139,7 +143,7 @@ export default {
     },
     data() {
       return {
-              
+        isFullScreen :false,   
         teleport: true,
         pageOnly: false,
         localFullscreen:false,
@@ -167,12 +171,17 @@ export default {
 
         toggleRemoteScreen1 () {
         this.RemoteFullscreen1 = !this.RemoteFullscreen1
+        this.isFullScreen=this.RemoteFullscreen1
+        console.log("fullscren1", this.RemoteFullscreen1)
+        console.log("fullscren1", this.isFullScreen)
       },
       toggleRemoteScreen2 () {
         this.RemoteFullscreen2 = !this.RemoteFullscreen2
+        this.isFullScreen=!this.RemoteFullscreen2
       },
       toggleRemoteScreen3 () {
         this.RemoteFullscreen3 = !this.RemoteFullscreen3
+        this.isFullScreen=!this.RemoteFullscreen3
       },
 
       toggleApi () {

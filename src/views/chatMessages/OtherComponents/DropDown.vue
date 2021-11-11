@@ -1,6 +1,6 @@
 
 <template>
-    <div  class="box">
+    <div  class="box" style="width:100px;position:relative">
         <div class="user_img">
             <a style="text-decoration:none" @click="toggleDropdown" class="profile">
                 <img class="img-fluid rounded-circle" style="width:47px;height:47px " :src="this.imgProfile">
@@ -96,6 +96,8 @@ export default {
     visibility: visible;
     opacity: 1;
     margin-top: 0;
+    position: fixed;
+    right: 1%;
 }
 
 .drp_box::before{
@@ -103,7 +105,7 @@ export default {
 content:"";
 position: absolute;
 top:-5px;
-left: 45%;
+left: 48%;
 width: 10px;
 height: 10px;
 background-color:transparent ;
@@ -127,6 +129,7 @@ transform: rotate(-45deg);
 }
 
 a{
+    cursor: default;
     text-decoration: none;
     transition:-5px;
     color:#000

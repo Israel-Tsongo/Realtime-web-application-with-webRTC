@@ -64,7 +64,7 @@
 </template>
 
 <script>
-/*
+
 import { WS_EVENTS } from './../../../utils/config'
 import { videoConfiguration } from './../../../mixins/WebRTC'
 import AudioVideoControls from  './AudioVideoControls'
@@ -78,7 +78,8 @@ import AudioVideoControls from  './AudioVideoControls'
         
         room: String,
         to: String,
-        videoAnswer: Object
+        videoAnswer: Object,
+        muted:Boolean
     },
     mixins:[videoConfiguration],
     components:{AudioVideoControls},
@@ -135,7 +136,7 @@ import AudioVideoControls from  './AudioVideoControls'
         this.pc.onaddstream = event => {
 
             
-            //console.log("on addStream info srcObj",this.remoteVideo.srcObject)
+            console.log("on addStream info srcObj",this.remoteVideo.srcObject)
             if (!(this.remoteVideo.srcObject && event.stream)) {
             this.remoteStream = event.stream
             this.remoteVideo.srcObject = this.remoteStream
@@ -160,7 +161,7 @@ import AudioVideoControls from  './AudioVideoControls'
 
 
 
-}*/
+}
    
 </script>
 

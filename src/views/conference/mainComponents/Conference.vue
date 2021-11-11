@@ -148,7 +148,7 @@ export default {
         peerVideo: undefined
       })
 
-       console.log(`+++++ in initWebRTC peers after init entrant: ${this.peers[user]}` )
+       
        // on ajoute notre video(nous moderateur) sur l'object qui represente l'autre peer
           this.onIceCandidates(this.peers[user].pc, user, this.conference.room, true)
          this.addLocalStream(this.peers[user].pc)   
@@ -156,7 +156,7 @@ export default {
 
           if(this.conference.admin){
 
-          console.log("============= inside if(this.conference.admin)")
+          
 
              const dataChannelNew =(user,pc)=>{
                return new Promise((resolve,reject)=>{
@@ -438,17 +438,17 @@ export default {
   
               // }
     },
-    // downloadAnchor:function(newValue){
-    //    console.log(" before downloadAnchor is",newValue)
-    //    console.log("before downloadAnchor is",this.downloadAnchor)
+    downloadAnchor:function(newValue){
+       console.log(" before downloadAnchor is",newValue)
+       console.log("before downloadAnchor is",this.downloadAnchor)
 
-    //       if(newValue!==undefined){
-    //                console.log("downloadAnchor is",newValue)
-    //                console.log("downloadAnchor is",this.downloadAnchor)
-    //                 this.$emit("downloadAnchor",newValue)
-    //       }
+          if(newValue!==undefined){
+                   console.log("downloadAnchor is",newValue)
+                   console.log("downloadAnchor is",this.downloadAnchor)
+                    this.$emit("downloadAnchor",newValue)
+          }
 
-    // }
+     }
   }
 
 }

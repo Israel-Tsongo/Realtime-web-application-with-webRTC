@@ -22,7 +22,7 @@ Vue.use(VueMaterial)
 
 Vue.use(VueToastr, {
   defaultPosition: "toast-top-left",
-  defaultTimeout: 3000,
+  defaultTimeout: 10000,
   defaultProgressBar: false,
   defaultProgressBarValue: 0,
 })

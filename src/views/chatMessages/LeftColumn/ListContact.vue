@@ -25,11 +25,11 @@
                         <h6 class="contact-head-title">{{user.username}}</h6>
                     </div>
                     <div class="col-sm-3 col-md-3 col-lg-3 col-xl-3 div-timeSpan">
-                      <span class="time-span">12:29</span>
+                      <span class="time-span">9:12</span>
                     </div>
                 </div>
                 <p class="contact-text-para">
-                  <span class="contact-last-name">Celestin :&nbsp;</span>&nbsp;Halla Madrida</p>
+                  <span class="contact-last-name">Heritier :&nbsp;</span>&nbsp;Salut bro . Envoie ...</p>
                 <hr class="contact-horizontal-line">
             </div>
       

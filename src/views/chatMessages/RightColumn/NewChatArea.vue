@@ -27,10 +27,44 @@
       <a class="border rounded d-inline scroll-to-top" id="page-bottom" href="#inputAndSend-div">
         <i class="fas fa-angle-down"></i>
       </a>
-             <template v-for="msg in messages"  >
-             Reception  
+            
+            <div class="message">
+                <div v-for="msg in messages" :key="msg.msg" class="message__container" v-bind:class="[!msg.isMe?'other-container':'own-container']" >
+                  
+                  
+                    <div v-if="!msg.join" class="chat-bubble" v-bind:class="[!msg.isMe?'chat-bubble--left message-incoming-msg-div':'chat-bubble--right message-outcoming-msg-div']">
+                        <p                      
+                          class="message__text"                      
+                          v-bind:class="[!msg.isMe?'messages-incoming-textPara other':'messages-outcoming-textPara own']"
+                          v-message="msg.msg">
+                        </p>
+                    </div>
 
-                <div :key="msg.msg" v-if="!msg.join" class="row no-gutters" style="width:auto,height:auto">
+                    <div v-if="msg.join" class="messageInfo">
+                        <p                           
+                          class="message__joined messageInfo-para"> 
+                          {{msg.msg}}
+                        </p>
+                      </div>
+                </div>
+            </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+               <!--#### <div  class="row no-gutters" style="width:auto,height:auto">
 
                   <div class="col-md-3 col-lg-6 col-xl-7"  v-bind:class="[!msg.isMe? '':'offset-xl-5 offset-md-9' ]" >
                       <div class="chat-bubble" v-bind:class="[!msg.isMe?'chat-bubble--left message-incoming-msg-div':'chat-bubble--right message-outcoming-msg-div' ]">
@@ -42,9 +76,9 @@
                   </div>
                 </div> 
 
-                <!--####  End Reception  ####-->                                                    
+                  End Reception  ####-->                                                    
                 
-                <!--####  Small infoMessage  ####--> 
+                <!--####  Small infoMessage  
                 
                 <div :key="msg.msg" v-if="msg.join" class="row" style="width:auto,height:auto" >
                     <div class="col d-xl-flex justify-content-xl-center align-items-xl-center">
@@ -52,14 +86,15 @@
                             <p id="messageInfo-para">{{msg.msg}}</p>
                         </div>
                     </div>
-                </div>
+                </div> ####--> 
                 
                   <!--####  End Small infoMessage ####-->
                 
                   <!--####  Emission ####--> 
 
-                <div :key="msg.msg" class="row no-gutters">
+                <!--<div :key="msg.msg" class="row no-gutters">
                     <div class="col-md-3 col-xl-7 offset-xl-5 offset-md-9">
+
                         <div class="chat-bubble chat-bubble--right message-outcoming-msg-div">
                             <p class="messages-outcoming-textPara">Est une technologie révolutionnaire qui ne mérite pas d'être néglige du fait de la gratuite de l'enseignement sans oublier la coiffure anatomique qui pourrai nous contraire du faite des calcul super méta fiasque du second siècle alla ronde du ménage a trois</p>
                             <span class="text-right messages-outcoming-timeSpan">
@@ -69,10 +104,11 @@
                               </span>
                             </span>
                         </div>
-                    </div>   
-                </div>  
 
-        </template> 
+                    </div>   
+                </div>  -->
+
+       
 
           <!--####  End Emission    ####-->                      
                         
@@ -86,20 +122,27 @@ export default {
   name: "ChatArea",
   props: {
     messages: Array,
-    maxMessageLength: Number,
+    
     //chatContainer: String
   },
+  data:()=>({
+
+      maxMessageLength:30
+  }),
   directives: {
     message: {
       bind: function(el, binding, vnode) {
         const isObj = typeof binding.value === 'object'
         let chunks
         const maxLength = vnode.context.maxMessageLength
-
+        console.log("----",binding.value)
         if(isObj) {
+
           chunks = Math.ceil(binding.value.message.length / maxLength)
           el.innerHTML = `<span style="font-weight:bold">${binding.value.username}</span>: 
             ${vnode.context.getChunkText(binding.value.message, maxLength, chunks)}`
+
+
         } else {
           chunks = Math.ceil(binding.value.length / maxLength)
           el.innerHTML = vnode.context.getChunkText(binding.value, maxLength, chunks)
@@ -117,6 +160,11 @@ export default {
       }
       return newMessage
     }
+
+
+
+
+
   },
   // watch: {
   //   messages: function(){
@@ -130,6 +178,7 @@ export default {
 <style lang="scss" scoped>
 .message {
   padding-bottom: 2rem;
+  
   &__text {
     width: max-content;
     padding: 0px 7px;
@@ -143,23 +192,35 @@ export default {
   }
 
   &__container {
-    width: 100%;
-    display: inline-table;
+    width: 90%;
+    padding-left: 2rem;
+   
   }
+  
+}
 
-  .own {
-    background: #0080001f;
-    border: 1px solid #0080001f;
-    margin: 0;
-    float: right;
+.own {
+   /* background: #0080001f;*/
+    margin: 0;   
+    
   }
 
   .other {
-    background: #d6ca002b;
-    border: 1px solid #d6ca002b;
+    /*background: #d6ca002b;*/
+    float: left;    
     margin: 0;
-    float: left;
+    
   }
-}
+
+  .own-container{
+   display: flex;
+    justify-content: flex-end;
+  }
+
+  .other-container{
+ 
+   display: flex;
+    justify-content: flex-start;
+  }
 </style>
 

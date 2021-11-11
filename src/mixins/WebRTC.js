@@ -13,8 +13,8 @@ export const videoConfiguration = {
                     autoGainControl: false
                 },                
                 video: {
-                    width: 800,
-                    height: 470
+                    width: 700,
+                    height: 380
                 },
             },
             // TURN/STUN ice servers               
@@ -147,9 +147,7 @@ export const videoConfiguration = {
         },
         onSendFile(dataChannel){
            
-            // console.log("downloadAncor=-==1==",this.$refs.download)
-            console.log("+==========test=======",document.getElementById('download'))
-            //console.log("this is your file",this.file)
+            
             console.log("inside on send file1")
             if (this.file) {
                  this.sendData(dataChannel)
@@ -237,17 +235,15 @@ export const videoConfiguration = {
               const slice = file.slice(offset, o + chunkSize);
               fileReader.readAsArrayBuffer(slice);
             };
-            readSlice(0);
-
-             console.log("send file .getElementById(download)",document.getElementById("download"))
+            readSlice(0);             
            
-              //this.$emit("send-message", {type:"file",fileName:file.name,fileSize:file.size,fileType: file.type,})
+            this.$emit("send-message", {type:"file",fileName:file.name,fileSize:file.size,fileType: file.type,})
           },
 
 
        addLocalStream(pc) {
            
-        if(!this.shareScreen && !this.conference.shareSreenInfo.shareScreen){
+        if(!this.shareScreen ){
 
                  console.log("this.localstream  addlocal stream",this.localStream)
                     
@@ -364,7 +360,7 @@ export const videoConfiguration = {
         onReceveFileCallback(dataChannel){
 
             console.log("+==========test=======",document.getElementById('download'))
-            let anchor=document.getElementById('download')
+            let anchor={href:'',download:'',textContent:''}
             let receiveBuffer=[]             
             let receivedSize=0
 
@@ -410,6 +406,7 @@ export const videoConfiguration = {
                          `Click to download '${file.fileName}' (${file.fileSize} bytes)`;
 
                          console.log("===== downloadAncor=-==2==",anchor)
+                        this.downloadAnchor={...anchor}
 
                        //downloadAnchor.style.display = 'block';
                    

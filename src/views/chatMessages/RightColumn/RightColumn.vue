@@ -8,15 +8,14 @@
         
             <!--################  Message info  ####################-->
             
-            <InfoMessage v-bind:allPrivateChatInfo="allPrivateChatInfo" :users="users" @closeIt="closeChat()" @callToggled="video($event,!videoCall)"></InfoMessage>
+            <InfoMessage v-bind:allPrivateChatInfo="allPrivateChatInfo" :users="users" @closeIt="closeChat()" @callToggled="video($event)"></InfoMessage>
             
             <!--################  Messages  ####################-->
             
             <div  id="messages-content-mainDivWithContact"  class="messages-content-mainDiv">
                  
                     <NewChatArea 
-                        v-bind:messages="allPrivateChatInfo.msg" 
-                        v-bind:maxMessageLength="120" >
+                        v-bind:messages="allPrivateChatInfo.msg">                         
                     </NewChatArea>                                                       
                 
                 <!--################  Input div  ####################-->
@@ -28,7 +27,8 @@
                             
                                 <!--#####  Input   ####-->                                                            
                                     <InputMsg                                     
-                                    v-bind:allPrivateChatInfo="allPrivateChatInfo"></InputMsg>                                                                      
+                                         v-bind:allPrivateChatInfo="allPrivateChatInfo">                                    
+                                    </InputMsg>                                                                      
                                 <!--#####  End  Input   ####-->
                             </div>
                         </div>
@@ -63,8 +63,8 @@ import { WS_EVENTS, DESCRIPTION_TYPE } from "./../../../utils/config"
    name:"RightColumn",
    
    components:{ InfoMessage, InputMsg,NewChatArea},
-   props:{
-       
+
+   props:{       
        openPrivateChat:Boolean,
        allPrivateChatInfo:Object,
        users:Array
@@ -130,9 +130,11 @@ import { WS_EVENTS, DESCRIPTION_TYPE } from "./../../../utils/config"
     },
     
 
-    video(typeOfCall,value) {
-
-           this.$emit("clickForcall",typeOfCall)       
+    video(typeOfCall) {
+            
+            var value= !this.videoCall            
+            console.log("inside call")
+            this.$emit("clickForcall",typeOfCall)       
   
             this.videoCall = value
             if (value){
@@ -162,7 +164,7 @@ import { WS_EVENTS, DESCRIPTION_TYPE } from "./../../../utils/config"
    
    watch: {
     allPrivateChatInfo: function({ chat,user }, oldVal) {
-
+        console.log("Chat",chat)
       if (chat && (chat !== oldVal.chat) ) { // if chat exist and chat different to the old chat then ..
         
         // Peer openning private chat

@@ -1,6 +1,6 @@
 <template>
 
-<div class="scrollableDiv" style="height:80%;overflow-y:scroll;overflow-x:hidden">
+<div class="scrollableDiv" style="height:77%;overflow-y:scroll;overflow-x:hidden">
             
 
           <!--  <div v-for="msg in messages" :key="msg.msg" style="padding: 5px 5px 5px 5px;">
@@ -44,16 +44,20 @@
           
             
             <div class="message" >
-                    <a id="download"> </a>
+                    
                     <div v-for="msg in messages" :key="msg.msg.toString()" style="margin-bottom:0.5rem" class="message__container">
                      
                       <p
-                        v-if="!msg.join"
+                        v-if="!msg.join && msg.msg.message.type=='text'"
                         class="message__text"
                         :class="{ own: msg.isMe, other: !msg.isMe}"
                         v-message="msg.msg"
                         style="max-width:330px;margin-left:10px"
-                      ></p>                   
+                      ></p> 
+                        <p 
+                          v-if="!msg.join && msg.msg.message.type=='file' && msg.isMe"
+                          class="message__joined"> 
+                          You have sent a file Named: {{msg.msg.message.fileName.substring(0,20)}}</p>          
 
                       <p 
                         v-if="msg.join"
@@ -100,37 +104,57 @@ export default {
     messages: Array,
     fileToSend:File,
     conference:Object,
-    
-    
-    
+
   },data:()=>({
       chatContainer:"scrollableDiv",
       maxMessageLength:43,
-      downloadElement:undefined,
+      downloadElement:Object,
   }),
   directives: {
     message: {
       bind: function(el, binding, vnode) {
-        const isObj = typeof binding.value === 'object' && binding.value.username!==undefined 
+        const isObj = typeof binding.value === 'object'&& binding.value.username!==undefined
         let chunks
-        const maxLength = vnode.context.maxMessageLength
-
-        console.log("binding.value", binding.value)
+        const maxLength = vnode.context.maxMessageLength        
 
         if(isObj) {
-          chunks = binding.value.message.type=='text'? Math.ceil(binding.value.message.msg.length / maxLength):''
-
+          chunks = Math.ceil(binding.value.message.msg.length / maxLength)
+           
           el.innerHTML = `<span style="font-weight:bold;width:100%;display:inline-block;text-align:left">${binding.value.username+' :'}</span>
-            ${binding.value.message.type=='text'? vnode.context.getChunkText(binding.value.message.msg, maxLength, chunks):vnode.context.displayFile(binding.value.message)}` 
+            ${vnode.context.getChunkText(binding.value.message.msg, maxLength, chunks)}` 
 
         }else {
-          console.log("Length:=====================",binding.value)
-          chunks = binding.value.message.type=='text'? Math.ceil(binding.value.message.msg.length /maxLength):''        
-
-          el.innerHTML = binding.value.message.type=='text'? vnode.context.getChunkText(binding.value.message.msg, maxLength, chunks):vnode.context.displayFile(binding.value.message)
+          
+          chunks =Math.ceil(binding.value.message.msg.length /maxLength)       
+           
+          el.innerHTML = vnode.context.getChunkText(binding.value.message.msg, maxLength, chunks)
         }
       }
     }
+  },
+  mounted(){
+
+    this.downloadElement=document.getElementById("download")
+
+  },
+  computed: {
+    
+    onlyText: function()  {
+
+      
+      return this.messages.filter(function (msg) {
+            
+             
+             if(!msg.join && msg.msg.message.type=='text'){
+               
+               console.log("oiuyiuyt=kgdgfd====",msg)
+
+              return msg
+             }
+      })
+
+    }
+  
   },
   methods: {
     getChunkText(message, maxLength, index){
@@ -142,10 +166,9 @@ export default {
       }
       return newMessage
     },
-    displayFile(message){        
+    displayFile(message,downloadElement){        
 
-               return `<span> 
-               
+               return `<span>                
                              <div  style="margin-bottom:1px;margin-left:10px; border:1px solid black;display: flex;justify-items: center;width:300px;height: auto;background-color:white;border-radius: 10px ;">
                                   <div style=" display: flex;justify-content:center; align-items:center; width: 20%;height: auto;">
                                     <span class="rounded-circle" style="height:inherit;width:inherit;border: 4px solid #fff;display: inline-block;position: relative;z-index: 1; ">
@@ -162,7 +185,7 @@ export default {
                                         <span style="display:inline-block;margin-left:5px;width:100%; text-align:left;font-weight:800">fileName: <span style="font-weight:normal">${message.fileName} </span></span> <br>
                                         <span style="display:inline-block;margin-left:5px;width:100%; text-align:left;font-weight:800">Size: <span style="font-weight:normal">${message.fileSize} </span> </span ><br>
                                         <span style="display:inline-block;margin-left:5px;width:100%; text-align:left;font-weight:800">Type:<span style="font-weight:normal" >${message.fileType} </span></span>
-                                      
+                                         <span style="display:inline-block;margin-left:5px;width:100%; text-align:left;font-weight:800">Download:<span style="font-weight:normal" >${downloadElement} </span></span>
                                     </div>
                                 </div>                                            
                           </div>                           
@@ -173,19 +196,28 @@ export default {
     },
   },
   watch: {
-    messages: function({type}){
+    messages: function(newValue){
       const chatArea = document.getElementsByClassName(this.chatContainer)[0]
       chatArea.scrollTop = chatArea.scrollHeight + 100
 
       console.log("=========document.getElementById(download)",document.getElementById("download"))
-
-      if(type=='file'){
-
-        console.log("===When type = file ====== document.getElementById(download)",document.getElementById("download"))
-        this.downloadElement=document.getElementById("download")
-
-      }
+      console.log("user",this.messages.msg)
       
+      newValue.forEach(element => {
+          //console.log("000000000",element.msg)
+          
+          if(element.join==undefined && element.msg.message.type=='file'){
+
+                console.log("===When type = file ====== document.getElementById(download)",document.getElementById("download"))
+              //t=document.getElementById("download")
+                this.downloadElement=document.getElementById("download")
+               console.log("===When type == file ======",this.downloadElement)
+
+          }
+
+      });
+
+    
 
       // console.log(")))))))",this.downloadElement)
       // document.getElementById("telecharger")!==null?document.getElementById("telecharger").appendChild(this.downloadElement):document.getElementById("telecharger")

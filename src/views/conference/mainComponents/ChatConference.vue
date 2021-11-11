@@ -1,19 +1,26 @@
 <template>
 
 <div id="chat-div" style="height: 93%;width: 28%;display: inline-block;background:rgb(243, 243, 243);border-radius: 30px 30px 30px 30px;margin-top: -3rem;">
-        <div style="width:100%;height: 10%;padding-left: 0.5rem;display: flex;justify-content: center;justify-items: center;padding-top: 10px; border-radius:30px 30px 0px 0px; background-color:rgb(216, 223, 241)">
+        <div style="width:100%;height: 15%;padding-left: 0.5rem;display: flex;justify-content: center;justify-items: center;padding-top: 10px; border-radius:30px 30px 0px 0px; background-color:rgb(216, 223, 241)">
             <div style="width: 95%;height: 40px;">
-                <button @click="display='Chat'" class="btn btn-primary" type="button" style="margin-right: 0.4rem;width: 127px;">
+                <button @click="setDisplay('Chat')" class="btn btn-primary" type="button" style="margin-right: 0.4rem;width: 127px;">
                     <span style="margin-right: 8px;margin-bottom: 10px;">
                         <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" fill="currentColor" viewBox="0 0 16 16" class="bi bi-chat-fill">
                             <path d="M8 15c4.418 0 8-3.134 8-7s-3.582-7-8-7-8 3.134-8 7c0 1.76.743 3.37 1.97 4.6-.097 1.016-.417 2.13-.771 2.966-.079.186.074.394.273.362 2.256-.37 3.597-.938 4.18-1.234A9.06 9.06 0 0 0 8 15z"></path>
                         </svg>
-                    </span>Chat
+                    </span>Messages
                 </button>
-                <button @click="display='Participant'" class="btn btn-primary" type="button">
+                 <button @click="setDisplay('Fichier')" class="btn btn-primary" type="button" style="margin-right: 0.4rem;width: 127px;">
+                    <span style="margin-right: 8px;margin-bottom: 10px;">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" fill="currentColor" viewBox="0 0 16 16" class="bi bi-chat-fill">
+                            <path d="M8 15c4.418 0 8-3.134 8-7s-3.582-7-8-7-8 3.134-8 7c0 1.76.743 3.37 1.97 4.6-.097 1.016-.417 2.13-.771 2.966-.079.186.074.394.273.362 2.256-.37 3.597-.938 4.18-1.234A9.06 9.06 0 0 0 8 15z"></path>
+                        </svg>
+                    </span>Fichiers
+                </button>
+                <button @click="setDisplay('Participant')" class="btn btn-primary" type="button" style="margin-top:8px;border: 3px solid #4e73df">
                     <span style="margin-right: 10px;">
                         <i class="fa fa-group"></i>
-                    </span>Participant
+                    </span>Participants
                 </button>
             </div>
         </div>
@@ -21,16 +28,26 @@
         <!--<ChatOnlineAvatar></ChatOnlineAvatar> -->       
            
         <ChatAreaConference
-             v-if="display=='Chat'"  
+
+              v-show="display=='Chat'"  
              :messages="messages"             
              :conference="conference"
              :fileToSend="file" >              
                            
         </ChatAreaConference>
-         
-        <ChatParticipantConference v-if="display=='Participant'" :users="users" > </ChatParticipantConference>       
 
-        <div v-if="display!=='Participant'" style="height: 10%;justify-content: start;padding-left: 1rem;border-radius:0px 0px 30px 30px;  background-color:rgb(216, 223, 241)">
+        <ChatFiles
+             v-show="display=='Fichier'"  
+             :messages="messages"             
+             :conference="conference"
+             :downloadAnchor="downloadAnchor"
+             :fileToSend="file" >              
+                           
+        </ChatFiles>
+         
+        <ChatParticipantConference v-show="display=='Participant'" :users="users" > </ChatParticipantConference>       
+
+        <div v-if="display=='Chat'" style="height: 10%;justify-content: start;padding-left: 1rem;border-radius:0px 0px 30px 30px;  background-color:rgb(216, 223, 241)">
            
             <div style="width: 100%; display:flex; align-items:center">
                 <div style="height: 60px;width: 82%;padding: 5px;border-radius: 20px; display: inline-block;margin-right: 0.5rem;">
@@ -67,25 +84,34 @@
 //import ChatOnlineAvatar from '../components/ChatOnlineAvatar.vue'
 import ChatAreaConference from '../components/ChatAreaConference.vue'
 import ChatParticipantConference from '../components/ChatParticipantConference.vue'
+import ChatFiles from '../components/ChatFiles.vue'
+
 
 export default {
     name:"ChatConference",
-    components:{ChatAreaConference,ChatParticipantConference},
+    components:{ChatAreaConference,ChatParticipantConference,ChatFiles},
     props:{
         users:Array,
         messages: Array,
-        conference:Object,                  
+        conference:Object,
+        downloadAnchor:Object                 
 
     },
     data(){
 
         return{
-            display:'Chat',
+            display:'Fichier',
             message: "",            
             file:undefined
         }
     },
     methods: {
+        
+        setDisplay(el){
+
+            this.display=el
+            
+        },
         chooseFile(){
              this.$refs.fileToTransf.click()            
 
@@ -94,7 +120,7 @@ export default {
         this.file = event.target.files[0];
     },
         sendMessage() {
-        
+         console.log('send Mesage')
         if(this.file==undefined){
 
             const msg = this.message.replace(/\n/g,'')

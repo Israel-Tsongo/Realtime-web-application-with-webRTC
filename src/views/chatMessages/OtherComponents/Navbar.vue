@@ -24,10 +24,10 @@
                     
                        
                    
-                   <li style="cursor:default"  @click="dropdown()" class="nav-item d-lg-flex justify-content-lg-center align-items-lg-center" id="profileDropdown">
+                   <!--<li style="cursor:default"  @click="dropdown()" class="nav-item d-lg-flex justify-content-lg-center align-items-lg-center" id="profileDropdown">
                         <div @click="dropdown()" class="nav-item dropdown show">
                            
-                           <!-- <a aria-expanded="false" data-toggle="dropdown show">
+                            <a aria-expanded="false" data-toggle="dropdown show">
                                 <span class="text-monospace text-capitalize" style="height: 2rem;display: inline-block;width: auto;font-size: 19px;color: white;">{{this.$store.state.username}}&nbsp;
                                     <img class="img-fluid rounded-circle imgProfile" :src="this.imgProfile" style="width:20px height:20px">
                                 </span>
@@ -36,11 +36,16 @@
                                 <a class="dropdown-item text-monospace text-capitalize">Profile</a>
                                 <a class="dropdown-item text-monospace text-capitalize" href="#">Parametre</a>
                                 <a class="dropdown-item text-monospace text-capitalize" href="#">Logout</a>\
-                            </div>-->
+                            </div>
                         </div>
 
-                    </li> 
-                    <div id="profileDropdown"> <DropDown @logout="logout()" @changeScreen="changeScreen($event)" v-bind:imgProfile="imgProfile" ></DropDown> </div> 
+                    </li> -->
+                    <div id="profileDropdown" style="position:relative ;right:10%"> 
+
+                    
+                        <DropDown @logout="logout()" @changeScreen="changeScreen($event)" v-bind:imgProfile="imgProfile" ></DropDown> 
+                        
+                    </div> 
                    
                 </ul>
             </div>
@@ -95,8 +100,7 @@ export default {
 
     display: inline-block;
     width:100px; 
-    height:50px;
-    border: 2px solid white;
+    height:50px;   
     position:relative;
     left: 50rem;
     top:1%;

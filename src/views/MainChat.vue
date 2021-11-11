@@ -16,7 +16,7 @@
              <Profile @changeImageProfile="changeImageProfile()" v-if="screen =='Profile'"> </Profile> 
             <AdminPage v-if="screen =='AdminPage'"  ></AdminPage>
 
-            <div v-if="screen =='PrivateChatScreen'"  class="container-fluid">
+            <div v-show="screen =='PrivateChatScreen'"  class="container-fluid">
 
                 <section id="main-section">             
 
@@ -35,7 +35,7 @@
                                                     
                                                 <RightColumn 
                                                     ref="closeRef" 
-                                                    :v-if="openPrivateChat.chat" 
+                                                    v-show="openPrivateChat.chat" 
                                                     :users="users"                                                                                               
                                                     v-bind:openPrivateChat="openPrivateChat.chat" 
                                                     v-bind:allPrivateChatInfo="openPrivateChat" 
@@ -55,7 +55,7 @@
                     <!--######### Video modal  ##########--> 
 
                    
-                        <div v-if="videoCall" class="modal fade show" role="dialog" tabindex="-1" id="videoCallModal">
+                        <div v-show="videoCall" class="modal fade show" role="dialog" tabindex="-1" id="videoCallModal">
                             <div class="modal-dialog" role="document" style="max-width: 650px">
                                 <div class="modal-content">
                                     <div class="modal-header">
@@ -68,7 +68,8 @@
                                            <VideoModal                                            
                                                 v-bind:videoAnswer="videoAnswer"
                                                 :room="openPrivateChat.room" 
-                                                :to="openPrivateChat.user"> 
+                                                :to="openPrivateChat.user"
+                                                :muted="true"> 
                                             </VideoModal>                                    
                                                                                       
                                         </div> 
@@ -85,7 +86,7 @@
 
                     <!--######### Audio modal  ##########--> 
 
-                    <div v-if="audioCall" class="modal fade show" role="dialog" tabindex="-1" id="audioCallModal" >
+                    <div v-show="audioCall" class="modal fade show" role="dialog" tabindex="-1" id="audioCallModal" >
                             <div class="modal-dialog" role="document" id="sizesAudioModal">                                <div class="modal-content">
                                     <div class="modal-header">
                                         <h4 class="modal-title">Appel video</h4><button type="button" class="close" data-dismiss="modal" aria-label="Close" @click="close('Audio')"><span aria-hidden="true">×</span></button>
@@ -119,9 +120,9 @@
             </div>
             <VideoConference
 
-                v-if="screen ==conference.open ||'ConferenceScreen'"                 
-                :users="users"
-                :conference="conference"
+                v-if="conference.open ||screen=='ConferenceScreen' "                 
+                :users="users"                
+                :conference="conference"                
                 :messages="messages"
                 :typeOfDisplay="typeOfDisplay"
                 :file="file"                

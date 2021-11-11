@@ -2,7 +2,7 @@
 <template>
 
    
-    <div class="container-fluid" >
+    <div v-if="screen ==conference.open ||'ConferenceScreen'" class="container-fluid" >
     
         <div style="height: 700px ;width: 100%;display: flex;align-items: center;justify-content: center;position: relative;">
             <div v-bind:class="[!conference.open?'conferenceErea':'']" id="conferenceErea" style="border-radius:30px ; height: 550px ;width: 53rem;display: inline-block;padding-right: 0.5rem;margin-right: 2rem;margin-top: -8rem;">
@@ -16,6 +16,7 @@
                     :conference="conference" 
                     :typeOfDisplay="typeOfDisplay"
                     :users="users"
+                    @downloadAnchor="downloadAnchor($event)"
                     @send-message="sendMessage($event)"                   
                     @resetAllConferenceData="resetAllConferenceData()"
                     @shareScreenEvent="updateConferenceData($event)"
@@ -23,7 +24,7 @@
                 
                 </Conference>                       
             
-                <div v-if=" conference.open && typeOfDisplay=='MultiVideoConference'" style="height: 220px;width: 50px;align-items: flex-end;position: absolute;background: rgba(103,138,226,0.49);border-radius: 30px;bottom: -12%;left: -7%;">
+                <div v-if="conference.open && typeOfDisplay=='MultiVideoConference'" style="height: 220px;width: 50px;align-items: flex-end;position: absolute;background: rgba(103,138,226,0.49);border-radius: 30px;bottom: -12%;left: -7%;">
                     <input type="range" style="position: relative;width: 153px;height: 65px;bottom: -26%;left: -105%;transform: rotateZ(-90deg);">
                     <div class="input-field" style="height: auto;position: absolute;bottom: 3%;left: 3%;">
                         <span class="d-flex justify-content-center align-items-center" style="margin-left: 10px;">
@@ -32,9 +33,10 @@
                     </div>
                 </div>
             </div>
-            <ChatConference                 
+            <ChatConference                              
                 :messages="messages"
-                :conference="conference"                                                         
+                :conference="conference" 
+                :downloadAnchor="downloadAnchorElement"                                                        
                 @send-message="sendMessage($event)"
                 @share-file="affecteFile($event)"
                 :users="users">
@@ -87,6 +89,7 @@ export default {
 
   },
   data:()=>({
+      downloadAnchorElement:undefined
      
   }),
   components:{ 
@@ -97,7 +100,11 @@ export default {
   },
   methods:{
 
-   
+   downloadAnchor(anchor){
+        console.log("anchor in ",anchor)
+       this.downloadAnchorElement=anchor
+
+   },
 
    sendMessage(data){
 

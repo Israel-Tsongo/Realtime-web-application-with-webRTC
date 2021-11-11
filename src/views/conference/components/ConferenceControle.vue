@@ -1,25 +1,27 @@
 <template>
     <div class="bg-primary" style="  height: 4.2rem; width:100%">
-        <div style="display:flex;justify-content:center;align-items:center;border: 1px solid black; height:100% ; width:100%">
-                <div style="border: 1px solid red;height:inherit;width:30%">
+        <div style="display:flex;justify-content:center;align-items:center;height:100% ; width:100%">
+                <div style="height:inherit;width:30%">
 
 
                 </div>
 
-                <div style=" border: 1px solid red;height:inherit;width:30%">
+                <div style="display:flex;justify-content:center;align-items:center;height:inherit;width:30%">
 
-                </div>         
-               <!--v-if="conference.admin"  :disabled="peersLength === 3 || users.length === 2"--> 
-                <div v-if="conference.admin"  :disabled="peersLength === 3 || users.length === 2" style="display:flex;justify-content:flex-end;align-items:center;border: 1px solid red;height:inherit;width:30%">
-                    <div  style="border: 1px solid black;height:65%;width:52%">
-                        <button @click="toggleModalToInvitePeople()" class="btn btn-success" type="button" style="margin-right: 0.4rem;width: 127px;">
-                                <span style="margin-right: 8px;margin-bottom: 10px;">
+                    <div v-if="conference.admin"  :disabled="peersLength === 3 || users.length === 2"   style="height:65%;width:52%;">
+                        <button @click="toggleModalToInvitePeople()" class="btn btn-light" type="button" style="margin-right: 0.4rem;width: 127px;color:#4e73df;font-weight:800">
+                                <span style="margin-right: 8px;margin-bottom: 10px;color:#4e73df;">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" fill="currentColor" viewBox="0 0 16 16" class="bi bi-chat-fill">
                                         <path d="M8 15c4.418 0 8-3.134 8-7s-3.582-7-8-7-8 3.134-8 7c0 1.76.743 3.37 1.97 4.6-.097 1.016-.417 2.13-.771 2.966-.079.186.074.394.273.362 2.256-.37 3.597-.938 4.18-1.234A9.06 9.06 0 0 0 8 15z"></path>
                                     </svg>
                                 </span>Invitatiion
                         </button>
                     </div>
+
+                </div>         
+               <!--v-if="conference.admin"  :disabled="peersLength === 3 || users.length === 2"--> 
+                <div style="height:inherit;width:30%">
+                    
                 </div>
         </div>
                      
@@ -144,12 +146,9 @@ export default {
 
     },
     async mounted(){
-         this.imageProfile= await `${url}/profile/image?matricule=`
-
-        await axios.get(`${url}/services`).then((response)=>{
-                 this.services=response.data.services
-
-        })        
+        this.imageProfile= await `${url}/profile/image?matricule=`
+        this.init()
+             
        
        
   },
@@ -161,7 +160,13 @@ export default {
 
     methods:{
 
+       async init(){
 
+             await axios.get(`${url}/services`).then((response)=>{
+                 this.services=response.data.services
+
+        })  
+        },
 
         invitate(user){
 
@@ -176,7 +181,7 @@ export default {
         toggleModalToInvitePeople(event){
                
 
-            
+            this.init()
             if(event!=="close"){
 
                 this.$refs.modal.open('tab1')
