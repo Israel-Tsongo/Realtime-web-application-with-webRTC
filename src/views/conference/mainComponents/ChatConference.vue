@@ -100,7 +100,7 @@ export default {
     data(){
 
         return{
-            display:'Fichier',
+            display:'Chat',
             message: "",            
             file:undefined
         }

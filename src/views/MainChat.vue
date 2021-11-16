@@ -18,7 +18,7 @@
 
             <div v-show="screen =='PrivateChatScreen'"  class="container-fluid">
 
-                <section id="main-section">             
+                <section style="height:89vh;width:100%" id="main-section">             
 
                     <div class="row d-xl-flex" id="main-row">
                         <div class="col-lg-8 col-xl-12 d-xl-flex justify-content-xl-center align-items-xl-center">
@@ -32,15 +32,18 @@
                                            <!--######  End LeftColumn  ######-->                                                
                                                 
                                             <!--#############   Right main column ,  List of  Allmessages  #######--> 
-                                                    
+                                                
                                                 <RightColumn 
                                                     ref="closeRef" 
                                                     v-show="openPrivateChat.chat" 
                                                     :users="users"                                                                                               
                                                     v-bind:openPrivateChat="openPrivateChat.chat" 
-                                                    v-bind:allPrivateChatInfo="openPrivateChat" 
+                                                    v-bind:allPrivateChatInfo="openPrivateChat"
+                                                    @changeScreen="changeActualScreen($event)" 
                                                     @videoAnswerUpdate="updateVideoAnswer($event)"                                                
-                                                    @clickForcall="open($event)"> 
+                                                    @clickForcall="open($event)"
+                                                    @close-chat="closePrivateChat()"
+                                                    @videoCallStatus="videoCallStatusMethod($event)"> 
                                                 </RightColumn> 
                                                  
                                             <!--######  End RightColumn ######-->
@@ -55,9 +58,9 @@
                     <!--######### Video modal  ##########--> 
 
                    
-                        <div v-show="videoCall" class="modal fade show" role="dialog" tabindex="-1" id="videoCallModal">
+                        <div  class="modal fade show" role="dialog" tabindex="-1" id="videoCallModal">
                             <div class="modal-dialog" role="document" style="max-width: 650px">
-                                <div class="modal-content">
+                                <div v-show="videoCall"   class="modal-content">
                                     <div class="modal-header">
                                         <h4 class="modal-title">Appel video&nbsp;</h4><button type="button" class="close" data-dismiss="modal" aria-label="Close" @click="close('Video')"><span aria-hidden="true">×</span></button>
                                     </div>
@@ -65,7 +68,8 @@
                                         <!--#####Video modalbody  ####--> 
 
                                         <div class="modal-body" id="video-modal-body">
-                                           <VideoModal                                            
+                                           <VideoModal 
+                                                v-if="videoCall"                                                                                   
                                                 v-bind:videoAnswer="videoAnswer"
                                                 :room="openPrivateChat.room" 
                                                 :to="openPrivateChat.user"
@@ -86,8 +90,9 @@
 
                     <!--######### Audio modal  ##########--> 
 
-                    <div v-show="audioCall" class="modal fade show" role="dialog" tabindex="-1" id="audioCallModal" >
-                            <div class="modal-dialog" role="document" id="sizesAudioModal">                                <div class="modal-content">
+                    <div  class="modal fade show" role="dialog" tabindex="-1" id="audioCallModal" >
+                            <div class="modal-dialog" role="document" id="sizesAudioModal"> 
+                                     <div v-show="audioCall" class="modal-content">
                                     <div class="modal-header">
                                         <h4 class="modal-title">Appel video</h4><button type="button" class="close" data-dismiss="modal" aria-label="Close" @click="close('Audio')"><span aria-hidden="true">×</span></button>
                                     </div> 
@@ -96,6 +101,7 @@
 
                                     <div class="modal-body" id="modal-audio">
                                         <Audio 
+                                            v-if="audioCall"
                                             v-bind:videoAnswer="videoAnswer"
                                             :room="openPrivateChat.room" 
                                             :to="openPrivateChat.user">                               
@@ -120,12 +126,13 @@
             </div>
             <VideoConference
 
-                v-if="conference.open ||screen=='ConferenceScreen' "                 
+                v-if="screen=='ConferenceScreen'"                 
                 :users="users"                
                 :conference="conference"                
                 :messages="messages"
                 :typeOfDisplay="typeOfDisplay"
-                :file="file"                
+                :file="file" 
+                :screen="screen"               
                 @resetAllConferenceData="resetAllConferenceData()"
                 @toggleConference="toggleConference()"
                 @send-message="sendMessage($event)"
@@ -376,39 +383,17 @@ export default {
  
   methods: {
 
-      resetAllConferenceData(){
-         this.conference= {
+     videoCallStatusMethod({state}){
+                
+                this.videoCall=state
 
-                admin: false,
-                user: '',
-                room: '',
-                offer: null,
-                answer: null,
-                candidate: null,
-                open: false,
-                userLeft: '',
-                shareSreenInfo:{
-                userFrom:'',
-                shareScreen:false
-                },
-
-                shareFileInfo:{
-                    userFrom:"",
-                    shareFile:false,
-                    fileName:" ",
-                    fileSize:Number, 
-                    fileType:undefined, 
-                    fileLastModif:undefined
-                }
-            }
-        
-   },
+     },
 
 
       async changeImageProfile(){
 
-            this.imageProfile= await `${url}/profile/image?matricule=${this.$store.state.matricule}`
-            console.log(" this.getData() ")
+            this.imageProfile= await `${url}/profile/image?matricule=${this.$store.state.matricule}&&t=${+new Date().getTime()}`
+            console.log("changeImageProfile in Main App file")
       },
       changeActualScreen(screenName){
           this.screen=screenName
@@ -419,22 +404,23 @@ export default {
            
             this.videoAnswer=videoAnswer
        },
-       open(typeOfCall) { 
+       open({typeOfCall}) { 
             
             
             
             const styleDialog=document.querySelector(".modal-dialog")
             const titleModal=document.querySelector(".modal-title")                        
-
+            console.log("typeof is",typeOfCall)
            
             if(typeOfCall==="Video"){
                 
                     this.videoCall=true 
-                    styleDialog.style.cssText="max-width:55rem" ;
+                    styleDialog.style.cssText="max-width:650px" ;
                     titleModal.textContent="Appel Video"
                     JQuery(document).ready(function($){            
                     
-                        $("#videoCallModal").show()                                        
+                        $("#videoCallModal").show() 
+                        console.log("Video call is showing",typeOfCall)                                       
                
                      })
             } 
@@ -458,8 +444,8 @@ export default {
        close(type){
            
             //this.closePrivateChat()
-            this.$refs.closeRef.closeChat()
-            
+           
+            this.$refs.closeRef.video(false)
 
             if(type==="Video"){
                  this.videoCall=false

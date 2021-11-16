@@ -83,12 +83,27 @@ profileRouter.post("/image",upload.single("image"),async (req,res)=>{
                     await PostUsers.updateOne({matricule:req.body.matricule},{imagePath:req.file.path},function (err,docs) {
                           if(err) {
                               console.log(err)
-                          }else{
+                          }else{               
+                            
                               console.log("Update Docs",docs)
                           }
                      
-                    })                           
-                 
+                    })
+                        const matricule=req.body.matricule
+
+                        if(matricule!=undefined){
+
+                                const user = await PostUsers.findOne({matricule:matricule}) 
+                                if(user!=null){
+                
+                                    console.log("When get path ",user.imagePath)
+                                    user?res.sendFile(user.imagePath):res.json({message: "no image found for that matricule"})
+                    
+                                }                
+                        
+                        }else{
+                            res.json({mesage:"Enter your matricule"})        
+                        }
                  
                  
                     }catch(err){

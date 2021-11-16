@@ -11,7 +11,7 @@
               
                <Conference  
                     ref="mainConference"
-                    v-if="conference.open" 
+                    v-if="conference.open && screen=='ConferenceScreen'" 
                     :file="file"      
                     :conference="conference" 
                     :typeOfDisplay="typeOfDisplay"
@@ -33,7 +33,8 @@
                     </div>
                 </div>
             </div>
-            <ChatConference                              
+            <ChatConference 
+                v-if="screen=='ConferenceScreen'"                             
                 :messages="messages"
                 :conference="conference" 
                 :downloadAnchor="downloadAnchorElement"                                                        
@@ -85,7 +86,7 @@ export default {
     messages:Array,
     typeOfDisplay:String,
     file:File,
-    
+    screen:String
 
   },
   data:()=>({

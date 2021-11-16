@@ -40,7 +40,7 @@
                         </div>
 
                     </li> -->
-                    <div id="profileDropdown" style="position:relative ;right:10%"> 
+                    <div id="profileDropdown" style="position:relative"> 
 
                     
                         <DropDown @logout="logout()" @changeScreen="changeScreen($event)" v-bind:imgProfile="imgProfile" ></DropDown> 
@@ -102,9 +102,9 @@ export default {
     width:100px; 
     height:50px;   
     position:relative;
-    left: 50rem;
+    left: 70rem;
     top:1%;
-    z-index: 10000;
+    z-index: 1000;
     
    
 }

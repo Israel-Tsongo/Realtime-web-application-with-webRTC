@@ -8,7 +8,8 @@
 <div class="container-fluid">
         <section style="margin-top: 11rem;height: 30rem;display: flex;justify-content: center;align-items: center;">
             <div style="width: 60rem;height: 25rem;">
-                <div class="row">
+                <div class="row" >
+  
                     <div class="col-xl-12">
                         <div class="card" style="padding-left: 3rem;padding-right: 3rem;">
                             <div class="card-body" style="height: 25rem;">
@@ -18,7 +19,7 @@
                                             <div style="width: 200px;height: auto;">
                                                 <span class="text-center rounded-circle" style="display: inline-block;width: 161px;height: 161px;border: 5px solid rgb(78,115,223);">
                                                     <span class="rounded-circle" style="display: inline-block;width: 150px;height: 150px;">
-                                                        <img alt="content-img" class="rounded-circle" :src="imageProfile" style="width: inherit;height: inherit;">
+                                                        <img alt="content-img" class="rounded-circle" :src="imageProfile" style="width: inherit;height: inherit; background-size:cover;background-repeat: no-repeat;background-position: center;">
                                                     </span>
                                                 </span>
                                                 <div style="width:100% ;display:flex; justify-content:center">
@@ -97,9 +98,9 @@ import axios from "axios"
    export default{
      name:"Profile",
      
-     data(){
+     data:()=>({
 
-         return{
+         
              nom:"",
              email:"",
              service:"",
@@ -107,12 +108,14 @@ import axios from "axios"
              imageProfile:"",
              file:"",
              message:""
-         }
-     },
+         }),
+     
      async mounted(){
             //
             
+            
             this.getData()
+            this.getImage()
 
            },
      methods:{
@@ -138,10 +141,11 @@ import axios from "axios"
 
              try{
                  console.log("Save image",)
-                 await axios.post(`${url}/profile/image`,formData).then((res)=>{
+                 await axios.post(`${url}/profile/image`,formData).then(()=>{
 
-                     console.log("success",res.data)
-                    this.getData() 
+                   
+                        this.getImage()
+                     
                  }).catch((err)=>{
                      console.log("err",err.data);
                  })
@@ -151,7 +155,8 @@ import axios from "axios"
                console.log(err)
                this.message= "something went wrong"
              }
-            this.getData() 
+             this.getImage() 
+            this.$emit("UpdateImageProfile",)
 
              
          },
@@ -161,20 +166,24 @@ import axios from "axios"
                this.getData()
 
          },
+         async getImage(){
+
+                console.log("Get Image called")
+                this.imageProfile= await `${url}/profile/image?matricule=${this.$store.state.matricule}&&t=${+new Date().getTime()}`
+                this.$emit("changeImageProfile")
+         },
          async getData(){
-             console.log("Get data called")
-            this.imageProfile= await `${url}/profile/image?matricule=${this.$store.state.matricule}`
+             
 
             await axios.get(`${url}/profile/user?matricule=${this.$store.state.matricule}`).then((response)=>{
-                 
-                 
+                
                  this.nom=response.data.nom
                  this.email=response.data.email
                  this.service=response.data.service
                  this.fonction=response.data.fonction
              
              })
-             this.$emit("changeImageProfile")
+             
          }
            
 

@@ -8,7 +8,7 @@
         
             <!--################  Message info  ####################-->
             
-            <InfoMessage v-bind:allPrivateChatInfo="allPrivateChatInfo" :users="users" @closeIt="closeChat()" @callToggled="video($event)"></InfoMessage>
+            <InfoMessage v-bind:allPrivateChatInfo="allPrivateChatInfo" :users="users" @closeIt="closeChat()" @onAudioCall="audioCall()" @onVideoCall="video(true)"></InfoMessage>
             
             <!--################  Messages  ####################-->
             
@@ -54,6 +54,8 @@
 import InfoMessage from "./InfoMessage.vue"
 import InputMsg from "./InputMsg.vue"
 import NewChatArea from "./NewChatArea.vue"
+import Toasted from 'vue-toasted'
+import Vue from 'vue'
 import { WS_EVENTS, DESCRIPTION_TYPE } from "./../../../utils/config"
 
 
@@ -90,6 +92,7 @@ import { WS_EVENTS, DESCRIPTION_TYPE } from "./../../../utils/config"
                     // Other peer has closed the video
                 } else {
                         this.videoCall = false
+                        this.$emit("videoCallStatus",{state:this.videoCall})
                 }
         }
     },
@@ -117,31 +120,75 @@ import { WS_EVENTS, DESCRIPTION_TYPE } from "./../../../utils/config"
     
        closeChat() {
             this.videoCall = false
+            this.$emit("videoCallStatus",{state:false})
             this.$socket.emit(WS_EVENTS.leavePrivateRoom, {
                 room: this.$store.state.room,
                 to: this.allPrivateChatInfo.room,
                 from: this.$store.state.username
       })
-        
+        this.$emit("close-chat")
     },
     openChat(description, from){
         this.videoAnswer = { ...this.videoAnswer, video: true, remoteDesc: description, from }
-        this.videoCall = true
+        
+
+          
+              
+            Vue.use(Toasted, {
+              
+              duration:50000,
+              position: 'top-center',
+              theme:'bubble',
+              type:'info',
+              icon:'check',  
+              fullWidth:true,
+              
+              action:[
+                    
+                    {  
+                      text:'Decline',
+                      onClick:(e,toastObject)=>{
+                        toastObject.goAway(0);
+                      }
+                    }, 
+                    { 
+                      text:'Acccept',
+                      onClick:(e,toastObject)=>{
+                          
+
+                            this.videoCall = true
+                            this.$emit("videoCallStatus",{state:true})
+                            this.$emit("clickForcall",{typeOfCall:'Video'})
+                            this.$emit("changeScreen",{screen:"PrivateChat"})
+                            toastObject.goAway(0)
+
+                      }
+                    }
+                ]  
+  
+            })
+
+            this.$toasted.show('On souhaite vous joindre par appel video')            
+           
+
+
     },
     
+    audioCall(){
+        this.$emit("clickForcall",{typeOfCall:'Audio'}) 
 
-    video(typeOfCall) {
-            
-            var value= !this.videoCall            
-            console.log("inside call")
-            this.$emit("clickForcall",typeOfCall)       
+    },
+    video(value) {
+             console.log("toggle video with value=",value)
+            this.$emit("clickForcall",{typeOfCall:'Video'})
   
             this.videoCall = value
+            this.$emit("videoCallStatus",{state:this.videoCall})
             if (value){
                 this.videoAnswer = { ...this.videoAnswer, video: !value }                
                 
             } 
-            else this.sendPrivateMessage({msg:`${this.$store.state.username} has closed the video`})
+            else this.sendPrivateMessage({join:true,msg:`${this.$store.state.username} has closed the video`})
         
     },
 

@@ -1,4 +1,8 @@
-export const url = `${process.env.VUE_APP_SOCKET_HOST || 'https://192.168.43.9'}:${process.env.VUE_APP_SOCKET_PORT || '3000'}`
+require('dotenv').config()
+
+var address='https://192.168.43.9'
+
+export const url = `${address ||'https://localhost' }:${process.env.VUE_APP_SOCKET_PORT || '3000'}`
 
 export const STORE_ACTIONS = {
     joinRoom: 'joinRoom',

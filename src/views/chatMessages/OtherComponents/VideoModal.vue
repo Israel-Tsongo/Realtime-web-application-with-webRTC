@@ -37,10 +37,7 @@
                 <div id="localVideo-mainDiv">
                     <span id="localVideoSpan">
                         <video id="Local-video" autoplay="true" muted="muted" style="width:inherit;height:inherit"></video>
-                    </span>
-                    <span class="text-center" id="localVideo-muteSpan">
-                        <i class="material-icons" id="localVideoMuted-Icon">mic_off</i>
-                    </span>
+                    </span>                    
                 </div>
             </div>
             <div id="localVideo-VolumeDiv">

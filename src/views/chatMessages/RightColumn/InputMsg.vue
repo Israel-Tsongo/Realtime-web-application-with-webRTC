@@ -21,7 +21,7 @@
       </form>
       <div class="d-xl-flex justify-content-xl-center align-items-xl-center" id="messages-sendDiv">
          <button @click="sendPrivateMessage(privateMessage)"  class="btn btn-primary rounded-circle" id="messages-send-Button" type="button">
-            <i class="fa fa-send-o"></i>
+           <i class="fa fa-paper-plane" aria-hidden="true"></i>
          </button>
       </div>
    </div>

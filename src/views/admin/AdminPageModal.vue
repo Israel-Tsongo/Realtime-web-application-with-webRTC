@@ -7,7 +7,7 @@
                         <div class="text-center" id="main-div">
                             <h4 class="text-dark mb-4">Modifier les d'un utilistaeur</h4>
                         </div>
-                        <form id="main-form" class="user">
+                        <form id="main-form" style="width: 100%" class="user">
                             <div class="form-group row all-forms">
                                 <div class="col-auto col-sm-6 d-flex justify-content-end mb-3 mb-sm-0 all-col-left" style="padding-left: 0px;padding-right: 0px;">
                                     <input type="text" class="form-control form-control-user-left" v-model="nom" id="nom" placeholder="Nom" name="nom" />

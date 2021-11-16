@@ -79,6 +79,7 @@ export default {
       // Other peer has closed the video
       } else {
         this.videoCall = false
+
       }
     }
   },
@@ -107,6 +108,7 @@ export default {
     openChat(description, from){
       this.videoAnswer = { ...this.videoAnswer, video: true, remoteDesc: description, from }
       this.videoCall = true
+      
     },
     sendPrivateMessage(msg) {
       // Do not send empty messages

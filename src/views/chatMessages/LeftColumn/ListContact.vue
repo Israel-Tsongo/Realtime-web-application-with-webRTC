@@ -29,7 +29,7 @@
                     </div>
                 </div>
                 <p class="contact-text-para">
-                  <span class="contact-last-name">Heritier :&nbsp;</span>&nbsp;Salut bro . Envoie ...</p>
+                  <span class="contact-last-name"><i class='fas fa-check-double' style='font-size:10px;color:blue'></i>:&nbsp;</span>&nbsp;Salut bro . Envoie ...</p>
                 <hr class="contact-horizontal-line">
             </div>
       

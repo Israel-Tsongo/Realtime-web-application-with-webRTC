@@ -29,6 +29,7 @@
       </a>
             
             <div class="message">
+               
                 <div v-for="msg in messages" :key="msg.msg" class="message__container" v-bind:class="[!msg.isMe?'other-container':'own-container']" >
                   
                   
