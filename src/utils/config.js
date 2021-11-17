@@ -5,6 +5,7 @@ var address='https://192.168.43.9'
 export const url = `${address ||'https://localhost' }:${process.env.VUE_APP_SOCKET_PORT || '3000'}`
 
 export const STORE_ACTIONS = {
+    
     joinRoom: 'joinRoom',
     setRooms: 'setRooms',
     changeRoom: 'changeRoom',

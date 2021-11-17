@@ -188,6 +188,13 @@ const privateMessage = (namespace) => ({ privateMessage, to, from, room }) => {
     namespace.to(room).emit('privateMessage', { to, privateMessage, from, room })
 }
 
+const sharePrivateScreen = (namespace) => ({ userFrom,shareSrn,to,room}) => {
+    console.log(`The User "${userFrom}" sharing the screen with "${to}"`)
+    // Private message to the user
+    namespace.to(room).emit('sharePrivateScreen', {userFrom,shareSrn, to, room })
+}
+
+
 const privateMessagePCSignaling = (namespace) => ({ desc, to, from, room, candidate }) => {
     candidate
         ? console.log(`Private chat - User "${from}" sends a candidate to "${to}"`)
@@ -198,6 +205,7 @@ const privateMessagePCSignaling = (namespace) => ({ desc, to, from, room, candid
 
 module.exports = {
     publicMessage,
+    sharePrivateScreen,
     leaveRoom,
     joinPrivateRoom,
     leavePrivateRoom,

@@ -20,6 +20,7 @@
                     @send-message="sendMessage($event)"                   
                     @resetAllConferenceData="resetAllConferenceData()"
                     @shareScreenEvent="updateConferenceData($event)"
+                    @openConferenceFalse="openConferenceFalse()"
                     @signal-SharingFile="signalSendingFile()">                
                 
                 </Conference>                       
@@ -134,8 +135,12 @@ export default {
    },
    resetAllConferenceData(){
         this.$emit("resetAllConferenceData")
+   },
+   openConferenceFalse(){
+       this.$emit("openConferenceFalse")
+       
    }
-
+  
 
   }
 

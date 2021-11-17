@@ -472,7 +472,9 @@ export const videoConfiguration = {
             })
             console.log("all destroyed")
            
-           
+            if(this.conference.admin){
+                this.$emit("openConferenceFalse")
+            }
         }
     },
 }

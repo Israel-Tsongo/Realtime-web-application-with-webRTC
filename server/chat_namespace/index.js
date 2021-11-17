@@ -44,6 +44,11 @@ const onConnection = (socket) => {
     socket.on('leaveChat', events.leaveChat(socket, namespace))
     // Listening for private chats
     socket.on('joinPrivateRoom', events.joinPrivateRoom(socket, namespace))
+
+     // Listing for screen sharing
+    socket.on('sharePrivateScreen', events.sharePrivateScreen(namespace))
+
+
     socket.on('joinConference', events.joinConference(socket, namespace))
     // Leave private chat
     socket.on('leavePrivateRoom', events.leavePrivateRoom(socket, namespace))

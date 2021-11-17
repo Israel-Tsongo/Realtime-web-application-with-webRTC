@@ -8,7 +8,7 @@
 
                 <div style="display:flex;justify-content:center;align-items:center;height:inherit;width:30%">
 
-                    <div v-if="conference.admin"  :disabled="peersLength === 3 || users.length === 2"   style="height:65%;width:52%;">
+                    <div v-if="conference.admin"  :disabled="peersLength === 3 || users.length === 3"   style="height:65%;width:52%;">
                         <button @click="toggleModalToInvitePeople()" class="btn btn-light" type="button" style="margin-right: 0.4rem;width: 127px;color:#4e73df;font-weight:800">
                                 <span style="margin-right: 8px;margin-bottom: 10px;color:#4e73df;">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" fill="currentColor" viewBox="0 0 16 16" class="bi bi-chat-fill">

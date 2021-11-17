@@ -153,8 +153,8 @@ import { WS_EVENTS, DESCRIPTION_TYPE } from "./../../../utils/config"
                     }, 
                     { 
                       text:'Acccept',
-                      onClick:(e,toastObject)=>{
-                          
+
+                      onClick:(e,toastObject)=>{                          
 
                             this.videoCall = true
                             this.$emit("videoCallStatus",{state:true})

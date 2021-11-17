@@ -60,7 +60,7 @@
                                         <div class="modal-body" id="video-modal-body">
                                            <VideoModal                                            
                                                 v-bind:videoAnswer="videoAnswer"
-                                                :room="openPrivateChat.room" 
+                                                :room="openPrivateChat.room"                                                 
                                                 :to="openPrivateChat.user"> 
                                             </VideoModal>                                    
                                                                                       

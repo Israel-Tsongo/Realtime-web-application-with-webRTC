@@ -71,7 +71,10 @@
                                            <VideoModal 
                                                 v-if="videoCall"                                                                                   
                                                 v-bind:videoAnswer="videoAnswer"
+                                                @sharePrivateScreen="sharePrivateScreen($event)"
                                                 :room="openPrivateChat.room" 
+                                                :allPrivateChatInfo="openPrivateChat"
+                                                @endPrivateCall="close('Video')"
                                                 :to="openPrivateChat.user"
                                                 :muted="true"> 
                                             </VideoModal>                                    
@@ -138,6 +141,7 @@
                 @send-message="sendMessage($event)"
                 @share-file="affecteFile($event)"                
                 @shareScreenEvent="updateConferenceData($event)"
+                @openConferenceFalse="openConferenceFalse()"
                 @signal-SharingFile="signalSendingFile()" ></VideoConference>
                 
 
@@ -297,6 +301,12 @@ export default {
         this.conference={...this.conference,shareSreenInfo:{userFrom:userFrom,shareScreen:shareSrn}}
 
         },
+         
+        sharePrivateScreen:function({userFrom,shareSrn}){
+        this.openPrivateChat={...this.openPrivateChat,shareSreenInfo:{userFrom:userFrom, shareScreen:shareSrn}}
+
+        },
+
         sendingFile:function({shareFileInfo}){
         this.conference={...this.conference,shareFileInfo:{...shareFileInfo} }
         console.log("====shareFileInfo====",this.conference.shareFileInfo)
@@ -309,11 +319,15 @@ export default {
         this.conference = { ...this.conference, user: from, userLeft: null,open:true }   
         },
 
-        leaveConference: function({ from }) { // From equal to Me to equal to the initiator
+        leaveConference: function({conferenceRoom,from }) { // From equal to Me to equal to the initiator
+
+        conferenceRoom==this.$store.state.username?this.conference = {...this.conference, open:true }:''
+
         from === this.conference.room 
             ? this.conference = {} //...this.conference,open:false,userLeft: from,user: null,admin:false,room:''
             : this.conference = {...this.conference, userLeft: from, user: null } // 
          console.log("conference open",this.conference)
+         
         }
   },
 
@@ -325,7 +339,7 @@ export default {
   
   data: function() {
     return {
-      screen:"Home",
+      screen:"PrivateChatScreen", //"Home",
       imageProfile:"",
       audioCall:false,
       videoCall:false,
@@ -339,10 +353,14 @@ export default {
       users: [],
       messages: [],
       file:undefined,     
-      typeOfDisplay:"MultiVideoConference",
+      typeOfDisplay: "MultiVideoConference",
       openPrivateChat: {
         chat: false,
         user: null,
+        shareSreenInfo:{
+            userFrom:'',
+            shareScreen:false,
+        },
         matricule:"",
         msg: [],
         room: null,
@@ -382,6 +400,11 @@ export default {
   },
  
   methods: {
+
+      openConferenceFalse(){
+       this.conference.open=false
+       
+   },
 
      videoCallStatusMethod({state}){
                 
@@ -531,6 +554,12 @@ export default {
            this.$socket.emit("updateConferenceScreenData",{userFrom,shareSrn,room:this.conference.room})
       
     },
+    sharePrivateScreen({userFrom,shareSrn}){
+            
+           this.$socket.emit("sharePrivateScreen",{userFrom:userFrom,shareSrn:shareSrn,to:this.openPrivateChat.user,room:this.openPrivateChat.room})
+      
+    },
+
     affecteFile({file}){
           this.file=file
           
