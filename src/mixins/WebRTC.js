@@ -237,7 +237,6 @@ export const videoConfiguration = {
             };
             readSlice(0);             
            
-            this.$emit("send-message", {type:"file",fileName:file.name,fileSize:file.size,fileType: file.type,})
           },
 
 

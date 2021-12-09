@@ -159,7 +159,7 @@ import { WS_EVENTS, DESCRIPTION_TYPE } from "./../../../utils/config"
                             this.videoCall = true
                             this.$emit("videoCallStatus",{state:true})
                             this.$emit("clickForcall",{typeOfCall:'Video'})
-                            this.$emit("changeScreen",{screen:"PrivateChat"})
+                            //this.$emit("changeScreen","PrivateChatScreen"})
                             toastObject.goAway(0)
 
                       }

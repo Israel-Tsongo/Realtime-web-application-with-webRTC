@@ -46,7 +46,7 @@
                                             <Video 
                                                 :videoId="peerKeys[0]" 
                                                 :displayControls="false"
-                                                :isFullScreen="isFullScreen"                                   
+                                                :isFullScreen="RemoteFullscreen1"                                   
                                                 :videoStream="peers[peerKeys[0]].peerStream"
                                                 :muted="false">                                                                     
                                             </Video>  
@@ -75,7 +75,7 @@
                                     v-if="peerKeys[1]"
                                     :videoId="peerKeys[1]" 
                                     :displayControls="false"
-                                    :isFullScreen="isFullScreen"                                     
+                                    :isFullScreen="RemoteFullscreen2"                                     
                                     :videoStream="peers[peerKeys[1]].peerStream"
                                     :muted="false">                                                                     
                                 </Video>
@@ -91,7 +91,7 @@
                             </fullscreen>
                         </div>
                         
-                        <div v-if="peerKeys[2]" class="col d-lg-flex align-items-lg-center" style="border:3px solid yellow; max-height:223px;width:48%">
+                        <div v-if="peerKeys[2]" class="col d-lg-flex align-items-lg-center" style="max-height:223px;width:48%">
                              <fullscreen :fullscreen.sync="RemoteFullscreen3">
                             <div style="border-radius: 20px;display: inline-block; max-height:223px; width:100%; position:relative;">
                                            
@@ -100,7 +100,7 @@
                                             :videoId="peerKeys[2]" 
                                             :displayControls="false"                                   
                                             :videoStream="peers[peerKeys[2]].peerStream"
-                                            :isFullScreen="isFullScreen"  
+                                            :isFullScreen="RemoteFullscreen2"  
                                             :muted="false">                                                                     
                                         </Video>
 
@@ -200,7 +200,6 @@ export default {
     computed:{
 
         peerKeys:function(){
-
 
             return Object.keys(this.peers)
         }

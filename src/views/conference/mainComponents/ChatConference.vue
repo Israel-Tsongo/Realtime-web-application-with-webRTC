@@ -3,21 +3,19 @@
 <div id="chat-div" style="height: 93%;width: 28%;display: inline-block;background:rgb(243, 243, 243);border-radius: 30px 30px 30px 30px;margin-top: -3rem;">
         <div style="width:100%;height: 15%;padding-left: 0.5rem;display: flex;justify-content: center;justify-items: center;padding-top: 10px; border-radius:30px 30px 0px 0px; background-color:rgb(216, 223, 241)">
             <div style="width: 95%;height: 40px;">
-                <button @click="setDisplay('Chat')" class="btn btn-primary" type="button" style="margin-right: 0.4rem;width: 127px;">
+                
+                <button @click="setDisplay('Chat')" class="btn btn-primary" type="button" style="margin-right: 0.4rem;width: 127px;height:35px">
+                    
                     <span style="margin-right: 8px;margin-bottom: 10px;">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" fill="currentColor" viewBox="0 0 16 16" class="bi bi-chat-fill">
-                            <path d="M8 15c4.418 0 8-3.134 8-7s-3.582-7-8-7-8 3.134-8 7c0 1.76.743 3.37 1.97 4.6-.097 1.016-.417 2.13-.771 2.966-.079.186.074.394.273.362 2.256-.37 3.597-.938 4.18-1.234A9.06 9.06 0 0 0 8 15z"></path>
-                        </svg>
+                        <i class="far fa-comments" aria-hidden="true"></i>
                     </span>Messages
                 </button>
-                 <button @click="setDisplay('Fichier')" class="btn btn-primary" type="button" style="margin-right: 0.4rem;width: 127px;">
+                 <button @click="setDisplay('Fichier')" class="btn btn-primary" type="button" style="margin-right: 0.4rem;width: 127px;height:35px">
                     <span style="margin-right: 8px;margin-bottom: 10px;">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" fill="currentColor" viewBox="0 0 16 16" class="bi bi-chat-fill">
-                            <path d="M8 15c4.418 0 8-3.134 8-7s-3.582-7-8-7-8 3.134-8 7c0 1.76.743 3.37 1.97 4.6-.097 1.016-.417 2.13-.771 2.966-.079.186.074.394.273.362 2.256-.37 3.597-.938 4.18-1.234A9.06 9.06 0 0 0 8 15z"></path>
-                        </svg>
+                        <i class="fa fa-download" aria-hidden="true"></i>
                     </span>Fichiers
                 </button>
-                <button @click="setDisplay('Participant')" class="btn btn-primary" type="button" style="margin-top:8px;border: 3px solid #4e73df">
+                <button @click="setDisplay('Participant')" class="btn btn-primary" type="button" style="margin-top:6px;border: 3px solid #4e73df;height:37px">
                     <span style="margin-right: 10px;">
                         <i class="fa fa-group"></i>
                     </span>Participants
@@ -47,7 +45,7 @@
          
         <ChatParticipantConference v-show="display=='Participant'" :users="users" > </ChatParticipantConference>       
 
-        <div v-if="display=='Chat'" style="height: 10%;justify-content: start;padding-left: 1rem;border-radius:0px 0px 30px 30px;  background-color:rgb(216, 223, 241)">
+        <div v-show="display=='Chat'" style="height: 10%;justify-content: start;padding-left: 1rem;border-radius:0px 0px 30px 30px;  background-color:rgb(216, 223, 241)">
            
             <div style="width: 100%; display:flex; align-items:center">
                 <div style="height: 60px;width: 82%;padding: 5px;border-radius: 20px; display: inline-block;margin-right: 0.5rem;">
@@ -71,7 +69,7 @@
                     <span> </span>
                 </div>
                 <button  @click="sendMessage()" class="btn btn-primary" type="button" style="display: inline-block;width: 43px;height: 40px;border-radius: 15px; margin-top:-8px">
-                    <i class="fa fa-send"></i>
+                    <i @click="sendMessage()" class="fa fa-send"></i>
                 </button>
             </div>
              <input id="select-file-input" name="file" ref="fileToTransf" style="visibility:hidden" @change="onSelect" type="file" >

@@ -13,7 +13,7 @@
                     <i class="icon-signout" ></i>
                     <a>Mon Profile</a>
                 </li> 
-                <li v-if="'Admin'=='Admin'" @click="changeScreen('AdminPage')">
+                <li v-if="$store.state.matricule=='121'" @click="changeScreen('AdminPage')">
                     <i class="icon-signout" ></i>
                     <a >Administrer</a>
                 </li> 
@@ -50,7 +50,8 @@ export default {
     name:"DropDown",
      props:{
 
-       imgProfile:String
+       imgProfile:String,
+       users:Array
    },
     methods: {
             toggleDropdown () {

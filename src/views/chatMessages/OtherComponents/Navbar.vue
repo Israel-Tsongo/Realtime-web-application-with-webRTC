@@ -7,7 +7,7 @@
 
     <nav class="navbar navbar-light navbar-expand-lg bg-primary fixed-top" id="mainNav" >
         <div class="container-fluid">
-            <a class="navbar-brand js-scroll-trigger" id="brand-title" href="#"><span><i class="fa fa-video-camera"></i>&nbsp;</span>MakeACall</a>
+            <a class="navbar-brand js-scroll-trigger" id="brand-title" href="#"><span><i class="fa fa-video-camera"></i>&nbsp;</span>MakeACall</a>j
             <button data-toggle="collapse" class="navbar-toggler navbar-toggler-right" data-target="#navbarResponsive">
                 <span class="sr-only">Toggle navigation</span>
                 <span class="navbar-toggler-icon"></span>

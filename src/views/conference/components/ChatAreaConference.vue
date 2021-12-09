@@ -45,7 +45,7 @@
             
             <div class="message" >
                     
-                    <div v-for="msg in messages" :key="msg.msg.toString()" style="margin-bottom:0.5rem" class="message__container">
+                    <div v-for="(msg,index) in messages" :key="'_s'+new Date().getTime()+index" style="margin-bottom:0.5rem" class="message__container">
                      
                       <p
                         v-if="!msg.join && msg.msg.message.type=='text'"

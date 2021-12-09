@@ -2,7 +2,7 @@
 
 <div style="padding-bottom:1rem;height: 80%;padding-left: 0.2rem;overflow-y:scroll;overflow-x:hidden">
 
-    <div v-for="(msg,index) in onlyFiles" :key="msg.msg.toString()" class="message__container">         
+    <div v-for="(msg,index) in onlyFiles" :key="'_t'+new Date().getTime()+index" class="message__container">         
                  
         <p 
         v-if="!msg.join && msg.msg.message.type=='file' && !msg.isMe "       
@@ -24,8 +24,9 @@
                             <span style="display:inline-block;margin-left:5px;width:100%; text-align:left;font-weight:800">fileName: <span style="font-weight:normal">{{msg.msg.message.fileName}}</span></span> <br>
                             <span style="display:inline-block;margin-left:5px;width:100%; text-align:left;font-weight:800">Size: <span style="font-weight:normal">{{(msg.msg.message.fileSize/1048576).toString().substring(0,5)+' MB'}} </span> </span ><br>
                             <span style="display:inline-block;margin-left:5px;width:100%; text-align:left;font-weight:800">Type:<span style="font-weight:normal" >{{msg.msg.message.fileType}} </span></span>
-                            <span style="display:inline-block;margin-left:5px;width:100%; text-align:left;font-weight:800">Download:<span style="font-weight:normal"><a id="download" :download="downloadAnchor !== undefined ? downloadArray[index].download:''" :href="downloadAnchor !== undefined ? downloadArray[index].href:'' ">{{downloadAnchor !== undefined ? downloadArray[index].textContent.substring(0,50):''}} </a></span></span>
                            
+                            <span style="display:inline-block;margin-left:5px;width:100%; text-align:left;font-weight:800">Download:<span style="font-weight:normal"><a id="download" :download="down == undefined ? '':down[index].download" :href="down == undefined ? '':down[index].href ">{{down == undefined ?'': down[index].textContent.substring(0,50)}} </a></span></span>
+                                  
                         </div>
                     </div>                                            
                 </div>                           
@@ -55,7 +56,8 @@ export default {
   },data:()=>({
       chatContainer:"scrollableDiv",
       maxMessageLength:43,
-      downloadArray:[]
+      downloadArray:[],
+      down:undefined
       
   }),
  
@@ -95,6 +97,13 @@ export default {
              
 
       }
+  },
+  downloadArray:function(newV){
+      
+
+        this.down=newV
+      
+             console.log("---------Down",this.down)
   }
     
 }

@@ -330,8 +330,70 @@ export default {
 
         }
     },
+    async parallelingDataTransfert(){
 
 
+
+                  let allPromises=[]
+
+                  console.log("==this.dataChannel", this.dataChannels)
+                   this.$emit("send-message", {type:"file",fileName:this.file.name,fileSize:this.file.size,fileType: this.file.type,})
+                  for(const channelName in this.dataChannels){ //user is all key from this.peers object 
+                  
+                            const dataChannel =(channelName)=>{
+                                  return new Promise((resolve,reject)=>{  
+                                          console.log("promise called")                
+                                          
+                                                    try {                                                      
+                                                        resolve(this.onSendFile(this.dataChannels[channelName].dataChannel))                                        
+                                                        
+                                                    } catch (error) {
+                                                      reject(error)
+                                                    }
+                                              }
+                                  )} 
+                            
+                                  allPromises.push(dataChannel(channelName))   
+                          
+                        console.log("The sender start to send his File")
+
+                        //this.dataChannel= this.peers[user].pc.createDataChannel("chatFile")
+                        
+                        //console.log("==this.dataChannel==== when Sending=========",this.dataChannels[channelName].dataChannel)
+                        //this.onSendFile(this.dataChannels[channelName].dataChannel) 
+                        // this.onReceveFile(this.dataChannel)
+                        // console.log(" after initialisation now dataChannel is ",this.dataChannel)
+                        // this.dataChannel.send("salut from admin")
+                        // this.dataChannel.onmessage=function(event){
+                        //     console.log("the data channel",event.data)
+
+                    }
+
+                    let responses = await Promise.all(allPromises)
+                   
+
+                    for( let response of responses){
+
+                            console.log('responses of allPromise',response)
+                    }
+
+                        
+                                
+                    
+                    // if(this.dataChannel!==undefined){
+                    //       //this.dataChannel= this.peers[user].pc.createDataChannel("chatFile")
+                        
+                    //     this.onSendFile(this.dataChannel) 
+                    //     console.log("now dataChannel 2 is",this.dataChannel)
+                    //      
+                    // } else{ 
+             
+                    //     console.log("data chanel is undefined")
+                    // }
+
+
+
+    }
   },
   watch: {
     conference: function({ user, answer, candidate, userLeft, offer,shareSreenInfo,shareFileInfo }, oldVal) {
@@ -398,41 +460,12 @@ export default {
       }
 
     },
-    file:function(newValue,oldValue){
+    file:function (newValue,oldValue) {
                console.log("The file",this.file)
 
-              if(this.file!==undefined || newValue !== oldValue){                    
+              if(this.file!==undefined || newValue !== oldValue){   
 
-                console.log("==this.dataChannel", this.dataChannels)
-                for(const channelName in this.dataChannels){ //user is all key from this.peers object           
-                    console.log("The sender start to send his File")
-
-                //this.dataChannel= this.peers[user].pc.createDataChannel("chatFile")
-                 
-                console.log("==this.dataChannel==== when Sending=========",this.dataChannels[channelName].dataChannel)
-                this.onSendFile(this.dataChannels[channelName].dataChannel) 
-                // this.onReceveFile(this.dataChannel)
-                // console.log(" after initialisation now dataChannel is ",this.dataChannel)
-                // this.dataChannel.send("salut from admin")
-                // this.dataChannel.onmessage=function(event){
-                //     console.log("the data channel",event.data)
-
-                  }
-
-                
-                        
-                                
-                    
-                    // if(this.dataChannel!==undefined){
-                    //       //this.dataChannel= this.peers[user].pc.createDataChannel("chatFile")
-                        
-                    //     this.onSendFile(this.dataChannel) 
-                    //     console.log("now dataChannel 2 is",this.dataChannel)
-                    //      
-                    // } else{ 
-             
-                    //     console.log("data chanel is undefined")
-                    // }
+                        this.parallelingDataTransfert()
 
                    }       
   

@@ -4,9 +4,9 @@
             <div v-for="(user,index) in users" :key="index" style="padding: 5px 5px 0px 5px;display: flex;justify-items: center ">
                 
                 <div style="box-shadow: 1px 1px 2px blue; display: flex;justify-items: center;width: 95%;height: auto;margin-bottom: 0rem;background-color:white;border-radius: 10px ;">
-                    <div style="display: inline-block;width: 30%;margin-right: 0.3rem;height: auto;">
-                        <span class="rounded-circle" style="height: 60px;width:60px;border: 4px solid #fff;display: inline-block;position: relative;z-index: 1;margin-right: 0.3rem; ">
-                            <img class="img-fluid rounded-circle" :src="imageProfile+user.matricule" width="inherit" height="inherit" style="box-shadow:1px 1px 3px blue">
+                    <div style="display: inline-block;width: 30%;margin-right: 0.3rem;height: 40px;">
+                        <span class="rounded-circle" style="height: 50px;width:50px;border: 4px solid #fff;display: inline-block;position: relative;z-index: 1;margin-right: 0.3rem; ">
+                            <img class="img-fluid rounded-circle" :src="imageProfile+user.matricule"  style="box-shadow:1px 1px 3px blue;width:50px; height:40px;background-size:cover">
                             <span v-bind:class="user.status" class="rounded-circle " style="position: absolute;bottom: -1px;border: 4px solid white;right: -5px;display: inline-block;width: 15px;height: 15px">
                                 
                             </span>

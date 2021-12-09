@@ -284,6 +284,7 @@ export default {
                            this.screen="ConferenceScreen"
 
                            toastObject.goAway(0)
+                           
 
                       }
                     }
@@ -339,7 +340,7 @@ export default {
   
   data: function() {
     return {
-      screen:"PrivateChatScreen", //"Home",
+      screen:"Home",
       imageProfile:"",
       audioCall:false,
       videoCall:false,
@@ -353,7 +354,7 @@ export default {
       users: [],
       messages: [],
       file:undefined,     
-      typeOfDisplay: "MultiVideoConference",
+      typeOfDisplay:"MultiVideoConference",
       openPrivateChat: {
         chat: false,
         user: null,
